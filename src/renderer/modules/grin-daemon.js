@@ -2090,7 +2090,7 @@ let writeConfigFileWallet = async function (apiKey) {
 			        "node_api_secret_path = \""+homedir+"\\\\.diagonalley\\\\main\\\\.api_secret\"\n" +
 			        "\n" +
 			        "#where the wallet should find a running node\n" +
-			        "check_node_api_http_addr = \"https://node.713.mw\"\n" +
+			        "check_node_api_http_addr = \"http://node.niffler.org:3413\"\n" +
 			        "\n" +
 			        "#include the foreign API endpoints on the same port as the owner\n" +
 			        "#API. Useful for networking environments like AWS ECS that make\n" +
@@ -2152,7 +2152,7 @@ let writeConfigFileWallet = async function (apiKey) {
 			        "owner_api_listen_port = 3420\n" +
 			        "api_secret_path = \"" + homedir + "/.diagonalley/main/.api_secret\"\n" +
 			        "node_api_secret_path = \"" + homedir + "/.diagonalley/main/.api_secret\"\n" +
-			        "check_node_api_http_addr = \"https://node.713.mw\"\n" +
+			        "check_node_api_http_addr = \"http://node.niffler.org:3413\"\n" +
 			        "owner_api_include_foreign = false\n" +
 			        "data_file_dir = \"" + homedir + "/.diagonalley/main/wallet_data\"\n" +
 			        "no_commit_cache = false\n" +

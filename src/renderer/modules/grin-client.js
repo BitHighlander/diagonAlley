@@ -43,8 +43,11 @@ let getChainInfo = async function (apiKey) {
         let output
 
         //let URL_BASE = 'http://grin:' + apiKey + '@127.0.0.1:3413'
-        let URL_BASE = 'https://grin:thanksvault713kizQ4ZVv@node.713.mw'
-        let url = URL_BASE + '/v1/status'
+        //let URL_BASE = 'https://grin:thanksvault713kizQ4ZVv@node.713.mw'
+  	    //let URL_BASE = 'https://grin:thanksvault713EcRXKbYS@node.713.mw'
+        let URL_BASE = 'http://node.niffler.org:3413'
+
+	      let url = URL_BASE + '/v1/status'
 
         output = await send_get_request(url)
 

@@ -9,13 +9,16 @@ import store from './store'
 import VueLogger from 'vuejs-logger';
 import VueClipboard from 'vue-clipboard2'
 
+//mute stupid bug read only crap
+Vue.config.silent = true
 const isProduction = process.env.NODE_ENV === 'production';
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false
 
 const options = {
-    isEnabled: true,
+	  silent:true,
+    isEnabled: false,
     logLevel : isProduction ? 'error' : 'debug',
     stringifyArguments : false,
     showLogLevel : true,
