@@ -332,8 +332,9 @@ const startWalletPrivate = function (password) {
 			    }else if(process.platform === "darwin"){
 				    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/wallet713', ["-c",homedir+"/.diagonalley/main/wallet713.toml",'--daemon','--passphrase', password])
 			    }else if(process.platform === "win32"){
-				    console.log(tag," checkpoint windows")
-				    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\wallet713', ["-c",homedir+"\\.diagonalley\\main/wallet713.toml",'--daemon','--passphrase', password] )
+				    console.log(tag," checkpoint windows: config: ","-c",homedir+"\\.diagonalley\\main\\wallet713.toml",'--daemon','--passphrase', password)
+					console.log(tag," checkpoint windows: path",appRootDir + '\\executables\\' + process.platform + '\\wallet713common')
+				    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\wallet713common', ["-c",homedir+"\\.diagonalley\\main\\wallet713.toml",'--daemon','--passphrase', password] )
 			    }
 		    } else {
 			    if (process.platform === "linux") {
