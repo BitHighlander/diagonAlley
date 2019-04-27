@@ -16,11 +16,7 @@ appRootDir = appRootDir.replace("app.asar", "")
 const json2csv = require('json2csv').Parser;
 let homedir = require('os').homedir();
 
-let wallet713Enabled = false
-if(process.platform === "darwin" || process.platform === "linux"){
-	wallet713Enabled = true
-}
-
+let wallet713Enabled = true
 const wallet11Enabled = false
 
 const Store = require('electron-store');

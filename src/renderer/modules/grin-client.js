@@ -41,7 +41,7 @@ const axios = Axios.create({
 let getChainInfo = async function (apiKey) {
     try {
         let output
-
+        //TODO failovers
         //let URL_BASE = 'http://grin:' + apiKey + '@127.0.0.1:3413'
         //let URL_BASE = 'https://grin:thanksvault713kizQ4ZVv@node.713.mw'
   	    //let URL_BASE = 'https://grin:thanksvault713EcRXKbYS@node.713.mw'

@@ -44,10 +44,7 @@ const Store = require('electron-store');
 const store = new Store();
 
 
-let wallet713Enabled = false
-if(process.platform === "darwin" || process.platform === "linux"){
-	wallet713Enabled = true
-}
+let wallet713Enabled = true
 
 const TAG = " | GRIN WALLET | "
 let getWalletInfo = async function (apiKey) {

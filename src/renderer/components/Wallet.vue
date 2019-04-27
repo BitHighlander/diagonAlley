@@ -657,10 +657,7 @@
     const socket = openSocket(domain, {reconnect: true, rejectUnauthorized: false});
     const harryPotterNames = require('harry-potter-names')
 
-    let is713Eligible = false
-    if(process.platform === "darwin" || process.platform === "linux"){
-	    is713Eligible = true
-    }
+    let is713Eligible = true
 
     //const
     const GRIN_ATOMIC = 1000000000
