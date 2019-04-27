@@ -1,0 +1,152 @@
+{
+  "name": "diagonAlley",
+  "version": "1.1.3",
+  "author": "highlander <bithighlander@gmail.com>",
+  "description": "Multi-platform GRIN launcher",
+  "license": "MIT",
+  "main": "./dist/electron/main.js",
+  "scripts": {
+    "yarn": "yarn",
+    "build": "node .electron-vue/build.js && electron-builder",
+    "bundle-exes": "cp -R ./executables ./build/linux-unpacked/resources && rm ./build/'diagonAlley 1.1.3.AppImage'",
+    "tar-bundle-linux": "tar -zcvf diagonAlley-linux-1.1.3.tar.gz ./build/linux-unpacked",
+    "zip-bundle-windows": "zip -r diagonAlley-windows-1.1.3.zip ./build",
+    "tar-bundle-osx": "tar -zcvf diagonAlley-osx-1.1.3.tar.gz ./build",
+    "dev": "node .electron-vue/dev-runner.js",
+    "pack": "npm run pack:main && npm run pack:renderer",
+    "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.main.config.js",
+    "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
+    "postinstall": "",
+    "test": "karma start test/unit/karma.conf.js"
+  },
+  "build": {
+    "productName": "diagonAlley",
+    "appId": "com.launcher.diagonalley",
+    "directories": {
+      "output": "build"
+    },
+    "files": [
+      "dist/electron/**/*"
+    ],
+    "extraFiles": [
+      {
+        "from": "executables",
+        "to": "Resources",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "dmg": {
+      "contents": [
+        {
+          "x": 410,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 130,
+          "y": 150,
+          "type": "file"
+        }
+      ]
+    },
+    "mac": {
+      "icon": "icons/icon.png"
+    },
+    "win": {
+      "icon": "icons/icon.png"
+    },
+    "linux": {
+      "icon": "icons/icon.png"
+    }
+  },
+  "dependencies": {
+    "@highhi/electron-json-storage-promise": "^1.0.2",
+    "apexcharts": "^3.3.1",
+    "app-root-dir": "^1.0.2",
+    "axios": "^0.18.0",
+    "bcryptjs": "^2.4.3",
+    "bip39": "^2.5.0",
+    "bitcoinjs-lib": "3.3.2",
+    "bitcoinjs-message": "2.0.0",
+    "bootstrap-vue": "^2.0.0-rc.11",
+    "chai": "^4.2.0",
+    "coininfo": "^4.4.0",
+    "coinkey": "^3.0.0",
+    "electron-json-storage": "^4.1.6",
+    "electron-store": "^2.0.0",
+    "fs-extra": "^7.0.1",
+    "harry-potter-names": "^1.2.0",
+    "harry-potter-names-improved": "^0.0.2-development",
+    "hdkey": "^1.1.1",
+    "jquery": "^3.3.1",
+    "json2csv": "^4.3.5",
+    "moment": "^2.24.0",
+    "path": "^0.12.7",
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.7",
+    "socket.io-client": "^2.2.0",
+    "sqlite3": "^4.0.6",
+    "v-money": "^0.8.1",
+    "vue": "^2.5.16",
+    "vue-apexcharts": "^1.2.9",
+    "vue-clipboard2": "^0.3.0",
+    "vue-electron": "^1.0.6",
+    "vue-focus": "^2.1.0",
+    "vue-js-modal": "^1.3.28",
+    "vue-router": "^3.0.1",
+    "vuejs-logger": "^1.5.3",
+    "vuelidate": "^0.7.4",
+    "vuex": "^3.0.1",
+    "vuex-electron": "^1.0.0"
+  },
+  "devDependencies": {
+    "ajv": "^6.5.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "babili-webpack-plugin": "^0.1.2",
+    "cfonts": "^2.1.2",
+    "chalk": "^2.4.1",
+    "copy-webpack-plugin": "^4.5.1",
+    "cross-env": "^5.1.6",
+    "css-loader": "^0.28.11",
+    "del": "^3.0.0",
+    "devtron": "^1.4.0",
+    "electron": "^2.0.4",
+    "electron-builder": "^20.19.2",
+    "electron-debug": "^1.5.0",
+    "electron-devtools-installer": "^2.2.4",
+    "file-loader": "^1.1.11",
+    "html-webpack-plugin": "^3.2.0",
+    "karma": "^1.3.0",
+    "karma-chai": "^0.1.0",
+    "karma-coverage": "^1.1.1",
+    "karma-electron": "^5.1.1",
+    "karma-mocha": "^1.2.0",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-spec-reporter": "^0.0.31",
+    "karma-webpack": "^2.0.1",
+    "mini-css-extract-plugin": "0.4.0",
+    "multispinner": "^0.2.1",
+    "node-loader": "^0.6.0",
+    "node-sass": "^4.9.2",
+    "sass-loader": "^7.0.3",
+    "style-loader": "^0.21.0",
+    "url-loader": "^1.0.1",
+    "vue-html-loader": "^1.2.4",
+    "vue-loader": "^15.2.4",
+    "vue-style-loader": "^4.1.0",
+    "vue-template-compiler": "^2.5.16",
+    "webpack": "^4.15.1",
+    "webpack-cli": "^3.0.8",
+    "webpack-dev-server": "^3.1.4",
+    "webpack-hot-middleware": "^2.22.2",
+    "webpack-merge": "^4.1.3"
+  }
+}
