@@ -73,22 +73,26 @@ const initWallet = function (password) {
 			        grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/wallet713', ["-c",homedir+"/.diagonalley/main/wallet713-commands.toml","-p",password])
 		        } else if(process.platform === "darwin"){
 			        grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/wallet713', ["-c",homedir+"/.diagonalley/main/wallet713-commands.toml","-p",password])
+		        } else if (process.platform === "darwin"){
+			        grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\wallet713', ["-c",homedir+"/.diagonalley/main/wallet713-commands.toml",'-p', password])
 		        }
 	        } else {
 		        if (process.platform === "linux") {
 			        grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/wallet713', ["-c",homedir+"/.diagonalley/main/wallet713-commands.toml","-p",password])
 		        } else if(process.platform === "darwin") {
 			        grinDaemon = spawn(appRootDir + process.platform + '/wallet713', ["-c",homedir+"/.diagonalley/main/wallet713-commands.toml","-p",password])
+		        }else if (process.platform === "darwin"){
+			        grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\wallet713', ["-c",homedir+"/.diagonalley/main/wallet713-commands.toml",'-p', password])
 		        }
 	        }
 
 	        let response = []
-			await timer(300);
-	        grinDaemon.stdin.write("1")
-			console.log("****** stdin : ",grinDaemon.stdin)
-			grinDaemon.stdin.write('\r\n');
-			await timer(300);
-			grinDaemon.stdin.write(password)
+					await timer(300);
+			    grinDaemon.stdin.write("1")
+					console.log("****** stdin : ",grinDaemon.stdin)
+					grinDaemon.stdin.write('\r\n');
+					await timer(300);
+					grinDaemon.stdin.write(password)
 	        grinDaemon.stdin.write('\r\n');
 	        grinDaemon.stdin.end();
 
@@ -339,8 +343,10 @@ const startWalletPrivate = function (password) {
 			    } else if(process.platform === "darwin") {
 				    //OSX
 				    grinDaemon = spawn(appRootDir + process.platform + '/wallet713', ["-c",homedir+"/.diagonalley/main/wallet713.toml",'--daemon', '--passphrase', password, '--passphrase'])
+			    }else if(process.platform === "win32"){
+				    console.log(tag," checkpoint windows")
+				    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\wallet713', ["-c",homedir+"/.diagonalley/main/wallet713.toml",'--passphrase', password] )
 			    }
-			    //TODO windows
 		    }
 
 		    console.log("CHECKPOINT2 *****************8 startWallet713")
