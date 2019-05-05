@@ -1,6 +1,6 @@
 {
   "name": "diagonAlley",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "author": "highlander <bithighlander@gmail.com>",
   "description": "Multi-platform GRIN launcher",
   "license": "MIT",
@@ -8,10 +8,10 @@
   "scripts": {
     "yarn": "yarn",
     "build": "node .electron-vue/build.js && electron-builder",
-    "bundle-exes": "cp -R ./executables ./build/linux-unpacked/resources && rm ./build/'diagonAlley 1.1.3.AppImage'",
-    "tar-bundle-linux": "tar -zcvf diagonAlley-linux-1.1.3.tar.gz ./build/linux-unpacked",
-    "zip-bundle-windows": "zip -r diagonAlley-windows-1.1.3.zip ./build",
-    "tar-bundle-osx": "tar -zcvf diagonAlley-osx-1.1.3.tar.gz ./build",
+    "bundle-exes": "cp -R ./executables ./build/linux-unpacked/resources && rm ./build/'diagonAlley 1.1.4.AppImage'",
+    "tar-bundle-linux": "tar -zcvf diagonAlley-linux-1.1.4.tar.gz ./build/linux-unpacked",
+    "zip-bundle-windows": "zip -r diagonAlley-windows-1.1.4.zip ./build",
+    "tar-bundle-osx": "tar -zcvf diagonAlley-osx-1.1.4.tar.gz ./build",
     "dev": "node .electron-vue/dev-runner.js",
     "pack": "npm run pack:main && npm run pack:renderer",
     "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.main.config.js",
