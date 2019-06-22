@@ -1748,10 +1748,11 @@
             }
         },
         async created() {
-            let grinPrice = await coincap.getCoinData("grin")
+            //TODO broke?
+            //let grinPrice = await coincap.getCoinData("grin")
             //grinPrice.priceUsd = parseFloat(grinPrice.priceUsd).toFixed(2)
-            this.$log.info("grinPrice: ", grinPrice)
-            this.grinPrice = grinPrice.data
+            //this.$log.info("grinPrice: ", grinPrice)
+            //this.grinPrice = grinPrice.data
 
             let detectSeed = await daemon.detectSeedFile()
             this.$log.info("*** detectSeed: ",detectSeed)
@@ -1770,7 +1771,8 @@
             this.socketId = socket.id
             let configInfo = await daemon.readEnv()
 
-            if(configInfo.username){
+            if(configInfo && configInfo.username){
+
                 this.username = configInfo.username
                 this.$log.debug("Config INFO: ", configInfo)
             }else {

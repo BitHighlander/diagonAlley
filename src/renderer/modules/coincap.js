@@ -73,10 +73,10 @@ let send_get_request = async function (url) {
             url: url,
             method: 'GET'
         })
-        if (debug) console.log('result: ', result.data)
+        if (debug) console.log('result: ', result)
 
         //todo validate
-        return result.data
+        if(result.data) return result.data
     } catch (e) {
         // magic to decode error code
         let errorCode = e.message.replace(' - ""', '')

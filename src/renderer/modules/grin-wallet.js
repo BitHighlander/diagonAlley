@@ -44,7 +44,7 @@ const Store = require('electron-store');
 const store = new Store();
 
 
-let wallet713Enabled = true
+let wallet713Enabled = false
 
 const TAG = " | GRIN WALLET | "
 let getWalletInfo = async function (apiKey) {
