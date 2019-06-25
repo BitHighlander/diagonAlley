@@ -502,39 +502,24 @@ const startWalletPublic = function (password) {
 		    if (process.env.NODE_ENV === "development") {
 			    console.log("DEV DETECTED!!! ******************8 ")
 			    if (process.platform === "linux") {
-				    if(wallet11Enabled) {
-					    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['--pass', password, 'listen'])
-				    }else{
-					    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin', ['-r',NODE_URL,'--pass', password, 'listen'])
-				    }
+				    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL,'--pass', password, 'listen'])
+
 			    } else if(process.platform === "win32"){
 				    console.log(tag," checkpoint windows")
-				    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\grin', ['-r',NODE_URL,'-d', homedir+'\\.grin','--pass', password, 'listen'])
+				    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\grin-wallet', ['-r',NODE_URL,'-d', homedir+'\\.grin','--pass', password, 'listen'])
 			    }else if(process.platform === "darwin"){
-				    if(wallet11Enabled) {
-					    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin', ['-r',NODE_URL,'--pass', password, 'listen'])
-				    }else{
-					    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin', ['-r',NODE_URL,'--pass', password, 'listen'])
-				    }
+				        grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL,'--pass', password, 'listen'])
+
 			    }else {
 				    console.error("************* OS NOT SUPPORTED!!!!! ********************")
 			    }
 		    } else {
 			    if (process.platform === "linux") {
-				    if(wallet11Enabled) {
-					    grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/grin', ['-r',NODE_URL,'--pass', password, 'listen'])
-				    }else{
-					    grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/grin', ['-r',NODE_URL,'--pass', password, 'listen'])
-				    }
+				    grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL,'--pass', password, 'listen'])
 			    } else if(process.platform === "win32"){
-				    grinDaemon = spawn(appRootDir + process.platform + '\\grin', ['-r',NODE_URL,'-d', homedir+'\\.grin','--pass', password, 'listen'])
+				    grinDaemon = spawn(appRootDir + process.platform + '\\grin-wallet', ['-r',NODE_URL,'-d', homedir+'\\.grin','--pass', password, 'listen'])
 			    }else if(process.platform === "darwin"){
-				    if(wallet11Enabled) {
-					    grinDaemon = spawn(appRootDir + process.platform + '/grin', ['-r',NODE_URL,'--pass', password, 'listen'])
-				    }else{
-					    grinDaemon = spawn(appRootDir + process.platform + '/grin', ['-r',NODE_URL,'--pass', password, 'listen'])
-				    }
-
+				    grinDaemon = spawn(appRootDir + process.platform + '/grin-wallet', ['-r',NODE_URL,'--pass', password, 'listen'])
 			    }else {
 				    console.error("************* OS NOT SUPPORTED!!!!! ********************")
 			    }
@@ -548,7 +533,6 @@ const startWalletPublic = function (password) {
 			    console.log('stdout: ' + payload)
 			    if (payload.indexOf('WARN grin_servers::grin::server - Grin server started.')) {
 				    // Normal
-
 				    // output.success = true
 				    // output.message =(data.toString())
 				    // resolve(output)
@@ -2262,12 +2246,19 @@ let validate_address = async function (destination) {
             //undefined == wallet713
             //num_participants = core wallet
             //any variant = windows (1.0.2)
-            // invalid type: map,= windows (1.1.0)
-            // if(e.toString().indexOf("undefined") >= 0 || e.toString().indexOf("num_participants") >= 0 || e.toString().indexOf("any variant of untagged enum VersionedSlate") >= 0 || e.toString().indexOf("Invalid request body: invalid type: map, expected a string at line 1 column 1") >= 0){
-            //     isValid = true
-            // }
-			//FUCK IT NOT VALIDATING< FUCK THEM
-			isValid = true
+
+
+			if(destination != "http://127.0.0.1:3415/v1/wallet/foreign/receive_tx"){
+				//FUCK IT NOT VALIDATING< FUCK THEM
+				//YOLO send to anyone remote because why not
+				isValid = true
+			} else {
+				// invalid type: map,= windows (1.1.0)
+				// if(e.toString().indexOf("undefined") >= 0 || e.toString().indexOf("num_participants") >= 0 || e.toString().indexOf("any variant of untagged enum VersionedSlate") >= 0 || e.toString().indexOf("Invalid request body: invalid type: map, expected a string at line 1 column 1") >= 0){
+				//     isValid = true
+				// }
+				isValid = true
+			}
         }
 
         return isValid

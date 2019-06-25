@@ -233,10 +233,6 @@
             <b-tabs card>
                 <b-tab title="Wallet" active>
 
-                    <div v-if="wallet713Enabled">
-                        <h6>Grinbox address: {{address}}</h6>
-                    </div>
-
                     <b-row>
                         <b-col>
                             wallet713 {{wallet713Enabled}} <br/>
@@ -658,7 +654,7 @@
     const socket = openSocket(domain, {reconnect: true, rejectUnauthorized: false});
     const harryPotterNames = require('harry-potter-names')
 
-    let is713Eligible = true
+    let is713Eligible = false
 
     //const
     const GRIN_ATOMIC = 1000000000
@@ -731,6 +727,7 @@
 	            isListening:false,
 	            inputSeed:'',
                 counter: 0,
+                firstStart:true,
                 max: 100,
                 currentPage: 1,
                 perPage: 5,
@@ -995,6 +992,7 @@
                         //is wallet running?
                         let walletInfo = await wallet.getWalletInfo(this.apiKey)
                         let acceptingPayments = await daemon.validate_address("http://127.0.0.1:3415/v1/wallet/foreign/receive_tx")
+                        if(this.firstStart) acceptingPayments = false
                         this.$log.info(tag, "***** acceptingPayments: ", acceptingPayments)
                         this.$log.info(tag, "walletInfo: ", walletInfo)
                         if (!walletInfo.minimum_confirmations) {
@@ -1049,6 +1047,7 @@
                             this.refresh()
                             setTimeout(this.closeModal, 5000)
                         } else if (!acceptingPayments) {
+                            this.firstStart = false
                             this.$log.info("CHECKPOINT5c: public wallet not running!")
                             this.$refs.walletPrivateRunning.hide()
                             this.$refs.walletPublicRunning.show()
