@@ -17,7 +17,7 @@ const json2csv = require('json2csv').Parser;
 let homedir = require('os').homedir();
 
 let wallet713Enabled = false
-const wallet11Enabled = true
+const wallet11Enabled = false
 
 const Store = require('electron-store');
 const store = new Store();
@@ -182,10 +182,10 @@ const initWallet = function (password) {
 
 		        	//console.log("command: "'-r','http://node.niffler.org:3413','--pass', password, 'init'].toString())
 
-			        grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', [ '-r','http://node.niffler.org:3413','--pass', password, 'init'])
+			        grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', [ '-r',NODE_URL,'--pass', password, 'init'])
 		        } else if(process.platform === "win32"){
 			        console.log(tag," checkpoint windows")
-			        grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\grin-wallet', ['-d', homedir+'\\.grin','--pass', password, 'init'])
+			        grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\grin-wallet', ['-r',NODE_URL,'-d', homedir+'\\.grin','--pass', password, 'init'])
 		        }else if(process.platform === "darwin"){
 			        grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL, '--pass', password, 'init'])
 		        }else {
@@ -415,13 +415,9 @@ const startWalletPrivate = function (password) {
 
 			    } else if(process.platform === "win32"){
 				    console.log(tag," checkpoint windows")
-				    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\grin', ['-r',NODE_URL,'-d', homedir+'\\.grin','--pass', password, 'owner_api'])
+				    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\grin-wallet', ['-r',NODE_URL,'--pass', password, 'owner_api'])
 			    }else if(process.platform === "darwin"){
-				    if(wallet11Enabled){
-					    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['--pass', password, 'owner_api'])
-				    }else{
-					    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin', ['-r',NODE_URL,'--pass', password, 'owner_api'])
-				    }
+					 grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['--pass', password, 'owner_api'])
 			    }else {
 				    console.error("************* OS NOT SUPPORTED!!!!! ********************")
 			    }
@@ -628,7 +624,7 @@ const displaySeed = function (password) {
 			        grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL, '--pass', password, 'recover','-d'])
 		        } else if(process.platform === "win32"){
 			        console.log(tag," checkpoint windows")
-			        grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\grin-wallet', ['-r',NODE_URL,'-d', homedir+'\\.grin','--pass', password, 'recover','-d'])
+			        grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\grin-wallet', ['-r',NODE_URL,'--pass', password, 'recover','-d'])
 		        }else if(process.platform === "darwin"){
 			        grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL, '--pass', password, 'recover','-d'])
 		        }else {
@@ -638,7 +634,7 @@ const displaySeed = function (password) {
 		        if (process.platform === "linux") {
 			        grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL, '--pass', password, 'recover','-d'])
 		        } else if(process.platform === "win32"){
-			        grinDaemon = spawn(appRootDir + process.platform + '\\grin-wallet', ['-r',NODE_URL,'-d', homedir+'\\.grin','--pass', password, 'recover','-d'])
+			        grinDaemon = spawn(appRootDir + process.platform + '\\grin-wallet', ['-r',NODE_URL,'--pass', password, 'recover','-d'])
 		        }else if(process.platform === "darwin"){
 			        grinDaemon = spawn(appRootDir + process.platform + '/grin-wallet', ['-r',NODE_URL, '--pass', password, 'recover','-d'])
 		        }else{
@@ -1346,7 +1342,7 @@ const recheckWallet = function (password,context) {
 				    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL, '--pass', password,'check'])
 			    } else if(process.platform === "win32"){
 				    console.log(tag," checkpoint windows")
-				    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\grin', ['-r',NODE_URL,'-d', homedir+'\\.grin','--pass', password,'check'])
+				    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\grin', ['-r',NODE_URL,'--pass', password,'check'])
 			    }else if(process.platform === "darwin"){
 				    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL, '--pass', password,'check'])
 			    }else {
@@ -1356,7 +1352,7 @@ const recheckWallet = function (password,context) {
 			    if (process.platform === "linux") {
 				    grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL, '--pass', password,'check'])
 			    } else if(process.platform === "win32"){
-				    grinDaemon = spawn(appRootDir + process.platform + '\\grin', ['-r',NODE_URL, '-d', homedir+'\\.grin', '--pass', password,'check'])
+				    grinDaemon = spawn(appRootDir + process.platform + '\\grin', ['-r',NODE_URL,  '--pass', password,'check'])
 			    }else if(process.platform === "darwin"){
 				    grinDaemon = spawn(appRootDir + process.platform + '/grin-wallet', ['-r',NODE_URL, '--pass', password,'check'])
 			    }else{
@@ -1560,7 +1556,7 @@ const recoverWallet = function (password,seed,context) {
 					grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL, '--pass', password, 'init','-r'])
 				} else if(process.platform === "win32"){
 					console.log(tag," checkpoint windows")
-					grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\grin', ['-r',NODE_URL,'-d', homedir+'\\.grin','--pass', password, 'init','-r'])
+					grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\grin', ['-r',NODE_URL,'--pass', password, 'init','-r'])
 				}else if(process.platform === "darwin"){
 					grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL, '--pass', password, 'init','-r'])
 				}else {
@@ -1570,7 +1566,7 @@ const recoverWallet = function (password,seed,context) {
 				if (process.platform === "linux") {
 					grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL, '--pass', password, 'init','-r'])
 				} else if(process.platform === "win32"){
-					grinDaemon = spawn(appRootDir + process.platform + '\\grin', ['-r',NODE_URL,'-d', homedir+'\\.grin','--pass', password, 'init','-r'])
+					grinDaemon = spawn(appRootDir + process.platform + '\\grin', ['-r',NODE_URL,'--pass', password, 'init','-r'])
 				}else if(process.platform === "darwin"){
 					grinDaemon = spawn(appRootDir + process.platform + '/grin-wallet', ['-r',NODE_URL, '--pass', password, 'init','-r'])
 				}else{
@@ -1713,39 +1709,23 @@ const sendGrin = function (password, dest, amount) {
         }else{
 		    if (process.env.NODE_ENV === "development") {
 			    if (process.platform === "linux") {
-				    if(wallet11Enabled) {
-					    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL,'--pass', password, 'send', '-d', dest, amount])
-				    }else{
-					    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin', ['-r',NODE_URL, '--pass', password, 'send', '-d', dest, amount])
-				    }
+					grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL,'--pass', password, 'send', '-d', dest, amount])
 			    } else if(process.platform === "win32"){
 				    console.log(tag," checkpoint windows")
-				    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\grin', ['-r',NODE_URL,'-d', homedir+'\\.grin', '--pass', password, 'send', '-d', dest, amount])
+				    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\grin-wallet', ['-r',NODE_URL, '--pass', password, 'send', '-d', dest, amount])
 			    }else if(process.platform === "darwin"){
-				    if(wallet11Enabled) {
-					    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL,'--pass', password, 'send', '-d', dest, amount])
-				    }else{
-					    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin', ['-r',NODE_URL, '--pass', password, 'send', '-d', dest, amount])
-				    }
-
+					    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL, '--pass', password, 'send', '-d', dest, amount])
 			    }else {
 				    console.error("************* OS NOT SUPPORTED!!!!! ********************")
 			    }
 		    } else {
 			    if (process.platform === "linux") {
-				    if(wallet11Enabled) {
-					    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL,'--pass', password, 'send', '-d', dest, amount])
-				    }else{
-					    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin', ['-r',NODE_URL, '--pass', password, 'send', '-d', dest, amount])
-				    }
+				    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL, '--pass', password, 'send', '-d', dest, amount])
+
 			    } else if(process.platform === "win32"){
-				    grinDaemon = spawn(appRootDir + process.platform + '\\grin', ['-r',NODE_URL, '-d', homedir+'\\.grin', '--pass', password,'send', '-d', dest, amount])
+				    grinDaemon = spawn(appRootDir + process.platform + '\\grin-wallet', ['-r',NODE_URL,  '--pass', password,'send', '-d', dest, amount])
 			    }else if(process.platform === "darwin"){
-				    if(wallet11Enabled) {
-					    grinDaemon = spawn(appRootDir + process.platform + '/grin-wallet', [,'--pass', password,'send', '-d', dest, amount])
-				    }else{
-					    grinDaemon = spawn(appRootDir + process.platform + '/grin', ['-r',NODE_URL, '--pass', password,'send', '-d', dest, amount])
-				    }
+					grinDaemon = spawn(appRootDir + process.platform + '/grin-wallet', [,'--pass', password,'send', '-d', dest, amount])
 			    }else{
 				    console.error("************* OS NOT SUPPORTED!!!!! ********************")
 			    }
