@@ -632,6 +632,7 @@
     import VueApexCharts from 'vue-apexcharts'
     import 'bootstrap/dist/css/bootstrap.css'
     import 'bootstrap-vue/dist/bootstrap-vue.css'
+
     import {VMoney} from 'v-money'
     import service from "../modules/diagonService.js"
     import btcTools from "../modules/btc-tools.js"

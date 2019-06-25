@@ -9,6 +9,7 @@ import store from './store'
 import VueLogger from 'vuejs-logger';
 import VueClipboard from 'vue-clipboard2'
 
+Vue.use(BootstrapVue);
 //mute stupid bug read only crap
 Vue.config.silent = true
 const isProduction = process.env.NODE_ENV === 'production';
@@ -29,7 +30,7 @@ const options = {
 
 Vue.use(VueLogger, options);
 Vue.use(VModal)
-Vue.use(BootstrapVue);
+
 Vue.use(VueClipboard)
 
 /* eslint-disable no-new */
