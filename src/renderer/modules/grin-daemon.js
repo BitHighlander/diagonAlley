@@ -22,7 +22,7 @@ const wallet11Enabled = false
 const Store = require('electron-store');
 const store = new Store();
 
-const timer = ms => new Promise( res => setTimeout(res, ms));
+const timer = ms => new Promise(res => setTimeout(res, ms));
 
 let NODE_URL = "http://node.niffler.org:3413"
 
@@ -32,21 +32,21 @@ const startDaemon = function () {
     if (process.env.NODE_ENV === "development") {
         if (process.platform === "linux") {
             grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet')
-        } else if(process.platform === "win32"){
-	          grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '/grin-wallet')
-        }else if(process.platform === "darwin"){
+        } else if (process.platform === "win32") {
+            grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '/grin-wallet')
+        } else if (process.platform === "darwin") {
             grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet')
-        }else {
+        } else {
             console.error("************* OS NOT SUPPORTED!!!!! ********************")
         }
     } else {
         if (process.platform === "linux") {
             grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet')
-        } else if(process.platform === "win32"){
-	          grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '/grin-wallet')
-        }else if(process.platform === "darwin"){
+        } else if (process.platform === "win32") {
+            grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '/grin-wallet')
+        } else if (process.platform === "darwin") {
             grinDaemon = spawn(appRootDir + process.platform + '/grin-wallet')
-        }else{
+        } else {
             console.error("************* OS NOT SUPPORTED!!!!! ********************")
         }
     }
@@ -62,204 +62,204 @@ const initWallet = function (password) {
         output.success = false
         let grinDaemon
 
-        if(wallet713Enabled){
-	        if (process.env.NODE_ENV === "development") {
-		        console.log("DEV DETECTED!!! ******************8 ")
-		        if (process.platform === "linux") {
-			        grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/wallet713common', ["-c",homedir+"/.grin/main/wallet713-commands.toml","-p",password])
-		        } else if(process.platform === "darwin"){
-			        grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/wallet713', ["-c",homedir+"/.grin/main/wallet713-commands.toml","-p",password])
-		        } else if (process.platform === "win32"){
-			        grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\wallet713common', ["-c",homedir+"\\.grin\\main\\wallet713-commands.toml",'-p', password])
-		        }
-	        } else {
-		        if (process.platform === "linux") {
-			        grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/wallet713', ["-c",homedir+"/.grin/main/wallet713-commands.toml","-p",password])
-		        } else if(process.platform === "darwin") {
-			        grinDaemon = spawn(appRootDir + process.platform + '/wallet713', ["-c",homedir+"/.grin/main/wallet713-commands.toml","-p",password])
-		        }else if (process.platform === "win32"){
-			        grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\wallet713common', ["-c",homedir+"\\.grin\\main\\wallet713-commands.toml",'-p', password])
-		        }
-	        }
+        if (wallet713Enabled) {
+            if (process.env.NODE_ENV === "development") {
+                console.log("DEV DETECTED!!! ******************8 ")
+                if (process.platform === "linux") {
+                    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/wallet713common', ["-c", homedir + "/.grin/main/wallet713-commands.toml", "-p", password])
+                } else if (process.platform === "darwin") {
+                    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/wallet713', ["-c", homedir + "/.grin/main/wallet713-commands.toml", "-p", password])
+                } else if (process.platform === "win32") {
+                    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\wallet713common', ["-c", homedir + "\\.grin\\main\\wallet713-commands.toml", '-p', password])
+                }
+            } else {
+                if (process.platform === "linux") {
+                    grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/wallet713', ["-c", homedir + "/.grin/main/wallet713-commands.toml", "-p", password])
+                } else if (process.platform === "darwin") {
+                    grinDaemon = spawn(appRootDir + process.platform + '/wallet713', ["-c", homedir + "/.grin/main/wallet713-commands.toml", "-p", password])
+                } else if (process.platform === "win32") {
+                    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\wallet713common', ["-c", homedir + "\\.grin\\main\\wallet713-commands.toml", '-p', password])
+                }
+            }
 
-	        let response = []
-			await timer(300);
-			grinDaemon.stdin.write("1")
-			console.log("****** stdin : ",grinDaemon.stdin)
-			grinDaemon.stdin.write('\r\n');
-			await timer(500);
-			console.log(tag,"Password: ",password)
-			grinDaemon.stdin.write(password)
-	        grinDaemon.stdin.write('\r\n');
-	        grinDaemon.stdin.end();
+            let response = []
+            await timer(300);
+            grinDaemon.stdin.write("1")
+            console.log("****** stdin : ", grinDaemon.stdin)
+            grinDaemon.stdin.write('\r\n');
+            await timer(500);
+            console.log(tag, "Password: ", password)
+            grinDaemon.stdin.write(password)
+            grinDaemon.stdin.write('\r\n');
+            grinDaemon.stdin.end();
 
-	        grinDaemon.stdout.on('data', function (data) {
-		        let payload = data.toString()
-		        if (debug) console.log('stdout: ' + payload)
-		        response.push(payload)
-	        })
+            grinDaemon.stdout.on('data', function (data) {
+                let payload = data.toString()
+                if (debug) console.log('stdout: ' + payload)
+                response.push(payload)
+            })
 
-	        grinDaemon.stderr.on('data', function (data) {
-		        let payload = data.toString()
-		        if (debug) console.error('stderr: ' + payload)
-		        response.push(payload)
-	        })
+            grinDaemon.stderr.on('data', function (data) {
+                let payload = data.toString()
+                if (debug) console.error('stderr: ' + payload)
+                response.push(payload)
+            })
 
-	        grinDaemon.on('exit', function (code) {
-		        output.exit = code.toString()
-	            if(output.exit === "0"){
+            grinDaemon.on('exit', function (code) {
+                output.exit = code.toString()
+                if (output.exit === "0") {
 
-			        let responseAll = response.join(' ')
-			        console.log("responseAll: ",responseAll)
-			        // let pieces = responseAll.split('Please back-up these words in a non-digital format.')
-			        // console.log("pieces: ",pieces)
+                    let responseAll = response.join(' ')
+                    console.log("responseAll: ", responseAll)
+                    // let pieces = responseAll.split('Please back-up these words in a non-digital format.')
+                    // console.log("pieces: ",pieces)
 
-			        let seed = responseAll.substring(
-				        responseAll.lastIndexOf("Your recovery phrase is:"),
-				        responseAll.lastIndexOf("Please back-up these words in a non-digital format.")
-			        );
-			        seed = seed.replace("Your recovery phrase is:","")
+                    let seed = responseAll.substring(
+                        responseAll.lastIndexOf("Your recovery phrase is:"),
+                        responseAll.lastIndexOf("Please back-up these words in a non-digital format.")
+                    );
+                    seed = seed.replace("Your recovery phrase is:", "")
 
-			        console.log("seed: ",seed)
-			        seed = seed.split(" ")
-			        console.log("seedArray: ",seed)
+                    console.log("seed: ", seed)
+                    seed = seed.split(" ")
+                    console.log("seedArray: ", seed)
 
 
-		            let address = responseAll.substring(
-			            responseAll.lastIndexOf("[93mYour grinbox address[0m: ["),
-			            responseAll.lastIndexOf("[0m")
-		            );
-		            console.log("address: ",address)
-		            address = address.replace(/[^a-zA-Z0-9]/g, '');
-		            console.log("address: ",address)
-		            // address = address.replace("[93mYour grinbox address[0m: [","")
-		            address = address.replace("93mYourgrinboxaddress0m","")
-		            address = address.replace("0m36mwallet7130m94mUselistentoconnecttogrinboxorhelptoseeavailablecommands0m36mwallet713","")
-		            address = address.replace("0m36mwallet713","") //0m36mwallet713
-		            address = address.replace("0m94mUsehelptoseeavailablecommands","")//0m94mUsehelptoseeavailablecommands
-		            address = address.replace("92m","")
+                    let address = responseAll.substring(
+                        responseAll.lastIndexOf("[93mYour grinbox address[0m: ["),
+                        responseAll.lastIndexOf("[0m")
+                    );
+                    console.log("address: ", address)
+                    address = address.replace(/[^a-zA-Z0-9]/g, '');
+                    console.log("address: ", address)
+                    // address = address.replace("[93mYour grinbox address[0m: [","")
+                    address = address.replace("93mYourgrinboxaddress0m", "")
+                    address = address.replace("0m36mwallet7130m94mUselistentoconnecttogrinboxorhelptoseeavailablecommands0m36mwallet713", "")
+                    address = address.replace("0m36mwallet713", "") //0m36mwallet713
+                    address = address.replace("0m94mUsehelptoseeavailablecommands", "")//0m94mUsehelptoseeavailablecommands
+                    address = address.replace("92m", "")
 
-					address = address.replace("PleasebackupthesewordsinanondigitalformatPressENTERwhenyouhavedonesoYourgrinboxaddress","")
-					address = address.replace("Welcometowallet713v111Pleasechooseanoption1initanewwallet2recoverfrommnemonic3exitInitialisinganewwalletSetanoptionalpasswordtosecureyourwalletwithLeaveblankfornopasswordPasswordWARNINGwalletwithnopassphraseYourrecoveryphraseis","")
-					address = address.replace("Usehelptoseeavailablecommands36mwallet713","")
-					address = address.replace(seed.toString().replace(/[^a-zA-Z0-9]/g, ''),"")
-					console.log("address: ",address)
+                    address = address.replace("PleasebackupthesewordsinanondigitalformatPressENTERwhenyouhavedonesoYourgrinboxaddress", "")
+                    address = address.replace("Welcometowallet713v111Pleasechooseanoption1initanewwallet2recoverfrommnemonic3exitInitialisinganewwalletSetanoptionalpasswordtosecureyourwalletwithLeaveblankfornopasswordPasswordWARNINGwalletwithnopassphraseYourrecoveryphraseis", "")
+                    address = address.replace("Usehelptoseeavailablecommands36mwallet713", "")
+                    address = address.replace(seed.toString().replace(/[^a-zA-Z0-9]/g, ''), "")
+                    console.log("address: ", address)
 
-		            if(!seed[0] || seed.length > 24) seed.shift()
+                    if (!seed[0] || seed.length > 24) seed.shift()
 
-			        output.success = true
-			        output.seed = seed
+                    output.success = true
+                    output.seed = seed
                     output.address = address
-			        resolve(output)
-		        }else if(output.exit === "1"){
-			        console.error(tag,"error: ",output)
-			        if(process.platform === "win32"){
-				        //weird windows bug, leave open
-			        }else{
-				        resolve(output)
-			        }
-		        } else {
-			        console.error(tag,"error: ",output)
-			        throw Error("Not an exit code!")
-		        }
-	        })
-        }else{
-	        try{
-		        if(process.platform === "win32"){
-			        await fs.mkdir(homedir + "\\.grin")
-			        await fs.mkdir(homedir + "\\.grin\\main")
-		        }else{
-			        await fs.mkdir(homedir + "/.grin")
-			        await fs.mkdir(homedir + "/.grin/main")
-		        }
-	        }catch(e){
+                    resolve(output)
+                } else if (output.exit === "1") {
+                    console.error(tag, "error: ", output)
+                    if (process.platform === "win32") {
+                        //weird windows bug, leave open
+                    } else {
+                        resolve(output)
+                    }
+                } else {
+                    console.error(tag, "error: ", output)
+                    throw Error("Not an exit code!")
+                }
+            })
+        } else {
+            try {
+                if (process.platform === "win32") {
+                    await fs.mkdir(homedir + "\\.grin")
+                    await fs.mkdir(homedir + "\\.grin\\main")
+                } else {
+                    await fs.mkdir(homedir + "/.grin")
+                    await fs.mkdir(homedir + "/.grin/main")
+                }
+            } catch (e) {
 
-	        }
-
-
-	        if (process.env.NODE_ENV === "development") {
-		        if (process.platform === "linux") {
-
-		        	//console.log("command: "'-r','http://node.niffler.org:3413','--pass', password, 'init'].toString())
-
-			        grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', [ '-r',NODE_URL,'--pass', password, 'init'])
-		        } else if(process.platform === "win32"){
-			        console.log(tag," checkpoint windows")
-			        grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\grin-wallet', ['-r',NODE_URL,'-d', homedir+'\\.grin','--pass', password, 'init'])
-		        }else if(process.platform === "darwin"){
-			        grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL, '--pass', password, 'init'])
-		        }else {
-			        console.error("************* OS NOT SUPPORTED!!!!! ********************")
-		        }
-	        } else {
-		        if (process.platform === "linux") {
-			        grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL, '-r','http://node.niffler.org:3413', '--pass', password, 'init'])
-		        } else if(process.platform === "win32"){
-			        grinDaemon = spawn(appRootDir + process.platform + '\\grin-wallet', ['-r',NODE_URL, '-d', homedir+'\\.grin', '--pass', password, 'init'])
-		        }else if(process.platform === "darwin"){
-			        grinDaemon = spawn(appRootDir + process.platform + '/grin-wallet', ['-r',NODE_URL,'--pass', password, 'init'])
-		        }else{
-			        console.error("************* OS NOT SUPPORTED!!!!! ********************")
-		        }
-	        }
+            }
 
 
-	        let count = 0
-	        const response = []
-	        grinDaemon.stdout.on('data', function (data) {
-		        let payload = data.toString()
-		        if(debug) console.log(tag,"payload: ",payload)
-		        response.push(payload)
-	        })
+            if (process.env.NODE_ENV === "development") {
+                if (process.platform === "linux") {
 
-	        grinDaemon.stderr.on('data', function (data) {
-		        let payload = data.toString()
-		        response.push(payload)
-	        })
+                    //console.log("command: "'--pass', password, 'init'].toString())
 
-	        grinDaemon.on('exit', function (code) {
-		        if (debug) console.log('child process exited with code ' + code.toString())
-
-		        output.exit = code.toString()
-
-		        //if exit code 0 success
-		        if(output.exit === "0"){
-
-			        let responseAll = response.join(' ')
-			        console.log("responseAll: ",responseAll)
-			        // let pieces = responseAll.split('Please back-up these words in a non-digital format.')
-			        // console.log("pieces: ",pieces)
-
-			        var seed = responseAll.substring(
-				        responseAll.lastIndexOf("Your recovery phrase is:"),
-				        responseAll.lastIndexOf("Please back-up these words in a non-digital format.")
-			        );
-			        seed = seed.replace("Your recovery phrase is:","")
+                    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'init'])
+                } else if (process.platform === "win32") {
+                    console.log(tag, " checkpoint windows")
+                    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\grin-wallet', ['-r', NODE_URL, '--pass', password, 'init'])
+                } else if (process.platform === "darwin") {
+                    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'init'])
+                } else {
+                    console.error("************* OS NOT SUPPORTED!!!!! ********************")
+                }
+            } else {
+                if (process.platform === "linux") {
+                    grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'init'])
+                } else if (process.platform === "win32") {
+                    grinDaemon = spawn(appRootDir + process.platform + '\\grin-wallet', ['-r', NODE_URL, '--pass', password, 'init'])
+                } else if (process.platform === "darwin") {
+                    grinDaemon = spawn(appRootDir + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'init'])
+                } else {
+                    console.error("************* OS NOT SUPPORTED!!!!! ********************")
+                }
+            }
 
 
-			        console.log("seed: ",seed)
-			        seed = seed.split(" ")
-			        console.log("seedArray: ",seed)
+            let count = 0
+            const response = []
+            grinDaemon.stdout.on('data', function (data) {
+                let payload = data.toString()
+                if (debug) console.log(tag, "payload: ", payload)
+                response.push(payload)
+            })
 
-			        if(!seed[0] || seed.length > 24) seed.shift()
+            grinDaemon.stderr.on('data', function (data) {
+                let payload = data.toString()
+                response.push(payload)
+            })
 
-			        output.success = true
-			        output.seed = seed
-			        resolve(output)
-		        }else if(output.exit === "1"){
-			        console.error(tag,"error: ",output)
-			        if(process.platform === "win32"){
-				        //weird windows bug, leave open
-			        }else{
-				        resolve(output)
-			        }
+            grinDaemon.on('exit', function (code) {
+                if (debug) console.log('child process exited with code ' + code.toString())
 
-		        } else {
-			        console.error(tag,"error: ",output)
-			        throw Error("Not an exit code!")
-		        }
+                output.exit = code.toString()
 
-	        })
+                //if exit code 0 success
+                if (output.exit === "0") {
+
+                    let responseAll = response.join(' ')
+                    console.log("responseAll: ", responseAll)
+                    // let pieces = responseAll.split('Please back-up these words in a non-digital format.')
+                    // console.log("pieces: ",pieces)
+
+                    var seed = responseAll.substring(
+                        responseAll.lastIndexOf("Your recovery phrase is:"),
+                        responseAll.lastIndexOf("Please back-up these words in a non-digital format.")
+                    );
+                    seed = seed.replace("Your recovery phrase is:", "")
+
+
+                    console.log("seed: ", seed)
+                    seed = seed.split(" ")
+                    console.log("seedArray: ", seed)
+
+                    if (!seed[0] || seed.length > 24) seed.shift()
+
+                    output.success = true
+                    output.seed = seed
+                    resolve(output)
+                } else if (output.exit === "1") {
+                    console.error(tag, "error: ", output)
+                    if (process.platform === "win32") {
+                        //weird windows bug, leave open
+                    } else {
+                        resolve(output)
+                    }
+
+                } else {
+                    console.error(tag, "error: ", output)
+                    throw Error("Not an exit code!")
+                }
+
+            })
         }
 
 
@@ -275,42 +275,42 @@ let detectSeedFile = async function () {
         console.log("PATH: ", __dirname)
 
         let seedPath
-        if(wallet713Enabled){
-	        if(process.platform === "win32"){
-		        seedPath = homedir + '\\.grin\\main\\wallet713_data\\wallet.seed'
-	        }else{
-		        seedPath = homedir + '/.grin/main/wallet713_data/wallet.seed'
-	        }
-	        if (debug) console.log(tag, seedPath)
+        if (wallet713Enabled) {
+            if (process.platform === "win32") {
+                seedPath = homedir + '\\.grin\\main\\wallet713_data\\wallet.seed'
+            } else {
+                seedPath = homedir + '/.grin/main/wallet713_data/wallet.seed'
+            }
+            if (debug) console.log(tag, seedPath)
 
 
-	        let seedFIle
-	        if (fs.existsSync(seedPath)) {
-		        seedFIle = await fs.readJson(seedPath)
-	        }
-	        if (debug) console.log(tag, seedFIle)
+            let seedFIle
+            if (fs.existsSync(seedPath)) {
+                seedFIle = await fs.readJson(seedPath)
+            }
+            if (debug) console.log(tag, seedFIle)
 
-	        if (seedFIle.encrypted_seed) {
-		        output = true
-	        }
-        }else{
-	        if(process.platform === "win32"){
-		        seedPath = homedir + '\\.grin\\main\\wallet_data\\wallet.seed'
-	        }else{
-		        seedPath = homedir + '/.grin/main/wallet_data/wallet.seed'
-	        }
-	        if (debug) console.log(tag, seedPath)
+            if (seedFIle.encrypted_seed) {
+                output = true
+            }
+        } else {
+            if (process.platform === "win32") {
+                seedPath = homedir + '\\.grin\\main\\wallet_data\\wallet.seed'
+            } else {
+                seedPath = homedir + '/.grin/main/wallet_data/wallet.seed'
+            }
+            if (debug) console.log(tag, seedPath)
 
 
-	        let seedFIle
-	        if (fs.existsSync(seedPath)) {
-		        seedFIle = await fs.readJson(seedPath)
-	        }
-	        if (debug) console.log(tag, seedFIle)
+            let seedFIle
+            if (fs.existsSync(seedPath)) {
+                seedFIle = await fs.readJson(seedPath)
+            }
+            if (debug) console.log(tag, seedFIle)
 
-	        if (seedFIle.encrypted_seed) {
-		        output = true
-	        }
+            if (seedFIle.encrypted_seed) {
+                output = true
+            }
         }
 
 
@@ -323,164 +323,126 @@ let detectSeedFile = async function () {
 const startWalletPrivate = function (password) {
     let tag = TAG + ' | on_start_wallet_private | '
     return new Promise((resolve, reject) => {
-	    //stop grin daemons
-	    let child = spawn('pkill',['grin']);
+        //stop grin daemons
+        let child = spawn('pkill', ['grin']);
 
-	    if(wallet713Enabled){
-		    let child = spawn('pkill',['wallet713']);
+        if (wallet713Enabled) {
+            let child = spawn('pkill', ['wallet713']);
 
-		    tag = tag + " | startWallet713 | "
-		    console.log("CHECKPOINT1 *****************8 startWallet713")
-		    console.log("CHECKPOINT1 *****************8 password: ",password)
+            tag = tag + " | startWallet713 | "
+            console.log("CHECKPOINT1 *****************8 startWallet713")
+            console.log("CHECKPOINT1 *****************8 password: ", password)
 
-		    //let grinDaemon = spawn('./src/renderer/executables/' + process.platform + '/grin', ['-r',NODE_URL, '--pass', password, 'listen'])
-		    let grinDaemon
-		    if (process.env.NODE_ENV === "development") {
-			    console.log("DEV DETECTED!!! ******************8 ")
-			    if (process.platform === "linux") {
-				    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/wallet713', ["-c",homedir+"/.grin/main/wallet713.toml",'--daemon'])
-			    }else if(process.platform === "darwin"){
-				    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/wallet713', ["-c",homedir+"/.grin/main/wallet713.toml",'--daemon'])
-			    }else if(process.platform === "win32"){
-				    console.log(tag," checkpoint windows: config: ","-c",homedir+"\\.grin\\main\\wallet713.toml",'--daemon')
-					console.log(tag," checkpoint windows: path",appRootDir + '\\executables\\' + process.platform + '\\wallet713common')
-				    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\wallet713common', ["-c",homedir+"\\.grin\\main\\wallet713.toml",'--daemon'] )
-			    }
-		    } else {
-			    if (process.platform === "linux") {
-				    grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/wallet713', ["-c",homedir+"/.grin/main/wallet713.toml",'--daemon'])
-			    } else if(process.platform === "darwin") {
-				    //OSX
-				    grinDaemon = spawn(appRootDir + process.platform + '/wallet713', ["-c",homedir+"/.grin/main/wallet713.toml",'--daemon'])
-			    }else if(process.platform === "win32"){
-				    console.log(tag," checkpoint windows")
-				    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\wallet713', ["-c",homedir+"\\.grin\\main/wallet713.toml",'--daemon',] )
-			    }
-		    }
+            //let grinDaemon = spawn('./src/renderer/executables/' + process.platform + '/grin', ['-r',NODE_URL, '--pass', password, 'listen'])
+            let grinDaemon
+            if (process.env.NODE_ENV === "development") {
+                console.log("DEV DETECTED!!! ******************8 ")
+                if (process.platform === "linux") {
+                    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/wallet713', ["-c", homedir + "/.grin/main/wallet713.toml", '--daemon'])
+                } else if (process.platform === "darwin") {
+                    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/wallet713', ["-c", homedir + "/.grin/main/wallet713.toml", '--daemon'])
+                } else if (process.platform === "win32") {
+                    console.log(tag, " checkpoint windows: config: ", "-c", homedir + "\\.grin\\main\\wallet713.toml", '--daemon')
+                    console.log(tag, " checkpoint windows: path", appRootDir + '\\executables\\' + process.platform + '\\wallet713common')
+                    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\wallet713common', ["-c", homedir + "\\.grin\\main\\wallet713.toml", '--daemon'])
+                }
+            } else {
+                if (process.platform === "linux") {
+                    grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/wallet713', ["-c", homedir + "/.grin/main/wallet713.toml", '--daemon'])
+                } else if (process.platform === "darwin") {
+                    //OSX
+                    grinDaemon = spawn(appRootDir + process.platform + '/wallet713', ["-c", homedir + "/.grin/main/wallet713.toml", '--daemon'])
+                } else if (process.platform === "win32") {
+                    console.log(tag, " checkpoint windows")
+                    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\wallet713', ["-c", homedir + "\\.grin\\main/wallet713.toml", '--daemon',])
+                }
+            }
 
-		    console.log("CHECKPOINT2 *****************8 startWallet713")
-		    let output = {}
-		    output.success = true
-		    output.acceptingHttpPayments = true
-		    output.acceptingGrinBoxPayments = true
-		    resolve(output)
+            console.log("CHECKPOINT2 *****************8 startWallet713")
+            let output = {}
+            output.success = true
+            output.acceptingHttpPayments = true
+            output.acceptingGrinBoxPayments = true
+            resolve(output)
 
-		    // grinDaemon.stdout.on('data', function (data) {
-			 //    let payload = data.toString()
-			 //    console.log(tag, 'stdout: ' + payload)
-		    //
-			 //    if(payload.indexOf('starting listener for foreign api') >= 0){
-				//     output.acceptingHttpPayments = true
-			 //    }
-		    //
-			 //    if(payload.indexOf('listener started for ') >= 0){
-				//     output.acceptingGrinBoxPayments = true
-				//     console.log("CHECKPOINT4 *****************8 startWallet713 payload: ",payload)
-		    //
-				//     //address
-				//     var address = payload.substring(
-				// 	    payload.lastIndexOf("listener started for [[92m"),
-				// 	    payload.lastIndexOf("[0m]")
-				//     );
-				//     address = address.replace("listener started for [[92m","")
-				//     address = address.replace("[0m]","")
-				//     console.log("CHECKPOINT5 *****************8 startWallet713 address: ",address)
-				//     output.address = address
-				//     output.success = true
-				//     resolve(output)
-			 //    }
-		    // })
-		    //
-		    // grinDaemon.stderr.on('data', function (data) {
-			 //    let payload = data.toString()
-			 //    console.log(tag, 'stderr: ' + payload)
-			 //    if(!output.errors) output.errors = []
-			 //    output.errors.push(payload)
-		    // })
-		    //
-		    // grinDaemon.on('exit', function (code) {
-			 //    console.log(tag, 'child process exited with code ' + code)
-				// output.error = "failed to start!"
-			 //    resolve(output)
-		    // })
-        }else{
-		    //let grinDaemon = spawn(appRootDir+'/' + process.platform + '/grin', ['-r',NODE_URL, '--pass', password, 'owner_api'])
-		    console.log(tag," APPROOTDIR: ",appRootDir)
-			console.log(tag," homedir: ",homedir)
-		    let grinDaemon
-		    if (process.env.NODE_ENV === "development") {
-			    console.log("DEV DETECTED!!! ******************8 ")
-			    if (process.platform === "linux") {
-				    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL,'--pass', password,'owner_api'])
+        } else {
+            //let grinDaemon = spawn(appRootDir+'/' + process.platform + '/grin', ['-r',NODE_URL, '--pass', password, 'owner_api'])
+            console.log(tag, " APPROOTDIR: ", appRootDir)
+            console.log(tag, " homedir: ", homedir)
+            let grinDaemon
+            if (process.env.NODE_ENV === "development") {
+                console.log("DEV DETECTED!!! ******************8 ")
+                if (process.platform === "linux") {
+                    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'owner_api'])
 
-			    } else if(process.platform === "win32"){
-				    console.log(tag," checkpoint windows")
-				    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\grin-wallet', ['-r',NODE_URL,'--pass', password, 'owner_api'])
-			    }else if(process.platform === "darwin"){
-					 grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['--pass', password, 'owner_api'])
-			    }else {
-				    console.error("************* OS NOT SUPPORTED!!!!! ********************")
-			    }
+                } else if (process.platform === "win32") {
+                    console.log(tag, " checkpoint windows")
+                    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\grin-wallet', ['-r', NODE_URL, '--pass', password, 'owner_api'])
+                } else if (process.platform === "darwin") {
+                    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'owner_api'])
+                } else {
+                    console.error("************* OS NOT SUPPORTED!!!!! ********************")
+                }
 
-		    } else {
-			    if (process.platform === "linux") {
-				    grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL,'--pass', password,'owner_api'])
+            } else {
+                if (process.platform === "linux") {
+                    grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'owner_api'])
 
-			    } else if(process.platform === "win32"){
-				    console.log(tag," checkpoint windows")
-				    grinDaemon = spawn(appRootDir + process.platform + '\\grin', ['-r',NODE_URL,'-d', homedir+'\\.grin','--pass', password, 'owner_api'])
-			    }else if(process.platform === "darwin"){
-				    if(wallet11Enabled) {
-					    grinDaemon = spawn(appRootDir + process.platform + '/grin-wallet', ['--pass', password, 'owner_api'])
-				    }else{
-					    grinDaemon = spawn(appRootDir + process.platform + '/grin', ['-r',NODE_URL,'--pass', password, 'owner_api'])
-				    }
-			    }else {
-				    console.error("************* OS NOT SUPPORTED!!!!! ********************")
-			    }
-		    }
+                } else if (process.platform === "win32") {
+                    console.log(tag, " checkpoint windows")
+                    grinDaemon = spawn(appRootDir + process.platform + '\\grin-wallet', ['-r', NODE_URL, '--pass', password, 'owner_api'])
+                } else if (process.platform === "darwin") {
+                    if (wallet11Enabled) {
+                        grinDaemon = spawn(appRootDir + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'owner_api'])
+                    } else {
+                        grinDaemon = spawn(appRootDir + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'owner_api'])
+                    }
+                } else {
+                    console.error("************* OS NOT SUPPORTED!!!!! ********************")
+                }
+            }
 
 
-		    console.log("CHECKPOINT *****************8 startWalletPrivate ")
-			//resolve(grinDaemon)
+            console.log("CHECKPOINT *****************8 startWalletPrivate ")
+            //resolve(grinDaemon)
 
-		    let output = {}
-		    output.success = false
+            let output = {}
+            output.success = false
 
-		    grinDaemon.stdout.on('data', function (data) {
-			    let payload = data.toString()
-			    console.log(tag, 'stdout: ' + payload)
+            grinDaemon.stdout.on('data', function (data) {
+                let payload = data.toString()
+                console.log(tag, 'stdout: ' + payload)
 
-			    if (payload.indexOf('WARN grin_servers::grin::server - Grin server started.') >= 0) {
-				    // Normal
+                if (payload.indexOf('WARN grin_servers::grin::server - Grin server started.') >= 0) {
+                    // Normal
 
-				    // output.success = true
-				    // output.message =(data.toString())
-				    // resolve(output)
-			    }
-		    })
+                    // output.success = true
+                    // output.message =(data.toString())
+                    // resolve(output)
+                }
+            })
 
-		    grinDaemon.stderr.on('data', function (data) {
-			    let payload = data.toString()
+            grinDaemon.stderr.on('data', function (data) {
+                let payload = data.toString()
 
-			    console.log(tag, 'stderr: ' + payload)
+                console.log(tag, 'stderr: ' + payload)
 
-			    // if fatal
-			    if (payload.indexOf('Address already in use (os error 98)') >= 0) {
-				    // fatal
-				    resolve(output)
-			    }
+                // if fatal
+                if (payload.indexOf('Address already in use (os error 98)') >= 0) {
+                    // fatal
+                    resolve(output)
+                }
 
-			    // resolve error
-		    })
+                // resolve error
+            })
 
-		    grinDaemon.on('exit', function (code) {
-			    console.log(tag, 'child process exited with code ' + code)
-			    //output.error = code.toString()
-			    resolve(output)
-		    })
+            grinDaemon.on('exit', function (code) {
+                console.log(tag, 'child process exited with code ' + code)
+                //output.error = code.toString()
+                resolve(output)
+            })
 
-		    // setTimeout(resolve, seconds*1000)
+            // setTimeout(resolve, seconds*1000)
         }
 
     })
@@ -491,75 +453,73 @@ const startWalletPublic = function (password) {
         let tag = TAG + " | startWalletPublic | "
         console.log("CHECKPOINT *****************8 startWalletPublic ")
 
-	    if(wallet713Enabled){
-        	//bundled in private
-		    let output = {}
-		    output.success = true
-		    resolve(output)
-	    }else{
-		    //let grinDaemon = spawn('./src/renderer/executables/' + process.platform + '/grin', ['-r',NODE_URL, '--pass', password, 'listen'])
-		    let grinDaemon
-		    if (process.env.NODE_ENV === "development") {
-			    console.log("DEV DETECTED!!! ******************8 ")
-			    if (process.platform === "linux") {
-				    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL,'--pass', password, 'listen'])
+        if (wallet713Enabled) {
+            //bundled in private
+            let output = {}
+            output.success = true
+            resolve(output)
+        } else {
+            //let grinDaemon = spawn('./src/renderer/executables/' + process.platform + '/grin', ['-r',NODE_URL, '--pass', password, 'listen'])
+            let grinDaemon
+            if (process.env.NODE_ENV === "development") {
+                console.log("DEV DETECTED!!! ******************8 ")
+                if (process.platform === "linux") {
+                    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'listen'])
+                } else if (process.platform === "win32") {
+                    console.log(tag, " checkpoint windows")
+                    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\grin-wallet', ['-r', NODE_URL, '--pass', password, 'listen'])
+                } else if (process.platform === "darwin") {
+                    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'listen'])
+                } else {
+                    console.error("************* OS NOT SUPPORTED!!!!! ********************")
+                }
+            } else {
+                if (process.platform === "linux") {
+                    grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'listen'])
+                } else if (process.platform === "win32") {
+                    grinDaemon = spawn(appRootDir + process.platform + '\\grin-wallet', ['-r', NODE_URL, '--pass', password, 'listen'])
+                } else if (process.platform === "darwin") {
+                    grinDaemon = spawn(appRootDir + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'listen'])
+                } else {
+                    console.error("************* OS NOT SUPPORTED!!!!! ********************")
+                }
+            }
 
-			    } else if(process.platform === "win32"){
-				    console.log(tag," checkpoint windows")
-				    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\grin-wallet', ['-r',NODE_URL,'-d', homedir+'\\.grin','--pass', password, 'listen'])
-			    }else if(process.platform === "darwin"){
-				        grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL,'--pass', password, 'listen'])
+            let output = {}
+            output.success = false
 
-			    }else {
-				    console.error("************* OS NOT SUPPORTED!!!!! ********************")
-			    }
-		    } else {
-			    if (process.platform === "linux") {
-				    grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL,'--pass', password, 'listen'])
-			    } else if(process.platform === "win32"){
-				    grinDaemon = spawn(appRootDir + process.platform + '\\grin-wallet', ['-r',NODE_URL,'-d', homedir+'\\.grin','--pass', password, 'listen'])
-			    }else if(process.platform === "darwin"){
-				    grinDaemon = spawn(appRootDir + process.platform + '/grin-wallet', ['-r',NODE_URL,'--pass', password, 'listen'])
-			    }else {
-				    console.error("************* OS NOT SUPPORTED!!!!! ********************")
-			    }
-		    }
+            grinDaemon.stdout.on('data', function (data) {
+                let payload = data.toString()
+                console.log('stdout: ' + payload)
+                if (payload.indexOf('WARN grin_servers::grin::server - Grin server started.')) {
+                    // Normal
+                    // output.success = true
+                    // output.message =(data.toString())
+                    // resolve(output)
+                }
+            })
 
-		    let output = {}
-		    output.success = false
+            grinDaemon.stderr.on('data', function (data) {
+                let payload = data.toString()
+                console.log('stderr: ' + payload)
 
-		    grinDaemon.stdout.on('data', function (data) {
-			    let payload = data.toString()
-			    console.log('stdout: ' + payload)
-			    if (payload.indexOf('WARN grin_servers::grin::server - Grin server started.')) {
-				    // Normal
-				    // output.success = true
-				    // output.message =(data.toString())
-				    // resolve(output)
-			    }
-		    })
+                // if fatal
+                if (payload.indexOf('Address already in use (os error 98)') >= 0) {
+                    // fatal
+                    output.error = Error('101: port already used!! (grin wallet public). Do you have the App open already? ')
+                    resolve(output)
+                }
 
-		    grinDaemon.stderr.on('data', function (data) {
-			    let payload = data.toString()
-			    console.log('stderr: ' + payload)
+                // resolve error
+            })
 
-			    // if fatal
-			    if (payload.indexOf('Address already in use (os error 98)') >= 0) {
-				    // fatal
-				    output.error = Error('101: port already used!! (grin wallet public). Do you have the App open already? ')
-				    resolve(output)
-			    }
+            grinDaemon.on('exit', function (code) {
+                console.log('child process exited with code ' + code.toString())
 
-			    // resolve error
-		    })
-
-		    grinDaemon.on('exit', function (code) {
-			    console.log('child process exited with code ' + code.toString())
-
-			    output.error = code.toString()
-			    resolve(output)
-		    })
-	    }
+                output.error = code.toString()
+                resolve(output)
+            })
+        }
 
 
         // setTimeout(resolve, seconds*1000)
@@ -572,59 +532,59 @@ const displaySeed = function (password) {
         console.log("CHECKPOINT *****************8 displaySeed ")
 
         let responses = []
-	    let grinDaemon
+        let grinDaemon
 
-        if(wallet713Enabled){
-	        if (process.env.NODE_ENV === "development") {
-		        if (process.platform === "linux") {
-			        grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/wallet713', ["-c",homedir+"/.grin/main/wallet713-commands.toml","-p",password])
-		        } else if(process.platform === "win32"){
-			        console.log(tag," checkpoint windows")
-			        grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\wallet713', ["-c",homedir+"\\.grin\\main\\wallet713-commands.toml","-p",password])
-		        }else if(process.platform === "darwin"){
-			        grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/wallet713', ["-c",homedir+"/.grin/main/wallet713-commands.toml","-p",password])
-		        }else {
-			        console.error("************* OS NOT SUPPORTED!!!!! ********************")
-		        }
-	        } else {
-		        if (process.platform === "linux") {
-			        grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/wallet713', ["-c",homedir+"/.grin/main/wallet713-commands.toml","-p",password])
-		        } else if(process.platform === "win32"){
-			        grinDaemon = spawn(appRootDir + process.platform + '\\wallet713', ["-c",homedir+"\\.grin\\main\\wallet713-commands.toml","-p",password])
-		        }else if(process.platform === "darwin"){
-			        grinDaemon = spawn(appRootDir + process.platform + '/wallet713', ["-c",homedir+"/.grin/main/wallet713-commands.toml","-p",password])
-		        }else{
-			        console.error("************* OS NOT SUPPORTED!!!!! ********************")
-		        }
-	        }
+        if (wallet713Enabled) {
+            if (process.env.NODE_ENV === "development") {
+                if (process.platform === "linux") {
+                    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/wallet713', ["-c", homedir + "/.grin/main/wallet713-commands.toml", "-p", password])
+                } else if (process.platform === "win32") {
+                    console.log(tag, " checkpoint windows")
+                    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\wallet713', ["-c", homedir + "\\.grin\\main\\wallet713-commands.toml", "-p", password])
+                } else if (process.platform === "darwin") {
+                    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/wallet713', ["-c", homedir + "/.grin/main/wallet713-commands.toml", "-p", password])
+                } else {
+                    console.error("************* OS NOT SUPPORTED!!!!! ********************")
+                }
+            } else {
+                if (process.platform === "linux") {
+                    grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/wallet713', ["-c", homedir + "/.grin/main/wallet713-commands.toml", "-p", password])
+                } else if (process.platform === "win32") {
+                    grinDaemon = spawn(appRootDir + process.platform + '\\wallet713', ["-c", homedir + "\\.grin\\main\\wallet713-commands.toml", "-p", password])
+                } else if (process.platform === "darwin") {
+                    grinDaemon = spawn(appRootDir + process.platform + '/wallet713', ["-c", homedir + "/.grin/main/wallet713-commands.toml", "-p", password])
+                } else {
+                    console.error("************* OS NOT SUPPORTED!!!!! ********************")
+                }
+            }
 
 
-	        grinDaemon.stdin.write("recover -d -p "+password)
-	        grinDaemon.stdin.end();
+            grinDaemon.stdin.write("recover -d -p " + password)
+            grinDaemon.stdin.end();
 
-        }else{
-	        if (process.env.NODE_ENV === "development") {
-		        if (process.platform === "linux") {
-			        grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL, '--pass', password, 'recover','-d'])
-		        } else if(process.platform === "win32"){
-			        console.log(tag," checkpoint windows")
-			        grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\grin-wallet', ['-r',NODE_URL,'--pass', password, 'recover','-d'])
-		        }else if(process.platform === "darwin"){
-			        grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL, '--pass', password, 'recover','-d'])
-		        }else {
-			        console.error("************* OS NOT SUPPORTED!!!!! ********************")
-		        }
-	        } else {
-		        if (process.platform === "linux") {
-			        grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL, '--pass', password, 'recover','-d'])
-		        } else if(process.platform === "win32"){
-			        grinDaemon = spawn(appRootDir + process.platform + '\\grin-wallet', ['-r',NODE_URL,'--pass', password, 'recover','-d'])
-		        }else if(process.platform === "darwin"){
-			        grinDaemon = spawn(appRootDir + process.platform + '/grin-wallet', ['-r',NODE_URL, '--pass', password, 'recover','-d'])
-		        }else{
-			        console.error("************* OS NOT SUPPORTED!!!!! ********************")
-		        }
-	        }
+        } else {
+            if (process.env.NODE_ENV === "development") {
+                if (process.platform === "linux") {
+                    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'recover', '-d'])
+                } else if (process.platform === "win32") {
+                    console.log(tag, " checkpoint windows")
+                    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\grin-wallet', ['-r', NODE_URL, '--pass', password, 'recover', '-d'])
+                } else if (process.platform === "darwin") {
+                    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'recover', '-d'])
+                } else {
+                    console.error("************* OS NOT SUPPORTED!!!!! ********************")
+                }
+            } else {
+                if (process.platform === "linux") {
+                    grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'recover', '-d'])
+                } else if (process.platform === "win32") {
+                    grinDaemon = spawn(appRootDir + process.platform + '\\grin-wallet', ['-r', NODE_URL, '--pass', password, 'recover', '-d'])
+                } else if (process.platform === "darwin") {
+                    grinDaemon = spawn(appRootDir + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'recover', '-d'])
+                } else {
+                    console.error("************* OS NOT SUPPORTED!!!!! ********************")
+                }
+            }
 
         }
 
@@ -647,51 +607,51 @@ const displaySeed = function (password) {
         grinDaemon.on('exit', function (code) {
             console.log('child process exited with code ' + code.toString())
             let exitCode = code.toString()
-            if(exitCode == 0){
+            if (exitCode == 0) {
 
-	            let responseAll = responses.join(' ')
-	            console.log("responseAll: ",responseAll)
-	            // let pieces = responseAll.split('Please back-up these words in a non-digital format.')
-	            // console.log("pieces: ",pieces)
+                let responseAll = responses.join(' ')
+                console.log("responseAll: ", responseAll)
+                // let pieces = responseAll.split('Please back-up these words in a non-digital format.')
+                // console.log("pieces: ",pieces)
 
-	            var seed = responseAll.substring(
-		            responseAll.lastIndexOf("Your recovery phrase is:"),
-		            responseAll.lastIndexOf("Please back-up these words in a non-digital format.")
-	            );
-	            seed = seed.replace("Your recovery phrase is:","")
+                var seed = responseAll.substring(
+                    responseAll.lastIndexOf("Your recovery phrase is:"),
+                    responseAll.lastIndexOf("Please back-up these words in a non-digital format.")
+                );
+                seed = seed.replace("Your recovery phrase is:", "")
 
-	            console.log("seed: ",seed)
-	            seed = seed.split(" ")
-	            console.log("seedArray: ",seed)
+                console.log("seed: ", seed)
+                seed = seed.split(" ")
+                console.log("seedArray: ", seed)
 
-				if(wallet713Enabled){
-					let address = responseAll.substring(
-						responseAll.lastIndexOf("[93mYour grinbox address[0m: ["),
-						responseAll.lastIndexOf("[0m")
-					);
-					console.log("address: ",address)
-					address = address.replace(/[^a-zA-Z0-9]/g, '');
-					console.log("address: ",address)
-					// address = address.replace("[93mYour grinbox address[0m: [","")
-					address = address.replace("92m","")
-					address = address.replace("93mYourgrinboxaddress0m","")
-					address = address.replace("0m36mwallet7130m94mUselistentoconnecttogrinboxorhelptoseeavailablecommands0m36mwallet713","")
-					// address = address.replace("[94mUse `listen` to connect to grinbox or `help` to see available commands [0m ","")
-					// address = address.replace("[0m ","")
-					address = address.replace("0m94mUsehelptoseeavailablecommands","")//0m94mUsehelptoseeavailablecommands
-					address = address.replace("0m36mwallet713","")//0m94mUsehelptoseeavailablecommands
+                if (wallet713Enabled) {
+                    let address = responseAll.substring(
+                        responseAll.lastIndexOf("[93mYour grinbox address[0m: ["),
+                        responseAll.lastIndexOf("[0m")
+                    );
+                    console.log("address: ", address)
+                    address = address.replace(/[^a-zA-Z0-9]/g, '');
+                    console.log("address: ", address)
+                    // address = address.replace("[93mYour grinbox address[0m: [","")
+                    address = address.replace("92m", "")
+                    address = address.replace("93mYourgrinboxaddress0m", "")
+                    address = address.replace("0m36mwallet7130m94mUselistentoconnecttogrinboxorhelptoseeavailablecommands0m36mwallet713", "")
+                    // address = address.replace("[94mUse `listen` to connect to grinbox or `help` to see available commands [0m ","")
+                    // address = address.replace("[0m ","")
+                    address = address.replace("0m94mUsehelptoseeavailablecommands", "")//0m94mUsehelptoseeavailablecommands
+                    address = address.replace("0m36mwallet713", "")//0m94mUsehelptoseeavailablecommands
 
-					console.log("seedArray: ",address)
+                    console.log("seedArray: ", address)
 
-					output.address = address
-				}
-	            if(!seed[0] || seed.length > 24) seed.shift()
+                    output.address = address
+                }
+                if (!seed[0] || seed.length > 24) seed.shift()
 
                 output.responses = responseAll
                 output.seed = seed
                 output.success = true
-            }else{
-                output.error = "Failed to get seed! exit: "+exitCode
+            } else {
+                output.error = "Failed to get seed! exit: " + exitCode
                 output.responses = responses
             }
 
@@ -703,33 +663,33 @@ const displaySeed = function (password) {
 }
 
 let detectDiagonConfig = async function () {
-    let tag = TAG + " | result | "
+    let tag = TAG + " | detectDiagonConfig | "
     try {
         let result = false
-	    let envFile
+        let envFile
 
-        if(wallet713Enabled){
-	        if (process.platform === "linux") {
-		        envFile = fs.existsSync(homedir + "/.grin/diagonAlley.json")
-		        console.log("envFile: ", envFile)
-	        } else if(process.platform === "win32"){
-		        envFile = fs.existsSync(homedir + "\\.grin\\diagonAlley.json")
-		        console.log("envFile: ", envFile)
-	        } else if(process.platform === "darwin"){
-		        envFile = fs.existsSync(homedir + "/.grin/diagonAlley.json")
-		        console.log("envFile: ", envFile)
-	        }
-        }else{
-	        if (process.platform === "linux") {
-		        envFile = fs.existsSync(homedir + "/.grin/diagonAlley.json")
-		        console.log("envFile: ", envFile)
-	        } else if(process.platform === "win32"){
-		        envFile = fs.existsSync(homedir + "\\.grin\\diagonAlley.json")
-		        console.log("envFile: ", envFile)
-	        } else if(process.platform === "darwin"){
-		        envFile = fs.existsSync(homedir + "/.grin/diagonAlley.json")
-		        console.log("envFile: ", envFile)
-	        }
+        if (wallet713Enabled) {
+            if (process.platform === "linux") {
+                envFile = fs.existsSync(homedir + "/.grin/diagonAlley.json")
+                console.log("envFile: ", envFile)
+            } else if (process.platform === "win32") {
+                envFile = fs.existsSync(homedir + "\\.grin\\diagonAlley.json")
+                console.log("envFile: ", envFile)
+            } else if (process.platform === "darwin") {
+                envFile = fs.existsSync(homedir + "/.grin/diagonAlley.json")
+                console.log("envFile: ", envFile)
+            }
+        } else {
+            if (process.platform === "linux") {
+                envFile = fs.existsSync(homedir + "/.grin/diagonAlley.json")
+                console.log("envFile: ", envFile)
+            } else if (process.platform === "win32") {
+                envFile = fs.existsSync(homedir + "\\.grin\\diagonAlley.json")
+                console.log("envFile: ", envFile)
+            } else if (process.platform === "darwin") {
+                envFile = fs.existsSync(homedir + "/.grin/diagonAlley.json")
+                console.log("envFile: ", envFile)
+            }
         }
 
 
@@ -748,36 +708,35 @@ let detectWalletConfig = async function () {
     try {
         let result = false
         let envFile
-        try{
+        try {
 
 
-	        if(wallet713Enabled){
-		        if (process.platform === "linux") {
-			        envFile = fs.existsSync(homedir + "/.grin/main/grin-wallet.toml")
-			        console.log("envFile: ", envFile)
-		        } else if(process.platform === "win32"){
-			        envFile = fs.existsSync(homedir + "\\.grin\\main\\grin-wallet.toml")
-			        console.log("envFile: ", envFile)
-		        } else if(process.platform === "darwin"){
-			        envFile = fs.existsSync(homedir + "/.grin/main/grin-wallet.toml")
-			        console.log("envFile: ", envFile)
-		        }
-            }else{
-		        if (process.platform === "linux") {
-			        envFile = fs.existsSync(homedir + "/.grin/main/grin-wallet.toml")
-			        console.log("envFile: ", envFile)
-		        } else if(process.platform === "win32"){
-			        envFile = fs.existsSync(homedir + "\\.grin\\main\\grin-wallet.toml")
-			        console.log("envFile: ", envFile)
-		        } else if(process.platform === "darwin"){
-			        envFile = fs.existsSync(homedir + "/.grin/main/grin-wallet.toml")
-			        console.log("envFile: ", envFile)
-		        }
+            if (wallet713Enabled) {
+                if (process.platform === "linux") {
+                    envFile = fs.existsSync(homedir + "/.grin/main/grin-wallet.toml")
+                    console.log("envFile: ", envFile)
+                } else if (process.platform === "win32") {
+                    envFile = fs.existsSync(homedir + "\\.grin\\main\\grin-wallet.toml")
+                    console.log("envFile: ", envFile)
+                } else if (process.platform === "darwin") {
+                    envFile = fs.existsSync(homedir + "/.grin/main/grin-wallet.toml")
+                    console.log("envFile: ", envFile)
+                }
+            } else {
+                if (process.platform === "linux") {
+                    envFile = fs.existsSync(homedir + "/.grin/main/grin-wallet.toml")
+                    console.log("envFile: ", envFile)
+                } else if (process.platform === "win32") {
+                    envFile = fs.existsSync(homedir + "\\.grin\\main\\grin-wallet.toml")
+                    console.log("envFile: ", envFile)
+                } else if (process.platform === "darwin") {
+                    envFile = fs.existsSync(homedir + "/.grin/main/grin-wallet.toml")
+                    console.log("envFile: ", envFile)
+                }
             }
 
 
-
-        }catch(e){
+        } catch (e) {
             envFile = false
         }
         //console.log("envFile: ",envFile)
@@ -796,9 +755,9 @@ let detectServerConfig = async function () {
     try {
         let result = false
         let envFile
-        try{
+        try {
             envFile = fs.existsSync(homedir + "/.grin/main/grin-server.toml")
-        }catch(e){
+        } catch (e) {
             envFile = false
         }
         //console.log("envFile: ",envFile)
@@ -819,38 +778,38 @@ let readEnv = async function () {
 
         let envFile
 
-		if(wallet713Enabled){
-			if(process.platform === "win32"){
-				envFile = await fs.readFile(homedir + "\\.grin\\diagonAlley.json")
-			}else if(process.platform === "linux"){
-				envFile = await fs.readFile(homedir + "/.grin/diagonAlley.json")
-			}else if(process.platform === "darwin"){
-				if (process.env.NODE_ENV === "development") {
-					envFile = await fs.readFile(homedir + "/.grin/diagonAlley.json")
-				}else{
-					envFile = await fs.readFile(homedir + "/.grin/diagonAlley.json")
-				}
-			}
-			console.log(tag, "envFile: ", envFile)
-			envFile = envFile.toString('utf-8')
-			console.log("envFile: ", envFile)
+        if (wallet713Enabled) {
+            if (process.platform === "win32") {
+                envFile = await fs.readFile(homedir + "\\.grin\\diagonAlley.json")
+            } else if (process.platform === "linux") {
+                envFile = await fs.readFile(homedir + "/.grin/diagonAlley.json")
+            } else if (process.platform === "darwin") {
+                if (process.env.NODE_ENV === "development") {
+                    envFile = await fs.readFile(homedir + "/.grin/diagonAlley.json")
+                } else {
+                    envFile = await fs.readFile(homedir + "/.grin/diagonAlley.json")
+                }
+            }
+            console.log(tag, "envFile: ", envFile)
+            envFile = envFile.toString('utf-8')
+            console.log("envFile: ", envFile)
 
-		}else{
-			if(process.platform === "win32"){
-				envFile = await fs.readFile(homedir + "\\.grin\\diagonAlley.json")
-			}else if(process.platform === "linux"){
-				envFile = await fs.readFile(homedir + "/.grin/diagonAlley.json")
-			}else if(process.platform === "darwin"){
-				if (process.env.NODE_ENV === "development") {
-					envFile = await fs.readFile(homedir + "/.grin/diagonAlley.json")
-				}else{
-					envFile = await fs.readFile(homedir + "/.grin/diagonAlley.json")
-				}
-			}
-			console.log(tag, "envFile: ", envFile)
-			envFile = envFile.toString('utf-8')
-			console.log("envFile: ", envFile)
-		}
+        } else {
+            if (process.platform === "win32") {
+                envFile = await fs.readFile(homedir + "\\.grin\\diagonAlley.json")
+            } else if (process.platform === "linux") {
+                envFile = await fs.readFile(homedir + "/.grin/diagonAlley.json")
+            } else if (process.platform === "darwin") {
+                if (process.env.NODE_ENV === "development") {
+                    envFile = await fs.readFile(homedir + "/.grin/diagonAlley.json")
+                } else {
+                    envFile = await fs.readFile(homedir + "/.grin/diagonAlley.json")
+                }
+            }
+            console.log(tag, "envFile: ", envFile)
+            envFile = envFile.toString('utf-8')
+            console.log("envFile: ", envFile)
+        }
 
         return JSON.parse(envFile)
     } catch (e) {
@@ -865,9 +824,9 @@ let readServerConfig = async function () {
         let result = false
 
         let envFile
-        if(process.platform === "win32"){
+        if (process.platform === "win32") {
             envFile = await fs.readFile(homedir + "\\.grin\\main\\grin-server.toml")
-        }else{
+        } else {
             envFile = await fs.readFile(homedir + "/.grin/main/grin-server.toml")
         }
         console.log(tag, "envFile: ", envFile)
@@ -885,16 +844,16 @@ let readWalletConfig = async function () {
         let result = false
 
         let envFile
-        if(process.platform === "win32"){
+        if (process.platform === "win32") {
             envFile = await fs.readFile(homedir + "\\.grin\\main\\grin-wallet.toml")
-        }else if(process.platform === "linux"){
-	        envFile = await fs.readFile(homedir + "/.grin/main/grin-wallet.toml")
-        }else if(process.platform === "darwin"){
-	        if (process.env.NODE_ENV === "development") {
-		        envFile = await fs.readFile(homedir + "/.grin/main/grin-wallet.toml")
-	        }else{
-		        envFile = await fs.readFile(homedir + "/.grin/main/grin-wallet.toml")
-	        }
+        } else if (process.platform === "linux") {
+            envFile = await fs.readFile(homedir + "/.grin/main/grin-wallet.toml")
+        } else if (process.platform === "darwin") {
+            if (process.env.NODE_ENV === "development") {
+                envFile = await fs.readFile(homedir + "/.grin/main/grin-wallet.toml")
+            } else {
+                envFile = await fs.readFile(homedir + "/.grin/main/grin-wallet.toml")
+            }
 
         }
 
@@ -914,9 +873,9 @@ let readWallet713Config = async function () {
         let result = false
 
         let envFile
-        if(process.platform === "win32"){
+        if (process.platform === "win32") {
             envFile = await fs.readFile(homedir + "\\.grin\\main\\wallet713.toml")
-        }else{
+        } else {
             envFile = await fs.readFile(homedir + "/.grin/main/wallet713.toml")
         }
 
@@ -934,46 +893,46 @@ let getApiKey = async function () {
     let tag = TAG + " | getApiKey | "
     try {
         let result
-	    try{
-		    if(process.platform === "win32"){
-			    await fs.mkdir(homedir + "\\.grin")
-			    await fs.mkdir(homedir + "\\.grin\\main")
-		    }else{
-			    await fs.mkdir(homedir + "/.grin")
-			    await fs.mkdir(homedir + "/.grin/main")
-		    }
-	    }catch(e){
+        try {
+            if (process.platform === "win32") {
+                await fs.mkdir(homedir + "\\.grin")
+                await fs.mkdir(homedir + "\\.grin\\main")
+            } else {
+                await fs.mkdir(homedir + "/.grin")
+                await fs.mkdir(homedir + "/.grin/main")
+            }
+        } catch (e) {
 
-	    }
+        }
 
-	    try{
-		    if(process.platform === "win32"){
-			    result = await fs.readFile(homedir + '\\.grin\\main\\.api_secret')
-		    }else if(process.platform === "linux"){
-			    result = await fs.readFile(homedir + '/.grin/main/.api_secret')
-		    }else if(process.platform === "darwin"){
-			    result = await fs.readFile(homedir + '/.grin/main/.api_secret')
-		    }
-		    if(!result){
-			    result = Math.random().toString(36).slice(-8);
+        try {
+            if (process.platform === "win32") {
+                result = await fs.readFile(homedir + '\\.grin\\main\\.api_secret')
+            } else if (process.platform === "linux") {
+                result = await fs.readFile(homedir + '/.grin/main/.api_secret')
+            } else if (process.platform === "darwin") {
+                result = await fs.readFile(homedir + '/.grin/main/.api_secret')
+            }
+            if (!result) {
+                result = Math.random().toString(36).slice(-8);
 
-			    if(process.platform === "win32"){
-				    await fs.writeFile(homedir + '\\.grin\\main\\.api_secret',result)
-			    }else{
-				    await fs.writeFile(homedir + '/.grin/main/.api_secret',result)
-			    }
-		    }
+                if (process.platform === "win32") {
+                    await fs.writeFile(homedir + '\\.grin\\main\\.api_secret', result)
+                } else {
+                    await fs.writeFile(homedir + '/.grin/main/.api_secret', result)
+                }
+            }
 
-		    result = result.toString('utf-8')
-	    }catch(e){
-		    result = Math.random().toString(36).slice(-8);
+            result = result.toString('utf-8')
+        } catch (e) {
+            result = Math.random().toString(36).slice(-8);
 
-		    if(process.platform === "win32"){
-			    await fs.writeFile(homedir + '\\.grin\\main\\.api_secret',result)
-		    }else{
-			    await fs.writeFile(homedir + '/.grin/main/.api_secret',result)
-		    }
-	    }
+            if (process.platform === "win32") {
+                await fs.writeFile(homedir + '\\.grin\\main\\.api_secret', result)
+            } else {
+                await fs.writeFile(homedir + '/.grin/main/.api_secret', result)
+            }
+        }
 
 
         return result
@@ -987,38 +946,37 @@ let detectApiKey = async function () {
     let tag = TAG + " | result | "
     try {
         let result = false
-	    try{
-		    if(process.platform === "win32"){
-			    await fs.mkdir(homedir + "\\.grin")
-			    await fs.mkdir(homedir + "\\.grin\\main")
-		    }else{
-			    await fs.mkdir(homedir + "/.grin")
-			    await fs.mkdir(homedir + "/.grin/main")
-		    }
-	    }catch(e){
+        try {
+            if (process.platform === "win32") {
+                await fs.mkdir(homedir + "\\.grin")
+                await fs.mkdir(homedir + "\\.grin\\main")
+            } else {
+                await fs.mkdir(homedir + "/.grin")
+                await fs.mkdir(homedir + "/.grin/main")
+            }
+        } catch (e) {
 
-	    }
+        }
 
 
-	    if(wallet713Enabled){
+        if (wallet713Enabled) {
             return true
-	    }else{
+        } else {
 
-		    let envFile
+            let envFile
 
-		    if(process.platform === "win32"){
-			    envFile = await fs.readFile(homedir + "\\.grin\\main\\.api_secret")
-		    }else if(process.platform === "linux"){
-			    envFile = await fs.exists(homedir + '/.grin/main/.api_secret')
-		    }else if(process.platform === "darwin"){
-			    envFile = await fs.exists(homedir + '/.grin/main/.api_secret')
-		    }
+            if (process.platform === "win32") {
+                envFile = await fs.readFile(homedir + "\\.grin\\main\\.api_secret")
+            } else if (process.platform === "linux") {
+                envFile = await fs.exists(homedir + '/.grin/main/.api_secret')
+            } else if (process.platform === "darwin") {
+                envFile = await fs.exists(homedir + '/.grin/main/.api_secret')
+            }
 
 
-
-		    if (envFile) {
-			    result = true
-		    }
+            if (envFile) {
+                result = true
+            }
         }
 
 
@@ -1029,39 +987,39 @@ let detectApiKey = async function () {
     }
 }
 
-let generateEnv = async function (hash, username, signingPub,signingPriv, apiKey, address) {
+let generateEnv = async function (hash, username, signingPub, signingPriv, apiKey, address) {
     let tag = TAG + " | generateEnv | "
     try {
         let result = false
         let portNode = "3413"
         let portWallet = "3420"
 
-        console.log(tag,"signingPub: ",signingPub)
-	    console.log(tag,"apiKey: ",apiKey)
-	    console.log(tag,"address: ",address)
+        console.log(tag, "signingPub: ", signingPub)
+        console.log(tag, "apiKey: ", apiKey)
+        console.log(tag, "address: ", address)
 
-        try{
+        try {
 
-            if(wallet713Enabled){
-	            if(process.platform === "win32"){
-		            await fs.mkdir(homedir + "\\.grin")
-		            await fs.mkdir(homedir + "\\.grin\\main")
-	            }else{
-		            await fs.mkdir(homedir + "/.grin")
-		            await fs.mkdir(homedir + "/.grin/main")
-	            }
-            }else{
-	            if(process.platform === "win32"){
-		            await fs.mkdir(homedir + "\\.grin")
-		            await fs.mkdir(homedir + "\\.grin\\main")
-	            }else{
-		            await fs.mkdir(homedir + "/.grin")
-		            await fs.mkdir(homedir + "/.grin/main")
-	            }
+            if (wallet713Enabled) {
+                if (process.platform === "win32") {
+                    await fs.mkdir(homedir + "\\.grin")
+                    await fs.mkdir(homedir + "\\.grin\\main")
+                } else {
+                    await fs.mkdir(homedir + "/.grin")
+                    await fs.mkdir(homedir + "/.grin/main")
+                }
+            } else {
+                if (process.platform === "win32") {
+                    await fs.mkdir(homedir + "\\.grin")
+                    await fs.mkdir(homedir + "\\.grin\\main")
+                } else {
+                    await fs.mkdir(homedir + "/.grin")
+                    await fs.mkdir(homedir + "/.grin/main")
+                }
             }
 
 
-        }catch(e){
+        } catch (e) {
             //ignore
         }
 
@@ -1078,43 +1036,42 @@ let generateEnv = async function (hash, username, signingPub,signingPriv, apiKey
         console.log(tag, configFile)
         let resultWrite
 
-	    if(wallet713Enabled){
-		    configFile.address = address
-		    configFile.grinEnabled = wallet713Enabled
+        if (wallet713Enabled) {
+            configFile.address = address
+            configFile.grinEnabled = wallet713Enabled
 
-		    if(process.platform === "win32"){
-			    resultWrite = await fs.writeJson(homedir + "\\.grin\\diagonAlley.json", configFile)
-		    }else if(process.platform === "linux"){
-			    resultWrite = await fs.writeJson(homedir + "/.grin/diagonAlley.json", configFile)
-		    }else if(process.platform === "darwin"){
-			    if (process.env.NODE_ENV === "development") {
-				    resultWrite = await fs.writeJson(homedir + "/.grin/diagonAlley.json", configFile)
-			    }else{
-				    resultWrite = await fs.writeJson(homedir + "/.grin/diagonAlley.json", configFile)
-			    }
-		    }
+            if (process.platform === "win32") {
+                resultWrite = await fs.writeJson(homedir + "\\.grin\\diagonAlley.json", configFile)
+            } else if (process.platform === "linux") {
+                resultWrite = await fs.writeJson(homedir + "/.grin/diagonAlley.json", configFile)
+            } else if (process.platform === "darwin") {
+                if (process.env.NODE_ENV === "development") {
+                    resultWrite = await fs.writeJson(homedir + "/.grin/diagonAlley.json", configFile)
+                } else {
+                    resultWrite = await fs.writeJson(homedir + "/.grin/diagonAlley.json", configFile)
+                }
+            }
 
-        }else{
-		    if(process.platform === "win32"){
-			    resultWrite = await fs.writeJson(homedir + "\\.grin\\diagonAlley.json", configFile)
-		    }else if(process.platform === "linux"){
-			    resultWrite = await fs.writeJson(homedir + "/.grin/diagonAlley.json", configFile)
-		    }else if(process.platform === "darwin"){
-			    if (process.env.NODE_ENV === "development") {
-				    resultWrite = await fs.writeJson(homedir + "/.grin/diagonAlley.json", configFile)
-			    }else{
-				    resultWrite = await fs.writeJson(homedir + "/.grin/diagonAlley.json", configFile)
-			    }
+        } else {
+            if (process.platform === "win32") {
+                resultWrite = await fs.writeJson(homedir + "\\.grin\\diagonAlley.json", configFile)
+            } else if (process.platform === "linux") {
+                resultWrite = await fs.writeJson(homedir + "/.grin/diagonAlley.json", configFile)
+            } else if (process.platform === "darwin") {
+                if (process.env.NODE_ENV === "development") {
+                    resultWrite = await fs.writeJson(homedir + "/.grin/diagonAlley.json", configFile)
+                } else {
+                    resultWrite = await fs.writeJson(homedir + "/.grin/diagonAlley.json", configFile)
+                }
 
-		    }
+            }
         }
-
 
 
         console.log(resultWrite)
         return resultWrite
     } catch (e) {
-        console.error(tag,e)
+        console.error(tag, e)
         return false
     }
 }
@@ -1125,14 +1082,14 @@ const editFile = async function (param, newValue) {
         console.log(tag, "checkpoint")
         //
 
-	    let file
+        let file
 
-	    if(wallet713Enabled){
-		    file = await fs.readJson(homedir + "/.grin/diagonAlley.json")
-		    console.log(file)
-        }else{
-		    file = await fs.readJson(homedir + "/.grin/diagonAlley.json")
-		    console.log(file)
+        if (wallet713Enabled) {
+            file = await fs.readJson(homedir + "/.grin/diagonAlley.json")
+            console.log(file)
+        } else {
+            file = await fs.readJson(homedir + "/.grin/diagonAlley.json")
+            console.log(file)
         }
 
 
@@ -1171,7 +1128,7 @@ const turnOffTui = async function () {
         //TODO edit
         let configPath = homedir + "/.grin/main/grin-server.toml"
         let configFile = await fs.readFile(configPath, 'utf8')
-        console.log(tag,configFile)
+        console.log(tag, configFile)
 
         let output = configFile.replace("run_tui = true", "run_tui = false")
 
@@ -1191,26 +1148,26 @@ let writeConfigFileServer = async function () {
     let tag = " | writeConfigFileServer | "
     try {
 
-        try{
+        try {
 
-            if(wallet713Enabled){
-	            if(process.platform === "win32"){
-		            await fs.mkdir(homedir + "\\.grin")
-		            await fs.mkdir(homedir + "\\.grin\\main")
-	            }else{
-		            await fs.mkdir(homedir + "/.grin")
-		            await fs.mkdir(homedir + "/.grin/main")
-	            }
-            }else{
-	            if(process.platform === "win32"){
-		            await fs.mkdir(homedir + "\\.grin")
-		            await fs.mkdir(homedir + "\\.grin\\main")
-	            }else{
-		            await fs.mkdir(homedir + "/.grin")
-		            await fs.mkdir(homedir + "/.grin/main")
-	            }
+            if (wallet713Enabled) {
+                if (process.platform === "win32") {
+                    await fs.mkdir(homedir + "\\.grin")
+                    await fs.mkdir(homedir + "\\.grin\\main")
+                } else {
+                    await fs.mkdir(homedir + "/.grin")
+                    await fs.mkdir(homedir + "/.grin/main")
+                }
+            } else {
+                if (process.platform === "win32") {
+                    await fs.mkdir(homedir + "\\.grin")
+                    await fs.mkdir(homedir + "\\.grin\\main")
+                } else {
+                    await fs.mkdir(homedir + "/.grin")
+                    await fs.mkdir(homedir + "/.grin/main")
+                }
             }
-        }catch(e){
+        } catch (e) {
             //ignore
         }
 
@@ -1218,7 +1175,7 @@ let writeConfigFileServer = async function () {
         //TODO for more info view website
         let output = "[server]\n" +
             "db_root = \"" + homedir + "/.grin/main/chain_data\"\n" +
-            "api_http_addr = \"127.0.0.1:3413\"\n" +
+            "api_http_addr = "+NODE_URL+"\n" +
             "api_secret_path = \"" + homedir + "/.grin/main/.api_secret\"\n" +
             "chain_type = \"Mainnet\"\n" +
             "chain_validation_mode = \"Disabled\"\n" +
@@ -1262,20 +1219,19 @@ let writeConfigFileServer = async function () {
 
         let result
 
-	    if(wallet713Enabled){
-		    if(process.platform === "win32"){
-			    result = await fs.writeJson(homedir + "\\.grin\\main\\grin-server.toml", output)
-		    }else{
-			    result = await fs.writeFile(homedir + "/.grin/main/grin-server.toml", output)
-		    }
-        }else{
-		    if(process.platform === "win32"){
-			    result = await fs.writeJson(homedir + "\\.grin\\main\\grin-server.toml", output)
-		    }else{
-			    result = await fs.writeFile(homedir + "/.grin/main/grin-server.toml", output)
-		    }
+        if (wallet713Enabled) {
+            if (process.platform === "win32") {
+                result = await fs.writeJson(homedir + "\\.grin\\main\\grin-server.toml", output)
+            } else {
+                result = await fs.writeFile(homedir + "/.grin/main/grin-server.toml", output)
+            }
+        } else {
+            if (process.platform === "win32") {
+                result = await fs.writeJson(homedir + "\\.grin\\main\\grin-server.toml", output)
+            } else {
+                result = await fs.writeFile(homedir + "/.grin/main/grin-server.toml", output)
+            }
         }
-
 
 
         return result
@@ -1285,346 +1241,346 @@ let writeConfigFileServer = async function () {
     }
 }
 
-const recheckWallet = function (password,context) {
+const recheckWallet = function (password, context) {
     let tag = TAG + " | recheckWallet | "
     return new Promise((resolve, reject) => {
 
         console.log(tag, " checkpoint1")
         let grinDaemon
 
-	    if(wallet713Enabled){
-		    if (process.env.NODE_ENV === "development") {
-			    if (process.platform === "linux") {
-				    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/wallet713', ["-c",homedir+"/.grin/main/wallet713-commands.toml","-p",password])
-			    } else if(process.platform === "win32"){
-				    console.log(tag," checkpoint windows")
-				    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\wallet713', ["-c",homedir+"/.grin/main/wallet713-commands.toml","-p",password])
-			    }else if(process.platform === "darwin"){
-				    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/wallet713', ["-c",homedir+"/.grin/main/wallet713-commands.toml","-p",password])
-			    }else {
-				    console.error("************* OS NOT SUPPORTED!!!!! ********************")
-			    }
-		    } else {
-			    if (process.platform === "linux") {
-				    grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/wallet713', ["-c",homedir+"/.grin/main/wallet713-commands.toml","-p",password])
-			    } else if(process.platform === "win32"){
-				    grinDaemon = spawn(appRootDir + process.platform + '\\wallet713', ["-c",homedir+"/.grin/main/wallet713-commands.toml","-p",password])
-			    }else if(process.platform === "darwin"){
-				    grinDaemon = spawn(appRootDir + process.platform + '/wallet713', ["-c",homedir+"/.grin/main/wallet713-commands.toml","-p",password])
-			    }else{
-				    console.error("************* OS NOT SUPPORTED!!!!! ********************")
-			    }
-		    }
+        if (wallet713Enabled) {
+            if (process.env.NODE_ENV === "development") {
+                if (process.platform === "linux") {
+                    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/wallet713', ["-c", homedir + "/.grin/main/wallet713-commands.toml", "-p", password])
+                } else if (process.platform === "win32") {
+                    console.log(tag, " checkpoint windows")
+                    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\wallet713', ["-c", homedir + "/.grin/main/wallet713-commands.toml", "-p", password])
+                } else if (process.platform === "darwin") {
+                    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/wallet713', ["-c", homedir + "/.grin/main/wallet713-commands.toml", "-p", password])
+                } else {
+                    console.error("************* OS NOT SUPPORTED!!!!! ********************")
+                }
+            } else {
+                if (process.platform === "linux") {
+                    grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/wallet713', ["-c", homedir + "/.grin/main/wallet713-commands.toml", "-p", password])
+                } else if (process.platform === "win32") {
+                    grinDaemon = spawn(appRootDir + process.platform + '\\wallet713', ["-c", homedir + "/.grin/main/wallet713-commands.toml", "-p", password])
+                } else if (process.platform === "darwin") {
+                    grinDaemon = spawn(appRootDir + process.platform + '/wallet713', ["-c", homedir + "/.grin/main/wallet713-commands.toml", "-p", password])
+                } else {
+                    console.error("************* OS NOT SUPPORTED!!!!! ********************")
+                }
+            }
 
-		    //
-		    grinDaemon.stdin.write("check")
-		    grinDaemon.stdin.end();
+            //
+            grinDaemon.stdin.write("check")
+            grinDaemon.stdin.end();
 
-        }else{
-		    if (process.env.NODE_ENV === "development") {
-			    if (process.platform === "linux") {
-				    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL, '--pass', password,'check'])
-			    } else if(process.platform === "win32"){
-				    console.log(tag," checkpoint windows")
-				    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\grin', ['-r',NODE_URL,'--pass', password,'check'])
-			    }else if(process.platform === "darwin"){
-				    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL, '--pass', password,'check'])
-			    }else {
-				    console.error("************* OS NOT SUPPORTED!!!!! ********************")
-			    }
-		    } else {
-			    if (process.platform === "linux") {
-				    grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL, '--pass', password,'check'])
-			    } else if(process.platform === "win32"){
-				    grinDaemon = spawn(appRootDir + process.platform + '\\grin', ['-r',NODE_URL,  '--pass', password,'check'])
-			    }else if(process.platform === "darwin"){
-				    grinDaemon = spawn(appRootDir + process.platform + '/grin-wallet', ['-r',NODE_URL, '--pass', password,'check'])
-			    }else{
-				    console.error("************* OS NOT SUPPORTED!!!!! ********************")
-			    }
-		    }
+        } else {
+            if (process.env.NODE_ENV === "development") {
+                if (process.platform === "linux") {
+                    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'check'])
+                } else if (process.platform === "win32") {
+                    console.log(tag, " checkpoint windows")
+                    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\grin-wallet', ['-r', NODE_URL, '--pass', password, 'check'])
+                } else if (process.platform === "darwin") {
+                    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'check'])
+                } else {
+                    console.error("************* OS NOT SUPPORTED!!!!! ********************")
+                }
+            } else {
+                if (process.platform === "linux") {
+                    grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'check'])
+                } else if (process.platform === "win32") {
+                    grinDaemon = spawn(appRootDir + process.platform + '\\grin-wallet', ['-r', NODE_URL, '--pass', password, 'check'])
+                } else if (process.platform === "darwin") {
+                    grinDaemon = spawn(appRootDir + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'check'])
+                } else {
+                    console.error("************* OS NOT SUPPORTED!!!!! ********************")
+                }
+            }
         }
 
 
         //return grinDaemon
-		    //resolve(grinDaemon)
+        //resolve(grinDaemon)
 
-		    grinDaemon.stdout.on('data', function (data) {
-		        let payload = data.toString()
-		        console.log('stdout: ' + payload)
-		        //progress
-                if(payload.indexOf("(Highest index:") >=0){
-                    //parse progress percentage
-                    var currentHeight = payload.substring(
-                            payload.lastIndexOf("(Highest index: "),
-                            payload.lastIndexOf(")")
-                    );
-                    currentHeight = currentHeight.replace("(Highest index: ","")
+        grinDaemon.stdout.on('data', function (data) {
+            let payload = data.toString()
+            console.log('stdout: ' + payload)
+            //progress
+            if (payload.indexOf("(Highest index:") >= 0) {
+                //parse progress percentage
+                var currentHeight = payload.substring(
+                    payload.lastIndexOf("(Highest index: "),
+                    payload.lastIndexOf(")")
+                );
+                currentHeight = currentHeight.replace("(Highest index: ", "")
 
-                    var maxHeight = payload.substring(
-                            payload.lastIndexOf(" up to index "),
-                            payload.lastIndexOf(". (Highest index: ")
-                    );
-                    maxHeight = maxHeight.replace(" up to index ","")
+                var maxHeight = payload.substring(
+                    payload.lastIndexOf(" up to index "),
+                    payload.lastIndexOf(". (Highest index: ")
+                );
+                maxHeight = maxHeight.replace(" up to index ", "")
 
-                    console.log(tag,"currentHeight: ",currentHeight)
-                    console.log(tag,"maxHeight: ",maxHeight)
-                    let percentage = parseInt(currentHeight)/parseInt(maxHeight) * 100
-                    context.counter = percentage
-                }
+                console.log(tag, "currentHeight: ", currentHeight)
+                console.log(tag, "maxHeight: ", maxHeight)
+                let percentage = parseInt(currentHeight) / parseInt(maxHeight) * 100
+                context.counter = percentage
+            }
 
-                //only show messages of inputs found!
-                if(payload.indexOf("(Highest index:") >=0 || payload.indexOf("scanning") >=0){
-                        //
-                }else{
-                    context.rescanProgess = payload
-                }
+            //only show messages of inputs found!
+            if (payload.indexOf("(Highest index:") >= 0 || payload.indexOf("scanning") >= 0) {
+                //
+            } else {
+                context.rescanProgess = payload
+            }
 
-		    })
+        })
 
-		    grinDaemon.stderr.on('data', function (data) {
-		        let payload = data.toString()
-		        console.error('stderr: ' + payload)
-		    })
+        grinDaemon.stderr.on('data', function (data) {
+            let payload = data.toString()
+            console.error('stderr: ' + payload)
+        })
 
-		    grinDaemon.on('exit', function (code) {
-		        console.log('child process exited with code ' + code.toString())
+        grinDaemon.on('exit', function (code) {
+            console.log('child process exited with code ' + code.toString())
 
-		        context.$refs.rescanWallet.hide()
-		        context.refresh()
+            context.$refs.rescanWallet.hide()
+            context.refresh()
             resolve(true)
-		    })
+        })
 
         // setTimeout(resolve, seconds*1000)
     })
 }
 
-const recoverWallet = function (password,seed,context) {
-	let debug = true
-	let tag = TAG + ' | recoverWallet | '
-	return new Promise(async (resolve, reject) => {
-		let output = {}
-		output.success = false
-		let grinDaemon
+const recoverWallet = function (password, seed, context) {
+    let debug = true
+    let tag = TAG + ' | recoverWallet | '
+    return new Promise(async (resolve, reject) => {
+        let output = {}
+        output.success = false
+        let grinDaemon
 
-		if(wallet713Enabled){
+        if (wallet713Enabled) {
 
-			try{
-				if(process.platform === "win32"){
-					await fs.mkdir(homedir + "\\.grin")
-					await fs.mkdir(homedir + "\\.grin\\main")
-				}else{
-					await fs.mkdir(homedir + "/.grin")
-					await fs.mkdir(homedir + "/.grin/main")
-				}
-			}catch(e){
+            try {
+                if (process.platform === "win32") {
+                    await fs.mkdir(homedir + "\\.grin")
+                    await fs.mkdir(homedir + "\\.grin\\main")
+                } else {
+                    await fs.mkdir(homedir + "/.grin")
+                    await fs.mkdir(homedir + "/.grin/main")
+                }
+            } catch (e) {
 
-			}
+            }
 
-			if (process.env.NODE_ENV === "development") {
-				console.log(tag,"DEV DETECTED!!! ******************8 ")
-				if (process.platform === "linux") {
-					grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/wallet713', ["-c",homedir+"/.grin/main/wallet713-commands.toml","-p",password])
-				} else if(process.platform === "darwin"){
-					grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/wallet713', ["-c",homedir+"/.grin/main/wallet713-commands.toml","-p",password])
-				}else if(process.platform === "win32"){
-					grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\wallet713', ["-c",homedir+"/.grin/main/wallet713-commands.toml","-p",password])
-				}
+            if (process.env.NODE_ENV === "development") {
+                console.log(tag, "DEV DETECTED!!! ******************8 ")
+                if (process.platform === "linux") {
+                    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/wallet713', ["-c", homedir + "/.grin/main/wallet713-commands.toml", "-p", password])
+                } else if (process.platform === "darwin") {
+                    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/wallet713', ["-c", homedir + "/.grin/main/wallet713-commands.toml", "-p", password])
+                } else if (process.platform === "win32") {
+                    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\wallet713', ["-c", homedir + "/.grin/main/wallet713-commands.toml", "-p", password])
+                }
 
-			} else {
-				if (process.platform === "linux") {
-					grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/wallet713', ["-c",homedir+"/.grin/main/wallet713-commands.toml","-p",password])
-				} else if(process.platform === "darwin") {
-					grinDaemon = spawn(appRootDir + process.platform + '/wallet713', ["-c",homedir+"/.grin/main/wallet713-commands.toml","-p",password])
-				}else if(process.platform === "win32"){
-					grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\wallet713', ["-c",homedir+"/.grin/main/wallet713-commands.toml","-p",password])
-				}
-			}
+            } else {
+                if (process.platform === "linux") {
+                    grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/wallet713', ["-c", homedir + "/.grin/main/wallet713-commands.toml", "-p", password])
+                } else if (process.platform === "darwin") {
+                    grinDaemon = spawn(appRootDir + process.platform + '/wallet713', ["-c", homedir + "/.grin/main/wallet713-commands.toml", "-p", password])
+                } else if (process.platform === "win32") {
+                    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\wallet713', ["-c", homedir + "/.grin/main/wallet713-commands.toml", "-p", password])
+                }
+            }
 
-			grinDaemon.stdout.on('data', function (data) {
-				let payload = data.toString()
-				if (debug) console.log('stdout: ' + payload)
-				response.push(payload)
-			})
+            grinDaemon.stdout.on('data', function (data) {
+                let payload = data.toString()
+                if (debug) console.log('stdout: ' + payload)
+                response.push(payload)
+            })
 
-			grinDaemon.stderr.on('data', function (data) {
-				let payload = data.toString()
-				if (debug) console.error('stderr: ' + payload)
-				response.push(payload)
-			})
+            grinDaemon.stderr.on('data', function (data) {
+                let payload = data.toString()
+                if (debug) console.error('stderr: ' + payload)
+                response.push(payload)
+            })
 
-			grinDaemon.on('exit', function (code) {
-				output.exit = code.toString()
-				if(output.exit === "0"){
+            grinDaemon.on('exit', function (code) {
+                output.exit = code.toString()
+                if (output.exit === "0") {
 
-					let responseAll = response.join(' ')
-					console.log("responseAll: ",responseAll)
-					// let pieces = responseAll.split('Please back-up these words in a non-digital format.')
-					// console.log("pieces: ",pieces)
+                    let responseAll = response.join(' ')
+                    console.log("responseAll: ", responseAll)
+                    // let pieces = responseAll.split('Please back-up these words in a non-digital format.')
+                    // console.log("pieces: ",pieces)
 
-					let seed = responseAll.substring(
-						responseAll.lastIndexOf("Your recovery phrase is:"),
-						responseAll.lastIndexOf("Please back-up these words in a non-digital format.")
-					);
-					seed = seed.replace("Your recovery phrase is:","")
+                    let seed = responseAll.substring(
+                        responseAll.lastIndexOf("Your recovery phrase is:"),
+                        responseAll.lastIndexOf("Please back-up these words in a non-digital format.")
+                    );
+                    seed = seed.replace("Your recovery phrase is:", "")
 
-					console.log("seed: ",seed)
-					seed = seed.split(" ")
-					console.log("seedArray: ",seed)
-
-
-					let address = responseAll.substring(
-						responseAll.lastIndexOf("[93mYour grinbox address[0m: ["),
-						responseAll.lastIndexOf("[0m")
-					);
-					console.log("address: ",address)
-					address = address.replace(/[^a-zA-Z0-9]/g, '');
-					console.log("address: ",address)
-					// address = address.replace("[93mYour grinbox address[0m: [","")
-					address = address.replace("93mYourgrinboxaddress0m","")
-					address = address.replace("0m36mwallet7130m94mUselistentoconnecttogrinboxorhelptoseeavailablecommands0m36mwallet713","")
-					address = address.replace("0m36mwallet713","") //0m36mwallet713
-					address = address.replace("0m94mUsehelptoseeavailablecommands","")//0m94mUsehelptoseeavailablecommands
-					address = address.replace("92m","")
-					console.log("address: ",address)
-
-					if(!seed[0] || seed.length > 24) seed.shift()
-
-					output.success = true
-					output.seed = seed
-					output.address = address
-					resolve(output)
-				}else if(output.exit === "1"){
-					console.error(tag,"error: ",output)
-					if(process.platform === "win32"){
-						//weird windows bug, leave open
-					}else{
-						resolve(output)
-					}
-				} else {
-					console.error(tag,"error: ",output)
-					throw Error("Not an exit code!")
-				}
-			})
-
-			let response = []
-			await timer(300);
-			grinDaemon.stdin.write("2")
-			console.log("****** stdin : ",grinDaemon.stdin)
-			grinDaemon.stdin.write('\r\n');
-			await timer(300);
-			grinDaemon.stdin.write(seed)
-			grinDaemon.stdin.write('\r\n');
-			await timer(300);
-			grinDaemon.stdin.write(password)
-			grinDaemon.stdin.write('\r\n');
-			grinDaemon.stdin.end();
+                    console.log("seed: ", seed)
+                    seed = seed.split(" ")
+                    console.log("seedArray: ", seed)
 
 
-		}else{
-			try{
-				if(process.platform === "win32"){
-					await fs.mkdir(homedir + "\\.grin")
-					await fs.mkdir(homedir + "\\.grin\\main")
-				}else{
-					await fs.mkdir(homedir + "/.grin")
-					await fs.mkdir(homedir + "/.grin/main")
-				}
-			}catch(e){
+                    let address = responseAll.substring(
+                        responseAll.lastIndexOf("[93mYour grinbox address[0m: ["),
+                        responseAll.lastIndexOf("[0m")
+                    );
+                    console.log("address: ", address)
+                    address = address.replace(/[^a-zA-Z0-9]/g, '');
+                    console.log("address: ", address)
+                    // address = address.replace("[93mYour grinbox address[0m: [","")
+                    address = address.replace("93mYourgrinboxaddress0m", "")
+                    address = address.replace("0m36mwallet7130m94mUselistentoconnecttogrinboxorhelptoseeavailablecommands0m36mwallet713", "")
+                    address = address.replace("0m36mwallet713", "") //0m36mwallet713
+                    address = address.replace("0m94mUsehelptoseeavailablecommands", "")//0m94mUsehelptoseeavailablecommands
+                    address = address.replace("92m", "")
+                    console.log("address: ", address)
 
-			}
-			console.log(tag,"CHECKPOINT")
+                    if (!seed[0] || seed.length > 24) seed.shift()
 
-			if (process.env.NODE_ENV === "development") {
-				if (process.platform === "linux") {
-					grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL, '--pass', password, 'init','-r'])
-				} else if(process.platform === "win32"){
-					console.log(tag," checkpoint windows")
-					grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\grin', ['-r',NODE_URL,'--pass', password, 'init','-r'])
-				}else if(process.platform === "darwin"){
-					grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL, '--pass', password, 'init','-r'])
-				}else {
-					console.error("************* OS NOT SUPPORTED!!!!! ********************")
-				}
-			} else {
-				if (process.platform === "linux") {
-					grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL, '--pass', password, 'init','-r'])
-				} else if(process.platform === "win32"){
-					grinDaemon = spawn(appRootDir + process.platform + '\\grin', ['-r',NODE_URL,'--pass', password, 'init','-r'])
-				}else if(process.platform === "darwin"){
-					grinDaemon = spawn(appRootDir + process.platform + '/grin-wallet', ['-r',NODE_URL, '--pass', password, 'init','-r'])
-				}else{
-					console.error("************* OS NOT SUPPORTED!!!!! ********************")
-				}
-			}
-			console.log(tag,"seed: ",seed)
-			console.log(tag,"seed: ",typeof(seed))
-			console.log(tag,"grinDaemon: ",grinDaemon)
+                    output.success = true
+                    output.seed = seed
+                    output.address = address
+                    resolve(output)
+                } else if (output.exit === "1") {
+                    console.error(tag, "error: ", output)
+                    if (process.platform === "win32") {
+                        //weird windows bug, leave open
+                    } else {
+                        resolve(output)
+                    }
+                } else {
+                    console.error(tag, "error: ", output)
+                    throw Error("Not an exit code!")
+                }
+            })
 
-
-			grinDaemon.stdin.write(seed)
-			await timer(300);
-			//grinDaemon.stdin.write('\r\n');
-			//grinDaemon.stdin.end();
-
-			let count = 0
-			const response = []
-			grinDaemon.stdout.on('data', function (data) {
-				let payload = data.toString()
-				if(debug) console.log(tag,"payload: ",payload)
-				response.push(payload)
-			})
-
-			grinDaemon.stderr.on('data', function (data) {
-				let payload = data.toString()
-				response.push(payload)
-			})
-
-			grinDaemon.on('exit', function (code) {
-				if (debug) console.log('child process exited with code ' + code.toString())
-
-				output.exit = code.toString()
-
-				//if exit code 0 success
-				if(output.exit === "0"){
-
-					let responseAll = response.join(' ')
-					console.log("responseAll: ",responseAll)
-					// let pieces = responseAll.split('Please back-up these words in a non-digital format.')
-					// console.log("pieces: ",pieces)
-
-					var seed = responseAll.substring(
-						responseAll.lastIndexOf("Your recovery phrase is:"),
-						responseAll.lastIndexOf("Please back-up these words in a non-digital format.")
-					);
-					seed = seed.replace("Your recovery phrase is:","")
-
-					console.log("seed: ",seed)
-					seed = seed.split(" ")
-					console.log("seedArray: ",seed)
-
-					output.success = true
-					output.seed = seed
-					resolve(output)
-				}else if(output.exit === "1"){
-					console.error(tag,"error: ",output)
-					if(process.platform === "win32"){
-						//weird windows bug, leave open
-					}else{
-						resolve(output)
-					}
-
-				} else {
-					console.error(tag,"error: ",output)
-					throw Error("Not an exit code!")
-				}
-
-			})
-		}
+            let response = []
+            await timer(300);
+            grinDaemon.stdin.write("2")
+            console.log("****** stdin : ", grinDaemon.stdin)
+            grinDaemon.stdin.write('\r\n');
+            await timer(300);
+            grinDaemon.stdin.write(seed)
+            grinDaemon.stdin.write('\r\n');
+            await timer(300);
+            grinDaemon.stdin.write(password)
+            grinDaemon.stdin.write('\r\n');
+            grinDaemon.stdin.end();
 
 
-		// setTimeout(resolve, seconds*1000)
-	})
+        } else {
+            try {
+                if (process.platform === "win32") {
+                    await fs.mkdir(homedir + "\\.grin")
+                    await fs.mkdir(homedir + "\\.grin\\main")
+                } else {
+                    await fs.mkdir(homedir + "/.grin")
+                    await fs.mkdir(homedir + "/.grin/main")
+                }
+            } catch (e) {
+
+            }
+            console.log(tag, "CHECKPOINT")
+
+            if (process.env.NODE_ENV === "development") {
+                if (process.platform === "linux") {
+                    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'init', '-r'])
+                } else if (process.platform === "win32") {
+                    console.log(tag, " checkpoint windows")
+                    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\grin-wallet', ['-r', NODE_URL, '--pass', password, 'init', '-r'])
+                } else if (process.platform === "darwin") {
+                    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'init', '-r'])
+                } else {
+                    console.error("************* OS NOT SUPPORTED!!!!! ********************")
+                }
+            } else {
+                if (process.platform === "linux") {
+                    grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'init', '-r'])
+                } else if (process.platform === "win32") {
+                    grinDaemon = spawn(appRootDir + process.platform + '\\grin-wallet', ['-r', NODE_URL, '--pass', password, 'init', '-r'])
+                } else if (process.platform === "darwin") {
+                    grinDaemon = spawn(appRootDir + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'init', '-r'])
+                } else {
+                    console.error("************* OS NOT SUPPORTED!!!!! ********************")
+                }
+            }
+            console.log(tag, "seed: ", seed)
+            console.log(tag, "seed: ", typeof (seed))
+            console.log(tag, "grinDaemon: ", grinDaemon)
+
+
+            grinDaemon.stdin.write(seed)
+            await timer(300);
+            //grinDaemon.stdin.write('\r\n');
+            //grinDaemon.stdin.end();
+
+            let count = 0
+            const response = []
+            grinDaemon.stdout.on('data', function (data) {
+                let payload = data.toString()
+                if (debug) console.log(tag, "payload: ", payload)
+                response.push(payload)
+            })
+
+            grinDaemon.stderr.on('data', function (data) {
+                let payload = data.toString()
+                response.push(payload)
+            })
+
+            grinDaemon.on('exit', function (code) {
+                if (debug) console.log('child process exited with code ' + code.toString())
+
+                output.exit = code.toString()
+
+                //if exit code 0 success
+                if (output.exit === "0") {
+
+                    let responseAll = response.join(' ')
+                    console.log("responseAll: ", responseAll)
+                    // let pieces = responseAll.split('Please back-up these words in a non-digital format.')
+                    // console.log("pieces: ",pieces)
+
+                    var seed = responseAll.substring(
+                        responseAll.lastIndexOf("Your recovery phrase is:"),
+                        responseAll.lastIndexOf("Please back-up these words in a non-digital format.")
+                    );
+                    seed = seed.replace("Your recovery phrase is:", "")
+
+                    console.log("seed: ", seed)
+                    seed = seed.split(" ")
+                    console.log("seedArray: ", seed)
+
+                    output.success = true
+                    output.seed = seed
+                    resolve(output)
+                } else if (output.exit === "1") {
+                    console.error(tag, "error: ", output)
+                    if (process.platform === "win32") {
+                        //weird windows bug, leave open
+                    } else {
+                        resolve(output)
+                    }
+
+                } else {
+                    console.error(tag, "error: ", output)
+                    throw Error("Not an exit code!")
+                }
+
+            })
+        }
+
+
+        // setTimeout(resolve, seconds*1000)
+    })
 }
 
 let detectTuiOn = async function () {
@@ -1652,71 +1608,69 @@ const sendGrin = function (password, dest, amount) {
     let tag = TAG + " | sendGrin | "
     return new Promise(async (resolve, reject) => {
         let sendingEvents = []
-        console.log(tag," checkpoint1")
+        console.log(tag, " checkpoint1")
 
         let grinDaemon
 
-	    if(wallet713Enabled){
-		    if (process.env.NODE_ENV === "development") {
-			    if (process.platform === "linux") {
-				    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/wallet713common', ["-c",homedir+"/.grin/main/wallet713-send.toml","-p",password])
-			    } else if(process.platform === "win32"){
-				    console.log(tag," checkpoint windows")
-				    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\wallet713common', ["-c",homedir+"\\.grin\\main\\wallet713-send.toml","-p",password])
-			    }else if(process.platform === "darwin"){
-				    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/wallet713common', ["-c",homedir+"/.grin/main/wallet713-send.toml","-p",password])
-			    }else {
-				    console.error("************* OS NOT SUPPORTED!!!!! ********************")
-			    }
-		    } else {
-			    if (process.platform === "linux") {
-				    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/wallet713common', ["-c",homedir+"/.grin/main/wallet713-send.toml","-p",password])
-			    } else if(process.platform === "win32"){
-			        grinDaemon = spawn(appRootDir + process.platform + '\\wallet713common', ["-c",homedir+"\\.grin\\main\\wallet713-send.toml","-p",password])
-			    }else if(process.platform === "darwin"){
-					 grinDaemon = spawn(appRootDir + process.platform + '/wallet713common', ["-c",homedir+"/.grin/main/wallet713-send.toml","-p",password])
-			    }else{
-				    console.error("************* OS NOT SUPPORTED!!!!! ********************")
-			    }
-		    }
-		    console.log(tag,"command: ","send "+amount+" --to ",dest)
+        if (wallet713Enabled) {
+            if (process.env.NODE_ENV === "development") {
+                if (process.platform === "linux") {
+                    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/wallet713common', ["-c", homedir + "/.grin/main/wallet713-send.toml", "-p", password])
+                } else if (process.platform === "win32") {
+                    console.log(tag, " checkpoint windows")
+                    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\wallet713common', ["-c", homedir + "\\.grin\\main\\wallet713-send.toml", "-p", password])
+                } else if (process.platform === "darwin") {
+                    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/wallet713common', ["-c", homedir + "/.grin/main/wallet713-send.toml", "-p", password])
+                } else {
+                    console.error("************* OS NOT SUPPORTED!!!!! ********************")
+                }
+            } else {
+                if (process.platform === "linux") {
+                    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/wallet713common', ["-c", homedir + "/.grin/main/wallet713-send.toml", "-p", password])
+                } else if (process.platform === "win32") {
+                    grinDaemon = spawn(appRootDir + process.platform + '\\wallet713common', ["-c", homedir + "\\.grin\\main\\wallet713-send.toml", "-p", password])
+                } else if (process.platform === "darwin") {
+                    grinDaemon = spawn(appRootDir + process.platform + '/wallet713common', ["-c", homedir + "/.grin/main/wallet713-send.toml", "-p", password])
+                } else {
+                    console.error("************* OS NOT SUPPORTED!!!!! ********************")
+                }
+            }
+            console.log(tag, "command: ", "send " + amount + " --to ", dest)
 
-		    await timer(200);
-		    grinDaemon.stdin.write("listen")
-		    grinDaemon.stdin.write("\r\n")
-		    await timer(1000);
-		    grinDaemon.stdin.write("send "+amount+" --to "+dest)
-		    grinDaemon.stdin.write("\r")
-		    await timer(300);
-		    grinDaemon.stdin.end();
+            await timer(200);
+            grinDaemon.stdin.write("listen")
+            grinDaemon.stdin.write("\r\n")
+            await timer(1000);
+            grinDaemon.stdin.write("send " + amount + " --to " + dest)
+            grinDaemon.stdin.write("\r")
+            await timer(300);
+            grinDaemon.stdin.end();
 
-        }else{
-		    if (process.env.NODE_ENV === "development") {
-			    if (process.platform === "linux") {
-					grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL,'--pass', password, 'send', '-d', dest, amount])
-			    } else if(process.platform === "win32"){
-				    console.log(tag," checkpoint windows")
-				    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\grin-wallet', ['-r',NODE_URL, '--pass', password, 'send', '-d', dest, amount])
-			    }else if(process.platform === "darwin"){
-					    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL, '--pass', password, 'send', '-d', dest, amount])
-			    }else {
-				    console.error("************* OS NOT SUPPORTED!!!!! ********************")
-			    }
-		    } else {
-			    if (process.platform === "linux") {
-				    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL, '--pass', password, 'send', '-d', dest, amount])
+        } else {
+            if (process.env.NODE_ENV === "development") {
+                if (process.platform === "linux") {
+                    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'send', '-d', dest, amount])
+                } else if (process.platform === "win32") {
+                    console.log(tag, " checkpoint windows")
+                    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\grin-wallet', ['-r', NODE_URL, '--pass', password, 'send', '-d', dest, amount])
+                } else if (process.platform === "darwin") {
+                    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'send', '-d', dest, amount])
+                } else {
+                    console.error("************* OS NOT SUPPORTED!!!!! ********************")
+                }
+            } else {
+                if (process.platform === "linux") {
+                    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'send', '-d', dest, amount])
 
-			    } else if(process.platform === "win32"){
-				    grinDaemon = spawn(appRootDir + process.platform + '\\grin-wallet', ['-r',NODE_URL,  '--pass', password,'send', '-d', dest, amount])
-			    }else if(process.platform === "darwin"){
-					grinDaemon = spawn(appRootDir + process.platform + '/grin-wallet', [,'--pass', password,'send', '-d', dest, amount])
-			    }else{
-				    console.error("************* OS NOT SUPPORTED!!!!! ********************")
-			    }
-		    }
+                } else if (process.platform === "win32") {
+                    grinDaemon = spawn(appRootDir + process.platform + '\\grin-wallet', ['-r', NODE_URL, '--pass', password, 'send', '-d', dest, amount])
+                } else if (process.platform === "darwin") {
+                    grinDaemon = spawn(appRootDir + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'send', '-d', dest, amount])
+                } else {
+                    console.error("************* OS NOT SUPPORTED!!!!! ********************")
+                }
+            }
         }
-
-
 
 
         let output = {}
@@ -1730,7 +1684,7 @@ const sendGrin = function (password, dest, amount) {
         grinDaemon.stderr.on('data', function (data) {
             let payload = data.toString()
             console.error('stderr: ' + payload)
-            sendingEvents.push('stderr: ' +data.toString())
+            sendingEvents.push('stderr: ' + data.toString())
             // if fatal
 
             // resolve error
@@ -1738,30 +1692,30 @@ const sendGrin = function (password, dest, amount) {
 
         grinDaemon.on('exit', function (code) {
             console.log('child process exited with code ' + code.toString())
-	        console.log(tag,' Send Result: ' , output)
-            if(code === 0){
+            console.log(tag, ' Send Result: ', output)
+            if (code === 0) {
 
-            	//indexof
-	            // sendingEvents = sendingEvents.join(' ')
-	            // if(sendingEvents.indexOf("Not enough funds.") >= 0){
-	            // 	output.message = "Not enough available funds! "
-	            // } else if(sendingEvents.indexOf("grins sent successfully to") >= 0){
-	            // 	//grins sent successfully to
-		         //    output.success = true
-		         //    output.message = "sent "+amount+" GRIN successfully to "+dest+"!"
-	            // }else if(sendingEvents.indexOf("could not parse") >= 0){
-		         //    //grins sent successfully to
-		         //    // output.success = true
-		         //    output.message = "Invalid address!"
-	            // }else{
-	            // 	//
-		         //    console.error("Unhandled sending result!")
-		         //    output.logs = sendingEvents
-	            // }
+                //indexof
+                // sendingEvents = sendingEvents.join(' ')
+                // if(sendingEvents.indexOf("Not enough funds.") >= 0){
+                // 	output.message = "Not enough available funds! "
+                // } else if(sendingEvents.indexOf("grins sent successfully to") >= 0){
+                // 	//grins sent successfully to
+                //    output.success = true
+                //    output.message = "sent "+amount+" GRIN successfully to "+dest+"!"
+                // }else if(sendingEvents.indexOf("could not parse") >= 0){
+                //    //grins sent successfully to
+                //    // output.success = true
+                //    output.message = "Invalid address!"
+                // }else{
+                // 	//
+                //    console.error("Unhandled sending result!")
+                //    output.logs = sendingEvents
+                // }
 
-	            output.success = true
-	            output.message = "sent "+amount+" GRIN successfully to "+dest+"!"
-            } else{
+                output.success = true
+                output.message = "sent " + amount + " GRIN successfully to " + dest + "!"
+            } else {
                 output.code = code.toString()
                 output.message = "See logfile for more information!"
                 output.events = sendingEvents
@@ -1779,74 +1733,70 @@ let deleteChainData = async function () {
     let tag = " | turnOffTui | "
     try {
         //stop grin daemons
-        let child = spawn('pkill',['grin']);
+        let child = spawn('pkill', ['grin']);
 
 
+        if (wallet713Enabled) {
+            if (process.platform === "win32") {
+                //
+                let configPath = homedir + "\\.grin\\main\\chain_data"
+                let success = await fs.remove(configPath)
 
-	    if(wallet713Enabled){
-		    if(process.platform === "win32"){
-			    //
-			    let configPath = homedir+"\\.grin\\main\\chain_data"
-			    let success = await fs.remove(configPath)
+                let walletdb = homedir + "\\.grin\\main\\wallet713_data\\db"
+                let success2 = await fs.remove(walletdb)
 
-			    let walletdb = homedir+"\\.grin\\main\\wallet713_data\\db"
-			    let success2 = await fs.remove(walletdb)
+                let wallettxs = homedir + "\\.grin\\main\\saved_txs"
+                let success3 = await fs.remove(wallettxs)
 
-			    let wallettxs = homedir+"\\.grin\\main\\saved_txs"
-			    let success3 = await fs.remove(wallettxs)
+                console.log(success)
+                console.log(success2)
+                console.log(success3)
+            } else {
+                //
+                let configPath = homedir + "/.grin/main/chain_data"
+                let success = await fs.remove(configPath)
 
-			    console.log(success)
-			    console.log(success2)
-			    console.log(success3)
-		    }else{
-			    //
-			    let configPath = homedir+"/.grin/main/chain_data"
-			    let success = await fs.remove(configPath)
+                let walletdb = homedir + "/.grin/main/wallet713_data/db"
+                let success2 = await fs.remove(walletdb)
 
-			    let walletdb = homedir+"/.grin/main/wallet713_data/db"
-			    let success2 = await fs.remove(walletdb)
+                let wallettxs = homedir + "/.grin/main/saved_txs"
+                let success3 = await fs.remove(wallettxs)
 
-			    let wallettxs = homedir+"/.grin/main/saved_txs"
-			    let success3 = await fs.remove(wallettxs)
+                console.log(success)
+                console.log(success2)
+                console.log(success3)
+            }
+        } else {
+            if (process.platform === "win32") {
+                //
+                let configPath = homedir + "\\.grin\\main\\chain_data"
+                let success = await fs.remove(configPath)
 
-			    console.log(success)
-			    console.log(success2)
-			    console.log(success3)
-		    }
-        }else{
-		    if(process.platform === "win32"){
-			    //
-			    let configPath = homedir+"\\.grin\\main\\chain_data"
-			    let success = await fs.remove(configPath)
+                let walletdb = homedir + "\\.grin\\main\\wallet_data\\db"
+                let success2 = await fs.remove(walletdb)
 
-			    let walletdb = homedir+"\\.grin\\main\\wallet_data\\db"
-			    let success2 = await fs.remove(walletdb)
+                let wallettxs = homedir + "\\.grin\\main\\saved_txs"
+                let success3 = await fs.remove(wallettxs)
 
-			    let wallettxs = homedir+"\\.grin\\main\\saved_txs"
-			    let success3 = await fs.remove(wallettxs)
+                console.log(success)
+                console.log(success2)
+                console.log(success3)
+            } else {
+                //
+                let configPath = homedir + "/.grin/main/chain_data"
+                let success = await fs.remove(configPath)
 
-			    console.log(success)
-			    console.log(success2)
-			    console.log(success3)
-		    }else{
-			    //
-			    let configPath = homedir+"/.grin/main/chain_data"
-			    let success = await fs.remove(configPath)
+                let walletdb = homedir + "/.grin/main/wallet_data/db"
+                let success2 = await fs.remove(walletdb)
 
-			    let walletdb = homedir+"/.grin/main/wallet_data/db"
-			    let success2 = await fs.remove(walletdb)
+                let wallettxs = homedir + "/.grin/main/saved_txs"
+                let success3 = await fs.remove(wallettxs)
 
-			    let wallettxs = homedir+"/.grin/main/saved_txs"
-			    let success3 = await fs.remove(wallettxs)
-
-			    console.log(success)
-			    console.log(success2)
-			    console.log(success3)
-		    }
+                console.log(success)
+                console.log(success2)
+                console.log(success3)
+            }
         }
-
-
-
 
 
         return true
@@ -1861,61 +1811,61 @@ let deleteWalletConfigs = async function () {
     let tag = " | turnOffTui | "
     try {
         //stop grin daemons
-        let child = spawn('pkill',['grin']);
+        let child = spawn('pkill', ['grin']);
 
 
-	    if(wallet713Enabled){
-		    if(process.platform === "win32"){
-			    //
-			    //TODO
-			    let configPath = homedir+"\\.grin\\main\\grin-server.toml"
-			    let success = await fs.remove(configPath)
+        if (wallet713Enabled) {
+            if (process.platform === "win32") {
+                //
+                //TODO
+                let configPath = homedir + "\\.grin\\main\\grin-server.toml"
+                let success = await fs.remove(configPath)
 
-			    let walletdb = homedir+"\\.grin\\main\\grin-wallet.toml"
-			    let success2 = await fs.remove(walletdb)
+                let walletdb = homedir + "\\.grin\\main\\grin-wallet.toml"
+                let success2 = await fs.remove(walletdb)
 
-			    console.log(success)
-			    console.log(success2)
+                console.log(success)
+                console.log(success2)
 
-		    }else{
-			    //
-			    //TODO
-			    let configPath = homedir+"/.grin/main/grin-server.toml"
-			    let success = await fs.remove(configPath)
+            } else {
+                //
+                //TODO
+                let configPath = homedir + "/.grin/main/grin-server.toml"
+                let success = await fs.remove(configPath)
 
-			    let walletdb = homedir+"/.grin/main/grin-wallet.toml"
-			    let success2 = await fs.remove(walletdb)
+                let walletdb = homedir + "/.grin/main/grin-wallet.toml"
+                let success2 = await fs.remove(walletdb)
 
-			    console.log(success)
-			    console.log(success2)
+                console.log(success)
+                console.log(success2)
 
-		    }
-        }else{
-		    if(process.platform === "win32"){
-			    //
-			    //TODO
-			    let configPath = homedir+"\\.grin\\main\\grin-server.toml"
-			    let success = await fs.remove(configPath)
+            }
+        } else {
+            if (process.platform === "win32") {
+                //
+                //TODO
+                let configPath = homedir + "\\.grin\\main\\grin-server.toml"
+                let success = await fs.remove(configPath)
 
-			    let walletdb = homedir+"\\.grin\\main\\grin-wallet.toml"
-			    let success2 = await fs.remove(walletdb)
+                let walletdb = homedir + "\\.grin\\main\\grin-wallet.toml"
+                let success2 = await fs.remove(walletdb)
 
-			    console.log(success)
-			    console.log(success2)
+                console.log(success)
+                console.log(success2)
 
-		    }else{
-			    //
-			    //TODO
-			    let configPath = homedir+"/.grin/main/grin-server.toml"
-			    let success = await fs.remove(configPath)
+            } else {
+                //
+                //TODO
+                let configPath = homedir + "/.grin/main/grin-server.toml"
+                let success = await fs.remove(configPath)
 
-			    let walletdb = homedir+"/.grin/main/grin-wallet.toml"
-			    let success2 = await fs.remove(walletdb)
+                let walletdb = homedir + "/.grin/main/grin-wallet.toml"
+                let success2 = await fs.remove(walletdb)
 
-			    console.log(success)
-			    console.log(success2)
+                console.log(success)
+                console.log(success2)
 
-		    }
+            }
         }
 
 
@@ -1944,13 +1894,13 @@ let playChingle = async function () {
 
         } else {
             if (process.platform === "linux") {
-                audio = new Audio(appRootDir+'executables/chaching.mp3');
-            } else if(process.platform === "darwin"){
-                audio = new Audio(appRootDir+'chaching.mp3');
-            } else if(process.platform === "win32"){
-                audio = new Audio(appRootDir+'chaching.mp3');
-            }else{
-                console.error("*** OS NOT SUPPORTED **** ",process.platform)
+                audio = new Audio(appRootDir + 'executables/chaching.mp3');
+            } else if (process.platform === "darwin") {
+                audio = new Audio(appRootDir + 'chaching.mp3');
+            } else if (process.platform === "win32") {
+                audio = new Audio(appRootDir + 'chaching.mp3');
+            } else {
+                console.error("*** OS NOT SUPPORTED **** ", process.platform)
             }
         }
         audio.play();
@@ -1968,186 +1918,186 @@ let writeConfigFileWallet = async function (apiKey) {
     try {
 
         let output
-        if(!apiKey) throw Error("101 tried to make a config file without an apiKey!")
+        if (!apiKey) throw Error("101 tried to make a config file without an apiKey!")
 
-        if(wallet713Enabled){
-	        output = "chain = \"Mainnet\"\n" +
-		        "wallet713_data_path = \"wallet713_data\"\n" +
-		        "grinbox_domain = \"grinbox.io\"\n" +
-		        "grinbox_listener_auto_start = true\n" +
-		        "default_keybase_ttl = \"24h\"\n" +
-		        "owner_api = true\n" +
-		        "owner_api_address = \"127.0.0.1:3420\"\n" +
-		        "owner_api_secret = \""+apiKey+"\"\n" +
-		        "foreign_api = true\n" +
-		        "foreign_api_address = \"0.0.0.0:3415\"\n"
+        if (wallet713Enabled) {
+            output = "chain = \"Mainnet\"\n" +
+                "wallet713_data_path = \"wallet713_data\"\n" +
+                "grinbox_domain = \"grinbox.io\"\n" +
+                "grinbox_listener_auto_start = true\n" +
+                "default_keybase_ttl = \"24h\"\n" +
+                "owner_api = true\n" +
+                "owner_api_address = \"127.0.0.1:3420\"\n" +
+                "owner_api_secret = \"" + apiKey + "\"\n" +
+                "foreign_api = true\n" +
+                "foreign_api_address = \"0.0.0.0:3415\"\n"
 
-	        let outputCommand = "chain = \"Mainnet\"\n" +
-		        "wallet713_data_path = \"wallet713_data\"\n" +
-		        "grinbox_domain = \"grinbox.io\"\n" +
-		        "grinbox_listener_auto_start = false\n" +
-		        "default_keybase_ttl = \"24h\"\n" +
-		        "owner_api = false\n" +
-		        "owner_api_address = \"127.0.0.1:3420\"\n" +
-		        "owner_api_secret = \""+apiKey+"\"\n" +
-		        "foreign_api = false\n" +
-		        "foreign_api_address = \"0.0.0.0:3415\"\n"
+            let outputCommand = "chain = \"Mainnet\"\n" +
+                "wallet713_data_path = \"wallet713_data\"\n" +
+                "grinbox_domain = \"grinbox.io\"\n" +
+                "grinbox_listener_auto_start = false\n" +
+                "default_keybase_ttl = \"24h\"\n" +
+                "owner_api = false\n" +
+                "owner_api_address = \"127.0.0.1:3420\"\n" +
+                "owner_api_secret = \"" + apiKey + "\"\n" +
+                "foreign_api = false\n" +
+                "foreign_api_address = \"0.0.0.0:3415\"\n"
 
-	        let outputSend = "chain = \"Mainnet\"\n" +
-		        "wallet713_data_path = \"wallet713_data\"\n" +
-		        "grinbox_domain = \"grinbox.io\"\n" +
-		        "grinbox_listener_auto_start = true\n" +
-		        "default_keybase_ttl = \"24h\"\n" +
-		        "owner_api = false\n" +
-		        "owner_api_address = \"127.0.0.1:3420\"\n" +
-		        "owner_api_secret = \""+apiKey+"\"\n" +
-		        "foreign_api = false\n" +
-		        "foreign_api_address = \"0.0.0.0:3415\"\n"
+            let outputSend = "chain = \"Mainnet\"\n" +
+                "wallet713_data_path = \"wallet713_data\"\n" +
+                "grinbox_domain = \"grinbox.io\"\n" +
+                "grinbox_listener_auto_start = true\n" +
+                "default_keybase_ttl = \"24h\"\n" +
+                "owner_api = false\n" +
+                "owner_api_address = \"127.0.0.1:3420\"\n" +
+                "owner_api_secret = \"" + apiKey + "\"\n" +
+                "foreign_api = false\n" +
+                "foreign_api_address = \"0.0.0.0:3415\"\n"
 
 
-	        try{
-		        await fs.mkdir(process.env.HOME + "/.grin")
-		        await fs.mkdir(process.env.HOME + "/.grin/main")
-	        }catch(e){
-	        }
-	        //overwrite to disk
-	        let result
-	        let result2
-	        let result3
-	        if(process.platform === "win32"){
-		        result3 = await fs.writeFile(homedir+"\\.grin\\main\\wallet713-commands.toml",outputCommand)
-		        result2 = await fs.writeFile(homedir+"\\.grin\\main\\wallet713-send.toml",outputSend)
-		        result = await fs.writeFile(homedir+"\\.grin\\main\\wallet713.toml",output)
-	        }else{
-		        result2 = await fs.writeFile(homedir+"/.grin/main/wallet713-commands.toml",outputCommand)
-		        result3 = await fs.writeFile(homedir+"/.grin/main/wallet713-send.toml",outputCommand)
-		        result = await fs.writeFile(homedir+"/.grin/main/wallet713.toml",output)
-	        }
-	        console.log(tag,result)
-	        console.log(tag,result2)
-	        console.log(tag,result3)
-        }else{
-	        if(process.platform === "win32"){
-		        homedir = homedir.replace(/\\/g,'\\\\')
+            try {
+                await fs.mkdir(process.env.HOME + "/.grin")
+                await fs.mkdir(process.env.HOME + "/.grin/main")
+            } catch (e) {
+            }
+            //overwrite to disk
+            let result
+            let result2
+            let result3
+            if (process.platform === "win32") {
+                result3 = await fs.writeFile(homedir + "\\.grin\\main\\wallet713-commands.toml", outputCommand)
+                result2 = await fs.writeFile(homedir + "\\.grin\\main\\wallet713-send.toml", outputSend)
+                result = await fs.writeFile(homedir + "\\.grin\\main\\wallet713.toml", output)
+            } else {
+                result2 = await fs.writeFile(homedir + "/.grin/main/wallet713-commands.toml", outputCommand)
+                result3 = await fs.writeFile(homedir + "/.grin/main/wallet713-send.toml", outputCommand)
+                result = await fs.writeFile(homedir + "/.grin/main/wallet713.toml", output)
+            }
+            console.log(tag, result)
+            console.log(tag, result2)
+            console.log(tag, result3)
+        } else {
+            if (process.platform === "win32") {
+                homedir = homedir.replace(/\\/g, '\\\\')
 
-		        output = "\n" +
-			        "#########################################\n" +
-			        "### WALLET CONFIGURATION              ###\n" +
-			        "#########################################\n" +
-			        "[wallet]\n" +
-			        "chain_type = \"Mainnet\"\n" +
-			        "\n" +
-			        "#host IP for wallet listener, change to \"0.0.0.0\" to receive grins\n" +
-			        "api_listen_interface = \"0.0.0.0\"\n" +
-			        "\n" +
-			        "#path of TLS certificate file, self-signed certificates are not supported\n" +
-			        "#tls_certificate_file = \"\"\n" +
-			        "#private key for the TLS certificate\n" +
-			        "#tls_certificate_key = \"\"\n" +
-			        "\n" +
-			        "#port for wallet listener\n" +
-			        "api_listen_port = 3415\n" +
-			        "\n" +
-			        "#port for wallet owner api\n" +
-			        "owner_api_listen_port = 3420\n" +
-			        "\n" +
-			        "#path of the secret token used by the API to authenticate the calls\n" +
-			        "#comment it to disable basic auth\n" +
-			        "api_secret_path = \""+ homedir +"\\\\.grin\\\\main\\\\.api_secret\"\n" +
-			        "\n" +
-			        "#location of the node api secret for basic auth on the Grin API\n" +
-			        "node_api_secret_path = \""+homedir+"\\\\.grin\\\\main\\\\.api_secret\"\n" +
-			        "\n" +
-			        "#where the wallet should find a running node\n" +
-			        "check_node_api_http_addr = \"http://node.niffler.org:3413\"\n" +
-			        "\n" +
-			        "#include the foreign API endpoints on the same port as the owner\n" +
-			        "#API. Useful for networking environments like AWS ECS that make\n" +
-			        "#it difficult to access multiple ports on a single service.\n" +
-			        "owner_api_include_foreign = false\n" +
-			        "\n" +
-			        "#where to find wallet files (seed, data, etc)\n" +
-			        "data_file_dir = \""+homedir+"\\\\.grin\\\\main\\\\wallet_data\"\n" +
-			        "\n" +
-			        "#If true, don't store calculated commits in the database\n" +
-			        "#better privacy, but at a performance cost of having to\n" +
-			        "#re-calculate commits every time they're used\n" +
-			        "no_commit_cache = false\n" +
-			        "\n" +
-			        "#Whether to use the black background color scheme for command line\n" +
-			        "dark_background_color_scheme = true\n" +
-			        "\n" +
-			        "#The exploding lifetime for keybase notification on coins received.\n" +
-			        "#Unit: Minute. Default value 1440 minutes for one day.\n" +
-			        "#Refer to https://keybase.io/blog/keybase-exploding-messages for detail.\n" +
-			        "#To disable this notification, set it as 0.\n" +
-			        "keybase_notify_ttl = 1440\n" +
-			        "\n" +
-			        "\n" +
-			        "#########################################\n" +
-			        "### LOGGING CONFIGURATION             ###\n" +
-			        "#########################################\n" +
-			        "[logging]\n" +
-			        "\n" +
-			        "#whether to log to stdout\n" +
-			        "log_to_stdout = true\n" +
-			        "\n" +
-			        "#log level for stdout: Error, Warning, Info, Debug, Trace\n" +
-			        "stdout_log_level = \"Warning\"\n" +
-			        "\n" +
-			        "#whether to log to a file\n" +
-			        "log_to_file = true\n" +
-			        "\n" +
-			        "#log level for file: Error, Warning, Info, Debug, Trace\n" +
-			        "file_log_level = \"Info\"\n" +
-			        "\n" +
-			        "#log file path\n" +
-			        "log_file_path = \""+homedir+"\\\\.grin\\\\main\\\\grin-wallet.log\"\n" +
-			        "\n" +
-			        "#whether to append to the log file (true), or replace it on every run (false)\n" +
-			        "log_file_append = true\n" +
-			        "\n" +
-			        "#maximum log file size in bytes before performing log rotation\n" +
-			        "#comment it to disable log rotation\n" +
-			        "log_max_size = 16777216\n" +
-			        "\n"
+                output = "\n" +
+                    "#########################################\n" +
+                    "### WALLET CONFIGURATION              ###\n" +
+                    "#########################################\n" +
+                    "[wallet]\n" +
+                    "chain_type = \"Mainnet\"\n" +
+                    "\n" +
+                    "#host IP for wallet listener, change to \"0.0.0.0\" to receive grins\n" +
+                    "api_listen_interface = \"0.0.0.0\"\n" +
+                    "\n" +
+                    "#path of TLS certificate file, self-signed certificates are not supported\n" +
+                    "#tls_certificate_file = \"\"\n" +
+                    "#private key for the TLS certificate\n" +
+                    "#tls_certificate_key = \"\"\n" +
+                    "\n" +
+                    "#port for wallet listener\n" +
+                    "api_listen_port = 3415\n" +
+                    "\n" +
+                    "#port for wallet owner api\n" +
+                    "owner_api_listen_port = 3420\n" +
+                    "\n" +
+                    "#path of the secret token used by the API to authenticate the calls\n" +
+                    "#comment it to disable basic auth\n" +
+                    "api_secret_path = \"" + homedir + "\\\\.grin\\\\main\\\\.api_secret\"\n" +
+                    "\n" +
+                    "#location of the node api secret for basic auth on the Grin API\n" +
+                    "node_api_secret_path = \"" + homedir + "\\\\.grin\\\\main\\\\.api_secret\"\n" +
+                    "\n" +
+                    "#where the wallet should find a running node\n" +
+                    "check_node_api_http_addr = \"http://node.niffler.org:3413\"\n" +
+                    "\n" +
+                    "#include the foreign API endpoints on the same port as the owner\n" +
+                    "#API. Useful for networking environments like AWS ECS that make\n" +
+                    "#it difficult to access multiple ports on a single service.\n" +
+                    "owner_api_include_foreign = false\n" +
+                    "\n" +
+                    "#where to find wallet files (seed, data, etc)\n" +
+                    "data_file_dir = \"" + homedir + "\\\\.grin\\\\main\\\\wallet_data\"\n" +
+                    "\n" +
+                    "#If true, don't store calculated commits in the database\n" +
+                    "#better privacy, but at a performance cost of having to\n" +
+                    "#re-calculate commits every time they're used\n" +
+                    "no_commit_cache = false\n" +
+                    "\n" +
+                    "#Whether to use the black background color scheme for command line\n" +
+                    "dark_background_color_scheme = true\n" +
+                    "\n" +
+                    "#The exploding lifetime for keybase notification on coins received.\n" +
+                    "#Unit: Minute. Default value 1440 minutes for one day.\n" +
+                    "#Refer to https://keybase.io/blog/keybase-exploding-messages for detail.\n" +
+                    "#To disable this notification, set it as 0.\n" +
+                    "keybase_notify_ttl = 1440\n" +
+                    "\n" +
+                    "\n" +
+                    "#########################################\n" +
+                    "### LOGGING CONFIGURATION             ###\n" +
+                    "#########################################\n" +
+                    "[logging]\n" +
+                    "\n" +
+                    "#whether to log to stdout\n" +
+                    "log_to_stdout = true\n" +
+                    "\n" +
+                    "#log level for stdout: Error, Warning, Info, Debug, Trace\n" +
+                    "stdout_log_level = \"Warning\"\n" +
+                    "\n" +
+                    "#whether to log to a file\n" +
+                    "log_to_file = true\n" +
+                    "\n" +
+                    "#log level for file: Error, Warning, Info, Debug, Trace\n" +
+                    "file_log_level = \"Info\"\n" +
+                    "\n" +
+                    "#log file path\n" +
+                    "log_file_path = \"" + homedir + "\\\\.grin\\\\main\\\\grin-wallet.log\"\n" +
+                    "\n" +
+                    "#whether to append to the log file (true), or replace it on every run (false)\n" +
+                    "log_file_append = true\n" +
+                    "\n" +
+                    "#maximum log file size in bytes before performing log rotation\n" +
+                    "#comment it to disable log rotation\n" +
+                    "log_max_size = 16777216\n" +
+                    "\n"
 
-	        }else{
+            } else {
 
-		        output = "[wallet]\n" +
-			        "chain_type = \"Mainnet\"\n" +
-			        "api_listen_interface = \"0.0.0.0\"\n" +
-			        "api_listen_port = 3415\n" +
-			        "owner_api_listen_port = 3420\n" +
-			        "api_secret_path = \"" + homedir + "/.grin/main/.api_secret\"\n" +
-			        "node_api_secret_path = \"" + homedir + "/.grin/main/.api_secret\"\n" +
-			        "check_node_api_http_addr = \"http://node.niffler.org:3413\"\n" +
-			        "owner_api_include_foreign = false\n" +
-			        "data_file_dir = \"" + homedir + "/.grin/main/wallet_data\"\n" +
-			        "no_commit_cache = false\n" +
-			        "dark_background_color_scheme = true\n" +
-			        "keybase_notify_ttl = 1440\n" +
-			        "[logging]\n" +
-			        "log_to_stdout = true\n" +
-			        "stdout_log_level = \"Debug\"\n" +
-			        "log_to_file = true\n" +
-			        "file_log_level = \"Info\"\n" +
-			        "log_file_path = \"" + homedir + "/.grin/main/grin-wallet.log\"\n" +
-			        "log_file_append = true\n" +
-			        "log_max_size = 16777216\n"
-	        }
+                output = "[wallet]\n" +
+                    "chain_type = \"Mainnet\"\n" +
+                    "api_listen_interface = \"0.0.0.0\"\n" +
+                    "api_listen_port = 3415\n" +
+                    "owner_api_listen_port = 3420\n" +
+                    "api_secret_path = \"" + homedir + "/.grin/main/.api_secret\"\n" +
+                    "node_api_secret_path = \"" + homedir + "/.grin/main/.api_secret\"\n" +
+                    "check_node_api_http_addr = \"http://node.niffler.org:3413\"\n" +
+                    "owner_api_include_foreign = false\n" +
+                    "data_file_dir = \"" + homedir + "/.grin/main/wallet_data\"\n" +
+                    "no_commit_cache = false\n" +
+                    "dark_background_color_scheme = true\n" +
+                    "keybase_notify_ttl = 1440\n" +
+                    "[logging]\n" +
+                    "log_to_stdout = true\n" +
+                    "stdout_log_level = \"Debug\"\n" +
+                    "log_to_file = true\n" +
+                    "file_log_level = \"Info\"\n" +
+                    "log_file_path = \"" + homedir + "/.grin/main/grin-wallet.log\"\n" +
+                    "log_file_append = true\n" +
+                    "log_max_size = 16777216\n"
+            }
 
         }
 
 
         //overwrite to disk
         let result
-        if(process.platform === "win32"){
-            result = await fs.writeFile(homedir+"\\.grin\\main\\grin-wallet.toml",output)
-        }else{
-            result = await fs.writeFile(homedir+"/.grin/main/grin-wallet.toml",output)
+        if (process.platform === "win32") {
+            result = await fs.writeFile(homedir + "\\.grin\\main\\grin-wallet.toml", output)
+        } else {
+            result = await fs.writeFile(homedir + "/.grin/main/grin-wallet.toml", output)
         }
-        console.log(tag,result)
+        console.log(tag, result)
 
     } catch (e) {
         console.error('e', e)
@@ -2161,18 +2111,18 @@ let writeHistoryToFile = async function (history) {
     try {
 
 
-        let csvFile = await raw_to_csv(history,"tx-report")
+        let csvFile = await raw_to_csv(history, "tx-report")
 
-	    let result
+        let result
         //overwrite to disk
-        if(wallet713Enabled){
-	        result = await fs.writeFile(process.env.HOME+"/.grin/wallethistory.csv",csvFile)
-        }else{
-	        if(process.platform === "win32"){
-		        result = await fs.writeFile(homedir+"\\.grin\\wallethistory.csv",csvFile)
-	        }else{
-		        result = await fs.writeFile(homedir+"/.grin/wallethistory.csv",csvFile)
-	        }
+        if (wallet713Enabled) {
+            result = await fs.writeFile(process.env.HOME + "/.grin/wallethistory.csv", csvFile)
+        } else {
+            if (process.platform === "win32") {
+                result = await fs.writeFile(homedir + "\\.grin\\wallethistory.csv", csvFile)
+            } else {
+                result = await fs.writeFile(homedir + "/.grin/wallethistory.csv", csvFile)
+            }
         }
 
         return result
@@ -2183,7 +2133,7 @@ let writeHistoryToFile = async function (history) {
 }
 
 let raw_to_csv = async function (data, title) {
-    let tag = TAG+" | raw_to_csv | "
+    let tag = TAG + " | raw_to_csv | "
     try {
         // let fields = Object.keys(data[0])
         let fields = []
@@ -2203,11 +2153,11 @@ let raw_to_csv = async function (data, title) {
         //const result = new json2csv({ data: data, fields: fields })
         const json2csvParser = new json2csv({fields})
         const result = json2csvParser.parse(data);
-        console.log(tag,"result: ",result)
+        console.log(tag, "result: ", result)
 
         return result
     } catch (e) {
-        console.error(tag,e)
+        console.error(tag, e)
         throw e
     }
 }
@@ -2218,7 +2168,7 @@ let validate_address = async function (destination) {
         let isValid = false
         //
         let body = {}
-	    console.log(tag,"validate_address: ",destination)
+        console.log(tag, "validate_address: ", destination)
 
         // if(process.platform === "win32"){
         // destination = destination+"/v1/wallet/foreign/receive_tx"
@@ -2233,14 +2183,14 @@ let validate_address = async function (destination) {
             body: body,
             json: true // Automatically stringifies the body to JSON
         };
-        console.log(tag,"options: ",options)
-        try{
+        console.log(tag, "options: ", options)
+        try {
             let result = await rp(options)
-            console.log(tag,"result: ",result)
-        }catch(e){
+            console.log(tag, "result: ", result)
+        } catch (e) {
             //Weirdness
             //ERROR is normal
-            console.log(tag,"e: ",e)
+            console.log(tag, "e: ", e)
             //expect error.body to contain
             //TODO this is so fucking stupid, we need a REAL validate my god
             //undefined == wallet713
@@ -2248,17 +2198,17 @@ let validate_address = async function (destination) {
             //any variant = windows (1.0.2)
 
 
-			if(destination != "http://127.0.0.1:3415/v1/wallet/foreign/receive_tx"){
-				//FUCK IT NOT VALIDATING< FUCK THEM
-				//YOLO send to anyone remote because why not
-				isValid = true
-			} else {
-				// invalid type: map,= windows (1.1.0)
-				// if(e.toString().indexOf("undefined") >= 0 || e.toString().indexOf("num_participants") >= 0 || e.toString().indexOf("any variant of untagged enum VersionedSlate") >= 0 || e.toString().indexOf("Invalid request body: invalid type: map, expected a string at line 1 column 1") >= 0){
-				//     isValid = true
-				// }
-				isValid = true
-			}
+            if (destination != "http://127.0.0.1:3415/v1/wallet/foreign/receive_tx") {
+                //FUCK IT NOT VALIDATING< FUCK THEM
+                //YOLO send to anyone remote because why not
+                isValid = true
+            } else {
+                // invalid type: map,= windows (1.1.0)
+                // if(e.toString().indexOf("undefined") >= 0 || e.toString().indexOf("num_participants") >= 0 || e.toString().indexOf("any variant of untagged enum VersionedSlate") >= 0 || e.toString().indexOf("Invalid request body: invalid type: map, expected a string at line 1 column 1") >= 0){
+                //     isValid = true
+                // }
+                isValid = true
+            }
         }
 
         return isValid
@@ -2269,17 +2219,17 @@ let validate_address = async function (destination) {
 }
 
 function toHexString(byteArray) {
-    return Array.from(byteArray, function(byte) {
+    return Array.from(byteArray, function (byte) {
         return ('0' + (byte & 0xFF).toString(16)).slice(-2);
     }).join('')
 }
 
-let convert_tx = function(tx){
+let convert_tx = function (tx) {
     //TODO slate versioning
     console.log(Object.keys(tx))
     let txParams = Object.keys(tx)
     //
-    for(let i = 0; i < txParams.length; i++){
+    for (let i = 0; i < txParams.length; i++) {
         //param
         let param = txParams[i]
         //console.log("param: ",param)
@@ -2288,39 +2238,39 @@ let convert_tx = function(tx){
         //console.log("value: ",value)
 
         //
-        if(param === "tx"){
+        if (param === "tx") {
             tx.tx.offset = toHexString(tx.tx.offset)
 
             let body = tx.tx.body
-            for(let j = 0; j < body.inputs.length; j++){
+            for (let j = 0; j < body.inputs.length; j++) {
                 body.inputs[j].commit = toHexString(body.inputs[j].commit)
             }
 
-            for(let j = 0; j < body.outputs.length; j++){
+            for (let j = 0; j < body.outputs.length; j++) {
                 body.outputs[j].commit = toHexString(body.outputs[j].commit)
                 body.outputs[j].proof = toHexString(body.outputs[j].proof)
             }
 
-            for(let j = 0; j < body.kernels.length; j++){
+            for (let j = 0; j < body.kernels.length; j++) {
                 body.kernels[j].excess = toHexString(body.kernels[j].excess)
                 body.kernels[j].excess_sig = toHexString(body.kernels[j].excess_sig)
             }
             tx.tx.body = body
         }
 
-        if(param === "participant_data"){
+        if (param === "participant_data") {
             let data = tx['participant_data']
             //console.log("data: ",data)
 
-            for(let j = 0; j < data.length; j++){
+            for (let j = 0; j < data.length; j++) {
                 //
                 data[j].public_blind_excess = toHexString(data[j].public_blind_excess)
 
                 data[j].public_nonce = toHexString(data[j].public_nonce)
 
-                if(data[j].part_sig)data[j].part_sig = toHexString(data[j].part_sig)
+                if (data[j].part_sig) data[j].part_sig = toHexString(data[j].part_sig)
             }
-            console.log("data: ",data)
+            console.log("data: ", data)
             tx['participant_data'] = data
         }
 
@@ -2337,9 +2287,9 @@ let saveTx = async function (payload) {
         //clean up tx (convert byte arrays to hex)
         let tx = payload.tx
         tx = convert_tx(tx)
-	    payload.tx = tx
+        payload.tx = tx
 
-        store.set(payload.txid,payload)
+        store.set(payload.txid, payload)
 
         return true
     } catch (e) {
@@ -2371,12 +2321,12 @@ export default {
     readWalletConfig,
     readWallet713Config,
     deleteChainData,
-	recoverWallet,
+    recoverWallet,
     deleteWalletConfigs,
     playChingle,
     writeConfigFileWallet,
     validate_address,
     displaySeed,
     writeHistoryToFile,
-	saveTx
+    saveTx
 }
