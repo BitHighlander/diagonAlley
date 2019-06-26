@@ -425,16 +425,11 @@ const startWalletPrivate = function (password) {
 		    } else {
 			    if (process.platform === "linux") {
 				    grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL,'--pass', password,'owner_api'])
-
 			    } else if(process.platform === "win32"){
 				    console.log(tag," checkpoint windows")
-				    grinDaemon = spawn(appRootDir + process.platform + '\\grin', ['-r',NODE_URL,'-d', homedir+'\\.grin','--pass', password, 'owner_api'])
+				    grinDaemon = spawn(appRootDir + process.platform + '\\grin-wallet', ['-r',NODE_URL,'--pass', password, 'owner_api'])
 			    }else if(process.platform === "darwin"){
-				    if(wallet11Enabled) {
-					    grinDaemon = spawn(appRootDir + process.platform + '/grin-wallet', ['--pass', password, 'owner_api'])
-				    }else{
-					    grinDaemon = spawn(appRootDir + process.platform + '/grin', ['-r',NODE_URL,'--pass', password, 'owner_api'])
-				    }
+					grinDaemon = spawn(appRootDir + process.platform + '/grin-wallet', ['-r',NODE_URL,'--pass', password, 'owner_api'])
 			    }else {
 				    console.error("************* OS NOT SUPPORTED!!!!! ********************")
 			    }
@@ -503,13 +498,11 @@ const startWalletPublic = function (password) {
 			    console.log("DEV DETECTED!!! ******************8 ")
 			    if (process.platform === "linux") {
 				    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL,'--pass', password, 'listen'])
-
 			    } else if(process.platform === "win32"){
 				    console.log(tag," checkpoint windows")
-				    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\grin-wallet', ['-r',NODE_URL,'-d', homedir+'\\.grin','--pass', password, 'listen'])
+				    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\grin-wallet', ['-r',NODE_URL,'--pass', password, 'listen'])
 			    }else if(process.platform === "darwin"){
-				        grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL,'--pass', password, 'listen'])
-
+				    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL,'--pass', password, 'listen'])
 			    }else {
 				    console.error("************* OS NOT SUPPORTED!!!!! ********************")
 			    }
@@ -517,7 +510,7 @@ const startWalletPublic = function (password) {
 			    if (process.platform === "linux") {
 				    grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL,'--pass', password, 'listen'])
 			    } else if(process.platform === "win32"){
-				    grinDaemon = spawn(appRootDir + process.platform + '\\grin-wallet', ['-r',NODE_URL,'-d', homedir+'\\.grin','--pass', password, 'listen'])
+				    grinDaemon = spawn(appRootDir + process.platform + '\\grin-wallet', ['-r',NODE_URL,'--pass', password, 'listen'])
 			    }else if(process.platform === "darwin"){
 				    grinDaemon = spawn(appRootDir + process.platform + '/grin-wallet', ['-r',NODE_URL,'--pass', password, 'listen'])
 			    }else {

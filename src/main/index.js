@@ -27,7 +27,7 @@ function createWindow () {
   })
 
   mainWindow.loadURL(winURL)
-  //mainWindow.openDevTools({mode: 'detach'})
+  mainWindow.openDevTools({mode: 'detach'})
   mainWindow.on('closed', () => {
     mainWindow = null
   })
