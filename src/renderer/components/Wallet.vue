@@ -24,8 +24,8 @@
             </form>
             <br />
             <br />
-            <h5>Or Restore Wallet from Seed!</h5>
-            <b-btn @click="launchRestore">recover from mnemonic</b-btn>
+<!--            <h5>Or Restore Wallet from Seed!</h5>-->
+<!--            <b-btn @click="launchRestore">recover from mnemonic</b-btn>-->
 
             <h5>{{errorMessage}}</h5>
         </b-modal>
@@ -71,7 +71,7 @@
                         </b-col>
                     </b-row>
 
-                    <h6>Insert password for encrypting your NEW seed file</h6>
+                    <h6>Insert password for encrypting your RECOVERED seed file</h6>
                     <form>
                         <input id="n-password4" type="password" placeholder="Password" v-model=password>
                     </form>
@@ -899,7 +899,16 @@
                     //TODO verify pw is really for seed
 
                     //launch username modal
-		            this.$refs.signup.show()
+
+                    //if seed file continue to signup
+		            let hasSeed = await daemon.detectSeedFile()
+                    if(hasSeed){
+                        this.$refs.signup.show()
+                    }else{
+                        this.$refs.passwordCreate.show()
+                    }
+                    //else show welcome
+
                     return false
                 }
 

@@ -1512,11 +1512,11 @@ const recoverWallet = function (password, seed, context) {
             console.log(tag, "seed: ", typeof (seed))
             console.log(tag, "grinDaemon: ", grinDaemon)
 
-
+            grinDaemon.stdin.write('\r\n');
             grinDaemon.stdin.write(seed)
             await timer(300);
-            //grinDaemon.stdin.write('\r\n');
-            //grinDaemon.stdin.end();
+            grinDaemon.stdin.write('\r\n');
+            grinDaemon.stdin.end();
 
             let count = 0
             const response = []
