@@ -384,23 +384,18 @@ const startWalletPrivate = function (password) {
                     console.error("************* OS NOT SUPPORTED!!!!! ********************")
                 }
 
-            } else {
-                if (process.platform === "linux") {
-                    grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'owner_api'])
-
-                } else if (process.platform === "win32") {
-                    console.log(tag, " checkpoint windows")
-                    grinDaemon = spawn(appRootDir + process.platform + '\\grin-wallet', ['-r', NODE_URL, '--pass', password, 'owner_api'])
-                } else if (process.platform === "darwin") {
-                    if (wallet11Enabled) {
-                        grinDaemon = spawn(appRootDir + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'owner_api'])
-                    } else {
-                        grinDaemon = spawn(appRootDir + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'owner_api'])
-                    }
-                } else {
-                    console.error("************* OS NOT SUPPORTED!!!!! ********************")
-                }
-            }
+		    } else {
+			    if (process.platform === "linux") {
+				    grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL,'--pass', password,'owner_api'])
+			    } else if(process.platform === "win32"){
+				    console.log(tag," checkpoint windows")
+				    grinDaemon = spawn(appRootDir + process.platform + '\\grin-wallet', ['-r',NODE_URL,'--pass', password, 'owner_api'])
+			    }else if(process.platform === "darwin"){
+					grinDaemon = spawn(appRootDir + process.platform + '/grin-wallet', ['-r',NODE_URL,'--pass', password, 'owner_api'])
+			    }else {
+				    console.error("************* OS NOT SUPPORTED!!!!! ********************")
+			    }
+		    }
 
 
             console.log("CHECKPOINT *****************8 startWalletPrivate ")
@@ -453,37 +448,37 @@ const startWalletPublic = function (password) {
         let tag = TAG + " | startWalletPublic | "
         console.log("CHECKPOINT *****************8 startWalletPublic ")
 
-        if (wallet713Enabled) {
-            //bundled in private
-            let output = {}
-            output.success = true
-            resolve(output)
-        } else {
-            //let grinDaemon = spawn('./src/renderer/executables/' + process.platform + '/grin', ['-r',NODE_URL, '--pass', password, 'listen'])
-            let grinDaemon
-            if (process.env.NODE_ENV === "development") {
-                console.log("DEV DETECTED!!! ******************8 ")
-                if (process.platform === "linux") {
-                    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'listen'])
-                } else if (process.platform === "win32") {
-                    console.log(tag, " checkpoint windows")
-                    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\grin-wallet', ['-r', NODE_URL, '--pass', password, 'listen'])
-                } else if (process.platform === "darwin") {
-                    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'listen'])
-                } else {
-                    console.error("************* OS NOT SUPPORTED!!!!! ********************")
-                }
-            } else {
-                if (process.platform === "linux") {
-                    grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'listen'])
-                } else if (process.platform === "win32") {
-                    grinDaemon = spawn(appRootDir + process.platform + '\\grin-wallet', ['-r', NODE_URL, '--pass', password, 'listen'])
-                } else if (process.platform === "darwin") {
-                    grinDaemon = spawn(appRootDir + process.platform + '/grin-wallet', ['-r', NODE_URL, '--pass', password, 'listen'])
-                } else {
-                    console.error("************* OS NOT SUPPORTED!!!!! ********************")
-                }
-            }
+	    if(wallet713Enabled){
+        	//bundled in private
+		    let output = {}
+		    output.success = true
+		    resolve(output)
+	    }else{
+		    //let grinDaemon = spawn('./src/renderer/executables/' + process.platform + '/grin', ['-r',NODE_URL, '--pass', password, 'listen'])
+		    let grinDaemon
+		    if (process.env.NODE_ENV === "development") {
+			    console.log("DEV DETECTED!!! ******************8 ")
+			    if (process.platform === "linux") {
+				    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL,'--pass', password, 'listen'])
+			    } else if(process.platform === "win32"){
+				    console.log(tag," checkpoint windows")
+				    grinDaemon = spawn(appRootDir + '\\executables\\' + process.platform + '\\grin-wallet', ['-r',NODE_URL,'--pass', password, 'listen'])
+			    }else if(process.platform === "darwin"){
+				    grinDaemon = spawn(appRootDir + '/executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL,'--pass', password, 'listen'])
+			    }else {
+				    console.error("************* OS NOT SUPPORTED!!!!! ********************")
+			    }
+		    } else {
+			    if (process.platform === "linux") {
+				    grinDaemon = spawn(appRootDir + 'executables/' + process.platform + '/grin-wallet', ['-r',NODE_URL,'--pass', password, 'listen'])
+			    } else if(process.platform === "win32"){
+				    grinDaemon = spawn(appRootDir + process.platform + '\\grin-wallet', ['-r',NODE_URL,'--pass', password, 'listen'])
+			    }else if(process.platform === "darwin"){
+				    grinDaemon = spawn(appRootDir + process.platform + '/grin-wallet', ['-r',NODE_URL,'--pass', password, 'listen'])
+			    }else {
+				    console.error("************* OS NOT SUPPORTED!!!!! ********************")
+			    }
+		    }
 
             let output = {}
             output.success = false
