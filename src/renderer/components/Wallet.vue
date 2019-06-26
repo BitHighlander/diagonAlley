@@ -1002,6 +1002,7 @@
                             //this.startWalletPoorMansIpc()
                             // // cant wait on this (never exits intentially)
 	                        daemon.startWalletPrivate(this.password)
+                            daemon.startWalletPublic(this.password)
                             //let success = await daemon.startWalletPrivate(this.password)
                             // this.$log.info("Result attempted wallet startup: ", success)
                             //
