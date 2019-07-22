@@ -63,6 +63,13 @@
                 sent: false
             }
         },
+        created(){
+            messageBus.$on('usernameSelected', (username)=>{
+                this.$log.info('usernameSelected!')
+                this.address = "http://diagonallet.io/"+username
+            })
+
+        },
         watch: {
             errors:function(newVal, oldVal){
                 if(newVal.length > 0){

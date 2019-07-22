@@ -76,11 +76,13 @@
                 <h3>Usernames</h3>
                 <ul class="list-group members-group">
 
-                  <li class="list-group-item member-item justify-content-between bg-faded"
+                  <div class="list-group-item member-item justify-content-between bg-faded overflow: auto; height: 400"
                       v-for="(value, key) in members">
-                    <img v-bind:src="value.avatar" class="rounded-circle mr-1" >
-                    <small> {{ value.username }}</small>
-                  </li>
+                    <div @click="selectUsername(value)">
+                      <img v-bind:src="value.avatar" class="rounded-circle mr-1" >
+                      <small> {{ value.username }}</small>
+                    </div>
+                  </div>
                 </ul>
 
               </div>
@@ -178,7 +180,7 @@
   import Lang from '@/components/Lang'
   import Gnode from '@/components/Gnode'
   import Landing from '@/components/Landing'
-  import Chat from '@/components/Chat'
+  //import Chat from '@/components/Chat'
   import Price from '@/components/Price'
   import Settings from '@/components/Settings'
   import Help from '@/components/Help'
@@ -240,7 +242,7 @@
       Landing,
       Lang,
       Gnode,
-      Chat,
+      //Chat, NERF context issues? I suck at coding
       Price,
       Settings,
       Help,
@@ -357,6 +359,11 @@
           this.isRu = false
         }
       })
+
+      messageBus.$on('selectTab', (tab)=>{
+        this.tabsel = tab
+      })
+
       messageBus.$on('close', (window)=>{
         if(window =='windowDisplaySeed'){
           this.openDisplaySeed = false
@@ -570,6 +577,11 @@
       }
     },
     methods: {
+      selectUsername:function(user){
+        this.$log.info("selectUsername: ",user)
+        messageBus.$emit('usernameSelected', user.username)
+        this.tabsel = 'wallet'
+      },
       loadConfig:function(){
 
         let configStatus = checkConfigs()
