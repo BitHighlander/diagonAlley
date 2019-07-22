@@ -7,10 +7,7 @@
 				{{ $t("msg.restore.title") }}
 
 			</header>
-			<section class="modal-card-body" style="height:380px;background-color: whitesmoke;">
-
-				Restore from Seed!
-
+			<section class="modal-card-body" style="height:380px;">
 
 				<!--				<remove :showModal="openRemove"></remove>-->
 				<h1 class="title">{{ $t('msg.restore.title') }}</h1>
@@ -134,7 +131,32 @@
                 currentSeed: '',
                 currentSeedInvalid: false,
                 enoughSeeds: false,
-                seeds:[],
+                seeds:[
+                    "surprise",
+                    "duck",
+                    "token",
+                    "best",
+                    "ugly",
+                    "unveil",
+                    "drive",
+                    "clinic",
+                    "ribbon",
+                    "width",
+                    "exile",
+                    "apple",
+                    "fever",
+                    "write",
+                    "abuse",
+                    "flat",
+                    "tide",
+                    "judge",
+                    "item",
+                    "fine",
+                    "tube",
+                    "fury",
+                    "blush",
+                    "secret"
+				],
                 password: '',
                 password2: '',
                 total: 24,
@@ -162,13 +184,24 @@
                 }
             })
             messageBus.$on('walletRestored', (ret)=>{
+                this.$log.info('walletRestored!')
                 this.closeModal()
             })
             messageBus.$on('walletRecoverReturnError', (ret)=>{
                 this.error = ret
             })
             messageBus.$on('walletRecoverReturnExit', (code)=>{
-                this.$log.error("exit code: ",code)
+                this.$log.info('walletRecoverReturnExit!')
+
+				if(code === 0){
+				    //close modal
+					this.closeModal()
+
+					//open register
+                    messageBus.$emit('open', 'windowRegister');
+				} else {
+                    this.$log.error("exit code: ",code)
+				}
             })
         },
         watch: {
