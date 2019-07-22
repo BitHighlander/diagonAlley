@@ -2,26 +2,29 @@
   "name": "diagonAlley",
   "version": "2.0.0",
   "author": "highlander <bithighlander@gmail.com>",
-  "description": "Multi-platform GRIN launcher",
+  "description": "a simple grin wallet",
   "license": "MIT",
   "main": "./dist/electron/main.js",
   "scripts": {
-    "yarn": "yarn",
+    "npm": "npm i",
     "build": "node .electron-vue/build.js && electron-builder",
-    "bundle-exes": "cp -R ./executables ./build/linux-unpacked/resources && rm ./build/'diagonAlley 2.0.0.AppImage'",
+    "build-rs": "electron-build-env neon build --release -p ./grinRs",
+    "build-rs-win": "neon build --release -p ./grinRs",
     "tar-bundle-linux": "tar -zcvf diagonAlley-linux-2.0.0.tar.gz ./build/linux-unpacked",
     "zip-bundle-windows": "zip -r diagonAlley-windows-2.0.0.zip ./build",
     "tar-bundle-osx": "tar -zcvf diagonAlley-osx-2.0.0.tar.gz ./build",
+    "build:dir": "node .electron-vue/build.js && electron-builder --dir",
+    "build:clean": "cross-env BUILD_TARGET=clean node .electron-vue/build.js",
+    "build:web": "cross-env BUILD_TARGET=web node .electron-vue/build.js",
     "dev": "node .electron-vue/dev-runner.js",
     "pack": "npm run pack:main && npm run pack:renderer",
     "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.main.config.js",
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
-    "postinstall": "",
-    "test": "karma start test/unit/karma.conf.js"
+    "postinstall": ""
   },
   "build": {
-    "productName": "diagonAlley",
-    "appId": "com.launcher.diagonalley",
+    "productName": "DiagonAlley.io",
+    "appId": "io.diagonalley",
     "directories": {
       "output": "build"
     },
@@ -30,10 +33,11 @@
     ],
     "extraFiles": [
       {
-        "from": "executables",
-        "to": "Resources",
+        "from": "hedwig",
+        "to": "resources/bin/hedwig",
         "filter": [
-          "**/*"
+          "**/*",
+          "!test.js"
         ]
       }
     ],
@@ -53,58 +57,130 @@
       ]
     },
     "mac": {
-      "icon": "icons/icon.png"
+      "icon": "build/icons/icon.icns",
+      "extraFiles": [
+        {
+          "from": "resources/bin/mac",
+          "to": "Resources/bin/mac",
+          "filter": [
+            "**/*"
+          ]
+        },
+        {
+          "from": "grinRs",
+          "to": "resources/bin/grinRs",
+          "filter": [
+            "**/*",
+            "!native",
+            "!test.js",
+            "!node.exe"
+          ]
+        }
+      ]
     },
     "win": {
-      "icon": "icons/icon.png"
+      "icon": "build/icons/icon.ico",
+      "target": "nsis",
+      "extraFiles": [
+        {
+          "from": "resources/bin/win",
+          "to": "resources/bin/win",
+          "filter": [
+            "**/*"
+          ]
+        },
+        {
+          "from": "grinRs",
+          "to": "resources/bin/grinRs",
+          "filter": [
+            "**/*",
+            "!native",
+            "!test.js"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
     },
     "linux": {
-      "icon": "icons/icon.png"
+      "icon": "build/icons",
+      "target": [
+        "deb",
+        "appImage"
+      ],
+      "extraFiles": [
+        {
+          "from": "resources/bin/linux",
+          "to": "resources/bin/linux",
+          "filter": [
+            "**/*"
+          ]
+        }
+      ],
+      "desktop": {
+        "Name": "DiagonAlley",
+        "Encoding": "UTF-8",
+        "Type": "Application",
+        "Comment": "DiagonAlley, a grin gui wallet",
+        "StartupWMClass": "DiagonAlley"
+      }
     }
   },
   "dependencies": {
-    "@highhi/electron-json-storage-promise": "^1.0.2",
-    "apexcharts": "^3.8.2",
+    "animate.css": "^3.7.0",
     "app-root-dir": "^1.0.2",
-    "axios": "^0.18.0",
-    "bcryptjs": "^2.4.3",
-    "bip39": "^2.5.0",
+    "axios": "^0.19.0",
+    "bip39": "2.5.0",
     "bitcoinjs-lib": "3.3.2",
     "bitcoinjs-message": "2.0.0",
-    "bootstrap": "^4.3.1",
-    "bootstrap-vue": "2.0.0-rc.19",
-    "chai": "^4.2.0",
-    "coininfo": "^4.4.0",
+    "bootstrap-vue": "^2.0.0-rc.19",
+    "bulma": "^0.7.4",
+    "coininfo": "^5.1.0",
     "coinkey": "^3.0.0",
-    "electron-json-storage": "^4.1.6",
-    "electron-store": "^2.0.0",
+    "delay": "^4.3.0",
+    "electron-build-env": "^0.2.0",
+    "electron-log": "^3.0.1",
+    "electron-store": "^4.0.0",
+    "external-ip": "^2.1.1",
+    "externalip": "^1.0.2",
     "fs-extra": "^7.0.1",
+    "fstream": "^1.0.12",
+    "get-folder-size": "^2.0.1",
     "harry-potter-names": "^1.2.0",
-    "harry-potter-names-improved": "^0.0.2-development",
     "hdkey": "^1.1.1",
-    "jquery": "^3.3.1",
-    "json2csv": "^4.5.2",
+    "is-valid-domain": "0.0.5",
+    "mkdirp": "^0.5.1",
     "moment": "^2.24.0",
-    "path": "^0.12.7",
+    "neon-cli": "^0.2.0",
+    "optimist": "^0.6.1",
+    "promise.prototype.finally": "^3.1.0",
+    "public-ip": "^3.0.0",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7",
-    "socket.io-client": "^2.2.0",
-    "sqlite3": "^4.0.6",
-    "v-money": "^0.8.1",
-    "vue": "^2.6.10",
-    "vue-apexcharts": "^1.2.9",
+    "socket.io": "^2.1.0",
+    "socket.io-client": "^2.1.0",
+    "socket.io-stream": "^0.9.1",
+    "tail": "^2.0.2",
+    "tar": ">=4.4.2",
+    "tldjs": "^2.3.1",
+    "url-join": "^4.0.0",
+    "urllib": "^2.34.0",
+    "uuid": "^3.2.1",
+    "vue": "^2.5.16",
+    "vue-awesome": "^3.5.3",
     "vue-clipboard2": "^0.3.0",
+    "vue-country-flag": "^1.2.3",
     "vue-electron": "^1.0.6",
-    "vue-focus": "^2.1.0",
-    "vue-js-modal": "^1.3.28",
-    "vue-router": "^3.0.7",
-    "vuejs-logger": "^1.5.3",
-    "vuelidate": "^0.7.4",
-    "vuex": "^3.0.1",
-    "vuex-electron": "^1.0.0"
+    "vue-flag-icon": "^1.0.6",
+    "vue-i18n": "^8.10.0",
+    "vue-languages-dropdown": "^1.0.16",
+    "vue-moment": "^4.0.0",
+    "vue-truncate-filter": "^1.1.7"
   },
   "devDependencies": {
-    "ajv": "^6.10.1",
+    "ajv": "^6.5.0",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4",
     "babel-plugin-transform-runtime": "^6.23.0",
@@ -116,27 +192,20 @@
     "chalk": "^2.4.1",
     "copy-webpack-plugin": "^4.5.1",
     "cross-env": "^5.1.6",
-    "css-loader": "^3.0.0",
+    "css-loader": "^0.28.11",
     "del": "^3.0.0",
     "devtron": "^1.4.0",
     "electron": "^2.0.4",
-    "electron-builder": "^20.19.2",
+    "electron-builder": "^20.40.2",
     "electron-debug": "^1.5.0",
     "electron-devtools-installer": "^2.2.4",
     "file-loader": "^1.1.11",
     "html-webpack-plugin": "^3.2.0",
-    "karma": "^4.2.0",
-    "karma-chai": "^0.1.0",
-    "karma-coverage": "^1.1.1",
-    "karma-electron": "^5.1.1",
-    "karma-mocha": "^1.2.0",
-    "karma-sourcemap-loader": "^0.3.7",
-    "karma-spec-reporter": "^0.0.31",
-    "karma-webpack": "^2.0.1",
+    "husky": "^2.4.0",
     "mini-css-extract-plugin": "0.4.0",
     "multispinner": "^0.2.1",
     "node-loader": "^0.6.0",
-    "node-sass": "^4.9.2",
+    "node-sass": "^4.12.0",
     "sass-loader": "^7.0.3",
     "style-loader": "^0.21.0",
     "url-loader": "^1.0.1",
@@ -144,10 +213,13 @@
     "vue-loader": "^15.2.4",
     "vue-style-loader": "^4.1.0",
     "vue-template-compiler": "^2.5.16",
-    "webpack": "^4.35.3",
+    "webpack": "^4.15.1",
     "webpack-cli": "^3.0.8",
     "webpack-dev-server": "^3.1.4",
     "webpack-hot-middleware": "^2.22.2",
-    "webpack-merge": "^4.1.3"
+    "webpack-merge": "^4.1.3",
+    "lodash.merge": "^4.6.2",
+    "lodash": "4.17.13",
+    "js-yaml": "3.13.1"
   }
 }

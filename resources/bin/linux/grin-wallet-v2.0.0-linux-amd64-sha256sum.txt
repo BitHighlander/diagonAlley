@@ -1,0 +1,1 @@
+SHA256(/home/vsts/work/1/a/grin-wallet-v2.0.0-linux-amd64.tar.gz)= be0b4023b223939dd8eb072e7d4d0995ef3bb773ee960446d044138b0182571a

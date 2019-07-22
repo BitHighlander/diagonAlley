@@ -1,14 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html style="background-color: whitesmoke;">
   <head>
     <meta charset="utf-8">
-    <title>grin-launcher</title>
+    <title>DiagonAlley</title>
     <% if (htmlWebpackPlugin.options.nodeModules) { %>
       <!-- Add `node_modules/` to global paths so `require` works properly in development -->
       <script>
         require('module').globalPaths.push('<%= htmlWebpackPlugin.options.nodeModules.replace(/\\/g, '\\\\') %>')
       </script>
     <% } %>
+    <!-- 
+    <link href="/static/css/bulma.min.css" rel="stylesheet">
+    <link href="/static/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/static/css/animate.css" rel="stylesheet">
+    -->
   </head>
   <body>
     <div id="app"></div>
