@@ -32,7 +32,6 @@ const messages = {
     more: 'More',
 
     welcome:{
-
       continue:'Continue',
       title:'Welcome to DiagonAlley.io',
       selectLanguage:' Select your preferred language',
@@ -41,8 +40,6 @@ const messages = {
       exit:' Continue without importing settings',
       import:'Import settings from '
     },
-
-
 
     register:{
       title:'Setup DiagonAlley.io wallet',
