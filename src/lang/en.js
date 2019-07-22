@@ -36,6 +36,7 @@ const messages = {
       continue:'Continue',
       title:'Welcome to DiagonAlley.io',
       selectLanguage:' Select your preferred language',
+      welcomeNoWallet:' No previous Wallets were detected! you can: ',
       settingsAvailable:' Found a Grin wallet already installed! Would you like to import settings?',
       exit:' Continue without importing settings',
       import:'Import settings from '

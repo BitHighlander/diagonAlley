@@ -478,7 +478,7 @@
 
       messageBus.$on('restoredThenLogin', ()=>{
         this.$log.info('wallet restored and now to login')
-        this.walletExist = true
+        this.isWalletLocked = false
         this.loadConfig()
       })
       messageBus.$on('logined', ()=>{

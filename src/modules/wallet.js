@@ -394,7 +394,7 @@ class WalletService {
         let rcProcess = spawn(nodeExecutable, args)
         rcProcess.stdout.on('data', function(data){
             let output = data.toString().trim()
-            log.debug('rcProcess stdout:', output)
+            log.info('rcProcess stdout:', output)
             let msg
             if(output ==='success'){
                 msg = 'ok'
@@ -403,12 +403,12 @@ class WalletService {
             }else{
                 msg = data
             }
-            log.debug('msg', msg)
+            log.info('msg', msg)
             messageBus.$emit('walletRecoverReturn', msg)
         })
         rcProcess.stderr.on('data', function(data){
             let output = data.toString()
-            log.debug('rcProcess stderr:', output)
+            log.error('rcProcess stderr:', output)
         })
     }
 
@@ -453,6 +453,7 @@ class WalletService {
             cb(output)
         })
         rs.stderr.on('data', function(data){
+            log.error("error: ",data)
             let output = data.toString()
             cb(output)
         })

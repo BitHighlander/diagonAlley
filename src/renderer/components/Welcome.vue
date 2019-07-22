@@ -1,7 +1,7 @@
 <template>
 	<div class="modal" :class="{'is-active': showModal}">
 		<div class="modal-background"></div>
-		<div class="modal-card" style="width:480px;height:380px">
+		<div class="modal-card" style="width:480px;height:280px">
 			<header class="modal-card-head">
 				<img src="../assets/icon.png" height="50" width="50"> <h1> {{ $t("msg.welcome.title") }}</h1>
 
@@ -39,7 +39,7 @@
 				<div v-else=isSettingsAvailable>
 
 					<div v-if=isLauguageSelected>
-
+						<h2>{{ $t("msg.welcome.welcomeNoWallet") }}</h2>
 
 						<div class="column">
 							<a class="button " @click="openCreateNew">
@@ -48,10 +48,10 @@
 						<div class="column"><a class="button" @click="restoreSeed">
 							{{ $t("msg.new_.restore") }}</a>
 						</div>
-						<div class="column">
-							<a class="button is-link is-outlined has-text-grey" style="pointer-events: none;">
-								{{ $t("msg.new_.import") }}</a>
-						</div>
+<!--						<div class="column">-->
+<!--							<a class="button is-link is-outlined has-text-grey" style="pointer-events: none;">-->
+<!--								{{ $t("msg.new_.import") }}</a>-->
+<!--						</div>-->
 
 					</div>
 

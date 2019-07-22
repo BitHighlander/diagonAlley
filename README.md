@@ -34,6 +34,8 @@ Build restore node (grin R)
 npm build-rs
 ```
 
+move node.info from /target to /grinRs
+
 build project
 
 ```

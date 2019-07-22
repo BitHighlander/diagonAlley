@@ -4,7 +4,7 @@
 		<div class="modal-background"></div>
 		<div class="modal-card" style="width:480px">
 			<header class="modal-card-head">
-				{{ $t("msg.passwordTitle") }}
+				{{ $t("msg.restore.title") }}
 
 			</header>
 			<section class="modal-card-body" style="height:380px;background-color: whitesmoke;">
@@ -71,7 +71,7 @@
 						<div class="field">
 							<button class="button is-link" @click="initR" >
 								{{ $t('msg.restore.recover') }}</button>
-							<button class="button is-text" @click="page='addSeeds'">
+							<button class="button is-text" @click="back">
 								{{ $t("msg.back") }}</button>
 						</div>
 					</div>
@@ -252,7 +252,8 @@
 
             back(){
                 //this.clearup()
-                messageBus.$emit('backToNew')
+                this.closeModal()
+                messageBus.$emit('open','windowWelcome')
             },
             toLogin(){
                 //this.clearup()
