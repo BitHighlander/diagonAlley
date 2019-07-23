@@ -212,7 +212,7 @@
     domain = process.env.VUE_APP_SERVICE_HOSTNAME || "http://diagonalley.io"
     console.log("********* domain: ",domain)
   } else {
-    domain = "http://diagonAlley.io"
+    domain = "https://diagonAlley.io"
   }
   const socket = openSocket(domain, {reconnect: true, rejectUnauthorized: false});
 
@@ -536,14 +536,14 @@
         this.hedwigRunning= false
         this.hedwigFailed = true
       })
-      
+
     },
     watch: {
       isDroppingDown:function(newVal, oldVal){
         if(newVal){
           setTimeout(
             ()=>{
-              this.isDroppingDown = false}, 
+              this.isDroppingDown = false},
             5*1000)
         }
       },
@@ -551,7 +551,7 @@
         if(newVal){
           setTimeout(
             ()=>{
-              this.isDroppingDown2 = false}, 
+              this.isDroppingDown2 = false},
             5*1000)
         }
       },
@@ -559,7 +559,7 @@
         if(newVal){
           setTimeout(
             ()=>{
-              this.isDroppingDown3 = false}, 
+              this.isDroppingDown3 = false},
             5*1000)
         }
       },
@@ -570,7 +570,7 @@
         }else{
           ipcRenderer.send('resize', 600, 480)
         }
-      }, 
+      },
       height:function(newVal, old){
         this.isAnimate = true
         setTimeout(()=>{this.isAnimate = false}, 1000)
@@ -835,7 +835,7 @@
         this.$log.debug('logout')
         ipcRenderer.send('quit')
       },
-      
+
       autoRefresh(interval){
         setInterval(()=>{
           if(this.ownerApiRunning){
@@ -843,7 +843,7 @@
           }
         }, interval)
       },
-      
+
       async checkNewVersion(){
         let toUpdate = await checkUpdate()
 
@@ -855,7 +855,7 @@
             buttons: [this.$t('msg.app.yes'), this.$t('msg.app.no')],
             message: message,
           }, (res, checkboxChecked) => {
-          if (res === 0) { 
+          if (res === 0) {
             this.$electron.shell.openExternal(downloadUrl)
             this.$log.debug('User choose to update. now quit app.')
             ipcRenderer.send('quit')

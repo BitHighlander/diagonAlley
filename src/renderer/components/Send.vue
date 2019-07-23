@@ -66,7 +66,7 @@
         created(){
             messageBus.$on('usernameSelected', (username)=>{
                 this.$log.info('usernameSelected!')
-                this.address = "http://diagonallet.io/"+username
+                this.address = "https://diagonalley.io/"+username
             })
 
         },

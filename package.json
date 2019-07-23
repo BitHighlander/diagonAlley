@@ -2,7 +2,7 @@
   "name": "diagonAlley",
   "version": "2.0.0",
   "author": "highlander <bithighlander@gmail.com>",
-  "description": "a simple grin wallet",
+  "description": "a simple grin wallet.",
   "license": "MIT",
   "main": "./dist/electron/main.js",
   "scripts": {
@@ -151,6 +151,7 @@
     "harry-potter-names": "^1.2.0",
     "hdkey": "^1.1.1",
     "is-valid-domain": "0.0.5",
+    "jquery": "^3.4.1",
     "mkdirp": "^0.5.1",
     "moment": "^2.24.0",
     "neon-cli": "^0.2.0",
