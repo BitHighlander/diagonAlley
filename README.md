@@ -1,6 +1,6 @@
 # diagonAlley
 
-A simple GRIN wallet
+A simple GRIN wallet.
 
 Usage: http://diagonalley.io/getting-started
 
