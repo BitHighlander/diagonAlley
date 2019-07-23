@@ -4,50 +4,36 @@
 		<div class="modal-background"></div>
 		<div class="modal-card" style="width:480px">
 			<header class="modal-card-head">
-				{{ $t("msg.passwordTitle") }}
-
+				<img src="../assets/icon.png" height="50" width="50">{{ $t("msg.passwordTitle") }}
 			</header>
 			<section class="modal-card-body" style="height:380px;background-color: whitesmoke;">
-
-
-
-
-					<div class="column">
-						<div class="message is-warning is-small">
-							<div class="message-header">
-								<p>{{ $t("msg.welcome") }}</p>
-							</div>
-							<div class="message-body">
-								<p>{{ $t("msg.login.walletExist") }}</p>
-							</div>
+				<div class="column">
+					<div class="message is-warning is-small">
+						<div class="message-header">
+							<p>{{ $t("msg.welcome.title") }}</p>
 						</div>
-
-						<form>
-							<div class="field">
-								<label class="label">{{ $t("msg.password") }}</label>
-								<div class="control">
-									<input class="input" type="password" placeholder="********" required
-										   :class="{'is-warning': error}" v-model="password">
-								</div>
-								<p class="help is-warning" v-if="error">{{ $t("msg.wrongPassword") }}</p>
-							</div>
-
-							<div class="field">
-								<button class="button is-link" @click.prevent="tryLogin">
-									{{ $t("msg.login_") }}
-								</button>
-							</div>
-						</form>
-
-<!--						<a class="button is-small is-text is-pulled-right" @click="openRemove=true">{{ $t("msg.remove.title") }}</a>-->
-
+						<div class="message-body">
+							<p>{{ $t("msg.login.walletExist") }}</p>
+						</div>
 					</div>
 
+					<form>
+						<div class="field">
+							<label class="label">{{ $t("msg.password") }}</label>
+							<div class="control">
+								<input class="input" type="password" placeholder="********" required
+									   :class="{'is-warning': error}" v-model="password">
+							</div>
+							<p class="help is-warning" v-if="error">{{ $t("msg.wrongPassword") }}</p>
+						</div>
 
-<!--				<remove :showModal="openRemove"></remove>-->
-
-
-
+						<div class="field">
+							<button class="button is-link" @click.prevent="tryLogin">
+								{{ $t("msg.login_") }}
+							</button>
+						</div>
+					</form>
+				</div>
 			</section>
 		</div>
 	</div>
@@ -55,15 +41,12 @@
 </template>
 <script>
 
-	import { messageBus } from '@/messagebus'
-    import { setTimeout } from 'timers';
-    //import {isFirstTime} from '../../modules/first'
-    import Remove from '@/components/Remove'
+    import {messageBus} from '@/messagebus'
+    import {setTimeout} from 'timers';
     import {version, grinNode, gnodeOption} from '../../modules/config'
 
     const fs = require('fs');
     const publicIp = require('public-ip');
-    const extIP = require('external-ip');
     const externalip = require('externalip')
 
     function isValidIP(str) {
@@ -82,30 +65,30 @@
         },
         data() {
             return {
-                firstTime:false,
+                firstTime: false,
                 password: '',
                 error: false,
                 openRemove: false,
                 version: version,
                 errors: [],
-                starting:false,
-                started:false,
+                starting: false,
+                started: false,
                 localReachable: false,
-                running:false,
+                running: false,
                 ip: this.$t('msg.httpReceive.ip')
             }
         },
-        beforeDestroy: function(){
+        beforeDestroy: function () {
             this.showModal = false
         },
         mounted() {
             //this.checkRunning()
             //this.$log.info('isfirst(login.vue)? '+isFirstTime())
-			//NERF
+            //NERF
             //this.firstTime = isFirstTime()
         },
         methods: {
-            tryLogin(){
+            tryLogin() {
 
                 let setPassword = this.$walletService.setPassword
                 let password = this.password
@@ -113,36 +96,38 @@
                 this.resetErrors()
                 this.$walletService.initClient()
                 this.$walletService.startOwnerApi(this.password, grinNode)
-                setTimeout(()=>{
+                setTimeout(() => {
                     this.$walletService.getNodeHeight().then(
-                        (res) =>{
+                        (res) => {
                             setPassword(password)
                             messageBus.$emit('logined')
-                            if(gnodeOption.type!='remoteAllTime')messageBus.$emit('gnodeStarting')
+                            if (gnodeOption.type != 'remoteAllTime') messageBus.$emit('gnodeStarting')
 
                             messageBus.$emit('close', 'windowPassword');
                         }).catch((error) => {
+                        this.$log.error('Failed to start wallet! ',error)
                         return this.error = true
-                    })}, 500)
+                    })
+                }, 800)
                 this.resetErrors()
             },
-            resetErrors(){
+            resetErrors() {
                 this.error = false;
             },
-            start(){
-                if((!this.starting)&&(!this.running)){
+            start() {
+                if ((!this.starting) && (!this.running)) {
                     this.starting = true
-                    this.checklocalReachable().catch((error)=>{
-                        if(!error.response){
+                    this.checklocalReachable().catch((error) => {
+                        if (!error.response) {
                             this.$walletService.startListen()
                         }
                         this.$log.debug('Http listen is locally reachable.')
                         this.$log.debug('checkRunning right now.')
-                        setTimeout(()=>this.checkRunning(), 1.5*1000)
+                        setTimeout(() => this.checkRunning(), 1.5 * 1000)
                     })
                 }
             },
-            stop(){
+            stop() {
                 this.$walletService.stopProcess('listen')
                 this.running = false
                 this.closeModal()
@@ -152,60 +137,61 @@
                 this.clearup()
             },
 
-            clearup(){
+            clearup() {
                 this.errors = []
                 this.starting = false
                 this.started = false
             },
 
-            getIP(log){
-                return new Promise(function(resolve, reject) {
-                    publicIp.v4().then((ip)=>{
+            getIP(log) {
+                return new Promise(function (resolve, reject) {
+                    publicIp.v4().then((ip) => {
                         return resolve(ip)
-                    }).catch((err)=>{
+                    }).catch((err) => {
                         log.error('Failed to get ip use publicIp: ' + err)
                         externalip(function (err, ip) {
-                            if(ip){
+                            if (ip) {
                                 return resolve(ip)
-                            }else{
+                            } else {
                                 log.error('Failed to get ip use externalip: ' + err)
                                 return reject(err)
                             }
-                        })})
+                        })
+                    })
                 })
             },
 
-            checklocalReachable(){
+            checklocalReachable() {
                 const url = 'http://127.0.0.1:3415'
                 this.$log.debug('Try to test if http listen locally reachable?')
                 return this.$http.get(url, {timeout: 5000})
             },
 
-            checkRunning(){
-                this.checklocalReachable().catch((err)=>{
-                    if(err.response){
+            checkRunning() {
+                this.checklocalReachable().catch((err) => {
+                    if (err.response) {
                         this.localReachable = true
                     }
                 })
-                this.getIP(this.$log).then((ip)=>{
+                this.getIP(this.$log).then((ip) => {
                     this.ip = ip
                     this.$log.debug('Get ip: ' + ip)
                     const url = `http://${ip}:3415`
                     this.$log.debug(`Try to test ${url} ?`)
-                    this.$http.get(url, {timeout: 4000}).catch((error)=>{
-                        if(error.response){
+                    this.$http.get(url, {timeout: 4000}).catch((error) => {
+                        if (error.response) {
                             this.running = true
-                            if(this.starting){
+                            if (this.starting) {
                                 this.started = true
                                 this.starting = false
                             }
                             this.$log.debug('wallet HTTP listen works.')
-                        }else{
-                            if(this.starting){
+                        } else {
+                            if (this.starting) {
                                 this.starting = false
-                                if(this.localReachable){
+                                if (this.localReachable) {
                                     this.errors.push(this.$t('msg.httpReceive.failed4'))
-                                }else{
+                                } else {
                                     this.errors.push(this.$t('msg.httpReceive.failed2'))
                                 }
                             }
@@ -214,7 +200,7 @@
                         }
                     })
                 }).catch(
-                    (err)=>{
+                    (err) => {
                         this.$log.error('Error when try to get ip: ' + err)
                         this.errors.push(this.$t('msg.httpReceive.failed3'))
                         this.starting = false
@@ -226,7 +212,7 @@
     }
 </script>
 <style>
-	.center{
+	.center {
 		display: flex;
 		justify-content: center;
 		align-items: center;
