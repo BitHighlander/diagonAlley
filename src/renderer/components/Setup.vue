@@ -47,7 +47,7 @@
 
 						<form>
 							<!--<div class="field has-text-centered">
-							  <img src="../assets/logo.png">
+							  <img src="../assets/icon.png">
 							</div>-->
 							<div class="field">
 								<label class="label">{{ $t('msg.password') }}</label>

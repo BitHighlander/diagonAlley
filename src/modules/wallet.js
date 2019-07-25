@@ -349,6 +349,7 @@ class WalletService {
     }
 
     static recover(seeds, password){
+        let tag = " | recover | "
         log.info("checkpoint recover! ")
         log.info("recover:  ",seeds)
         log.info("password:  ",password)
@@ -361,6 +362,8 @@ class WalletService {
             '--wallet_dir', path.resolve(walletPath), '--seeds', seeds,
             '--password', password]
         try{
+            log.info(tag,"args: ",args)
+            log.info(tag,"grinRsWallet: ",grinRsWallet)
             rcProcess = fork(grinRsWallet, args)
         }catch(e){
             return log.error('Error during fork to recover: ' + e )

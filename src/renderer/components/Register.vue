@@ -90,11 +90,25 @@
 				</div>
 			</div>
 			<div v-else="isPromptedVerify">
-				<p class="modal-card-title ">{{ $t("msg.register.verifyWallet") }}</p>
 
-				<button class="button is-link" @click="verifyAccepted">
-					{{ $t("msg.continue") }}
-				</button>
+				<div class="row is-centered">
+					<div class='row is-full is-centered'>
+						<div class="column is-narrow is-centered">
+							<img src="../assets/icon.png" height="50" width="50" class="is-centered"> <h1> {{ $t("msg.register.found") }}</h1>
+
+							<p class="modal-card-title ">{{ $t("msg.register.verifyWallet") }}</p>
+						</div>
+					</div>
+					<div class='row is-full is-centered'>
+
+					</div>
+					<div class='row is-full is-centered'>
+						<button class="button is-link is-centered" @click="verifyAccepted">
+							{{ $t("msg.continue") }}
+						</button>
+					</div>
+				</div>
+
 			</div>
 
 
@@ -240,11 +254,16 @@
 </script>
 <style>
 
-
+	.is-vertical-center {
+		display: flex;
+		align-items: center;
+	}
 
 	.rows{
 		display: flex;
+		align-items: center;
 		flex-direction: column;
+		position: relative;
 	}
 
 	.field-icon {

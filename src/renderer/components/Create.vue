@@ -33,7 +33,7 @@
             </h2>
             <div class="message is-warning is-small">
               <div class="message-header">
-                <p>{{ $t("msg.welcome") }}</p>
+                <p>{{ $t("msg.welcome.title") }}</p>
               </div>
               <div class="message-body">
                 <p>{{ $t("msg.create.toNewMsg") }}</p>
@@ -42,7 +42,7 @@
 
             <form class="box">
               <!--<div class="field has-text-centered">
-                <img src="../assets/logo.png">
+                <img src="../assets/icon.png">
               </div>-->
               <div class="field">
                 <label class="label">{{ $t('msg.Password') }}</label>

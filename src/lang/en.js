@@ -42,6 +42,7 @@ const messages = {
     },
 
     register:{
+      found:' Wallet found! ',
       title:'Setup DiagonAlley.io wallet',
       keypairTitle:'keypair',
       keypair:' This Keypair displayed here is a derivative of your wallets seed.',
