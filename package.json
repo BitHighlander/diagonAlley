@@ -57,7 +57,7 @@
       ]
     },
     "mac": {
-      "icon": "build/icons/icon.icns",
+      "icon": "icons/icon.png",
       "extraFiles": [
         {
           "from": "resources/bin/mac",
@@ -79,7 +79,7 @@
       ]
     },
     "win": {
-      "icon": "build/icons/icon.png",
+      "icon": "icons/icon.png",
       "target": "nsis",
       "extraFiles": [
         {
