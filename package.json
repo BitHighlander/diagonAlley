@@ -1,6 +1,6 @@
 {
   "name": "diagonAlley",
-  "version": "2.0.0",
+  "version": "2.0.1-nightly",
   "author": "highlander <bithighlander@gmail.com>",
   "description": "a simple grin wallet.",
   "license": "MIT",
@@ -20,6 +20,7 @@
     "pack": "npm run pack:main && npm run pack:renderer",
     "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.main.config.js",
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
+    "release": "electron-builder --publish always --mac --win --linux",
     "postinstall": ""
   },
   "build": {
