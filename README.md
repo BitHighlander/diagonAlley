@@ -1,3 +1,6 @@
+[![CircleCI](https://circleci.com/gh/BitHighlander/diagonAlley.svg?style=svg)](https://circleci.com/gh/BitHighlander/diagonAlley)
+
+
 # diagonAlley
 
 A simple GRIN wallet.
