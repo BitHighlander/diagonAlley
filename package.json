@@ -3,6 +3,7 @@
   "version": "2.0.1-nightly",
   "author": "highlander <bithighlander@gmail.com>",
   "description": "a simple grin wallet.",
+  "homepage": "https://diagonalley.io/",
   "license": "MIT",
   "main": "./dist/electron/main.js",
   "scripts": {
