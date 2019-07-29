@@ -38,7 +38,7 @@
 						</h2>
 						<div class="message is-warning is-small">
 							<div class="message-header">
-								<p>{{ $t("msg.welcome") }}</p>
+								<p>{{ $t("msg.welcome.title") }}</p>
 							</div>
 							<div class="message-body">
 								<p>{{ $t("msg.create.toNewMsg") }}</p>
