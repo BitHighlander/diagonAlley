@@ -8,7 +8,7 @@
       <button class="delete" aria-label="close" @click="closeModal"></button>
     </header>
     <section class="modal-card-body" style="height:380px;background-color: whitesmoke;">
-      
+
       <div class="notification is-warning" v-if="errors.length">
         <p v-for="error in errors">{{ error }}</p>
       </div>
@@ -16,7 +16,7 @@
         <div class="field">
           <label class="label">{{ $t("msg.httpSend.address") }}(HTTP/HTTPS)</label>
           <div class="control">
-            <input class="input" type="text" v-model="address" placeholder="eg: https://donation.niffler.org:3415">
+            <input class="input" type="text" v-model="address" placeholder="eg: https://diagonAlley.io/Harry_Potter">
           </div>
         </div>
         <div class="field">
@@ -72,15 +72,15 @@ export default {
   watch: {
       errors:function(newVal, oldVal){
         if(newVal.length > 0){
-          setTimeout(()=>this.errors = [], 
+          setTimeout(()=>this.errors = [],
           4*1000)
         }
       },
       sent:function(newVal, oldVal){
        if(newVal){
-         setTimeout(()=>this.closeModal(), 
+         setTimeout(()=>this.closeModal(),
           4*1000)
-       } 
+       }
       }
   },
   methods: {
@@ -90,7 +90,7 @@ export default {
         '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
         '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
         '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-        '(\\#[-a-z\\d_]*)?$','i'); 
+        '(\\#[-a-z\\d_]*)?$','i');
       return re.test(address);
     },
     validAmount(amount) {
@@ -126,7 +126,7 @@ export default {
         this.sending = true
 
         let tx_data = {
-          "amount": this.amount * 1000000000, 
+          "amount": this.amount * 1000000000,
           "minimum_confirmations": 10,
           "max_outputs": 500,
           "num_change_outputs": 1,
@@ -177,12 +177,12 @@ export default {
                 this.$dbService.addPostedUnconfirmedTx(tx_id)
               }
             }
-              
+
           }catch(error){
-            this.$log.error('http send error:' + error)  
+            this.$log.error('http send error:' + error)
             this.$log.error(error.stack)
-            if (error.response) {   
-              let resp = error.response      
+            if (error.response) {
+              let resp = error.response
               this.$log.error(`resp.data:${resp.data}; status:${resp.status};headers:${resp.headers}`)
             }
             this.errors.push(this.$t('msg.httpSend.TxFailed'))
@@ -199,7 +199,7 @@ export default {
       this.clearup()
       messageBus.$emit('close', 'windowHttpSend');
     },
-    
+
     clearup(){
       this.errors = []
       this.amount = null
@@ -208,7 +208,7 @@ export default {
       this.sent = false
       this.slateVersion = 0
     },
-    
+
   }
 }
 </script>

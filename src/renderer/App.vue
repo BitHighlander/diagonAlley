@@ -118,18 +118,22 @@
         </div>
         <div v-show="tabsel == 'settings'">
 
-              <div class="control">
+          <a class="button" @click="openPassword = true">login</a>
+          <a class="button" @click="openRegister = true">Register</a>
+          <a class="button" @click="playChingle">chingle</a>
+          <a class="button" @click="announce">announce</a>
+          <a class="button" @click="openDisplaySeed = true">Display Seed</a>
+          <!--        <Settings></Settings>-->
+
+
+          <br/>
+          <br/>
+          <br/>
+
+          <div class="control">
                 <h1>signingPub</h1><input class="input" title="signingPub: " type="text" placeholder="Text input" v-model="signingPub">
                 <h1>signingPriv</h1><input class="input" title="signingPriv: " type="password" placeholder="signingPub" v-model="signingPriv">
               </div>
-
-              <a class="button" @click="openPassword = true">login</a>
-              <a class="button" @click="openRegister = true">Register</a>
-              <a class="button" @click="playChingle">chingle</a>
-              <a class="button" @click="announce">announce</a>
-              <a class="button" @click="openDisplaySeed = true">Display Seed</a>
-              <!--        <Settings></Settings>-->
-
 
 
         </div>

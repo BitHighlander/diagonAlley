@@ -1,7 +1,7 @@
 <template>
 	<div class="modal" :class="{'is-active': showModal}">
 		<div class="modal-background"></div>
-		<div class="modal-card" style="width:480px;height:280px">
+		<div class="modal-card" style="width:480px;height:380px">
 			<header class="modal-card-head">
 				<img src="../assets/icon.png" height="50" width="50"> <h1> {{ $t("msg.welcome.title") }}</h1>
 
@@ -61,10 +61,10 @@
 
 
 
-						<div v-bind:class="{ 'is-active': isDropdownActive }" class="dropdown">
+						<div ref="selectLang" v-bind:class="{ 'is-active': isDropdownActive }" class="dropdown">
 							<div class="dropdown-trigger" @click="isDropdownActive=!isDropdownActive">
 								<button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-									<span>{{lauguageSelected.name}}</span>
+									<span>select:{{lauguageSelected.name}}</span>
 									<span class="icon is-small">
 										<i class="fas fa-angle-down" aria-hidden="true"></i>
 									</span>
@@ -135,7 +135,7 @@
                 isDropdownActive: false,
                 isLauguageSelected:false,
                 availableSettings:[],
-                lauguageSelected:languages[0],
+                lauguageSelected:{name:'select'},
                 languages:[],
                 languageKeys:languages,
                 current:'new',
@@ -237,6 +237,7 @@
             selectLanguage(value){
                 this.$log.info("Checkpoint selectLanguage ")
                 this.lauguageSelected = value
+                //this.$refs.selectLang.$el.focus()
 			},
             selectImport(item){
                 this.$log.info("selected import: ",item)

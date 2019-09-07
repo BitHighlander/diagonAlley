@@ -229,8 +229,8 @@ const messages = {
       tip:'It will take 10-30 minites to finish check',
       introTitle: 'Introduction',
 
-      intro1: 'Because of all of the possibilities listed in the cancel command, as well as the possibility of forks, it is quite possible for your wallet to end up in an inconsistent state',
-      intro2: "For this reason, Grin provides a manual check command that scans the chain's UTXO set for any outputs belonging to your wallet, and ensures they're in a consistent state with your local wallet database.",
+      intro1: 'DiagonAlley wraps the core core grin client. Sometimes this client can leave an incomplete or inconsistent database state.',
+      intro2: "For this reason, Grin provides a manual check command that scans the chain's UTXO set for any outputs belonging to your wallet, and will rebuild your local wallet database.",
 
       start: 'Start',
       stopCheckMsg: 'Check was cancelled',

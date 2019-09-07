@@ -80,8 +80,8 @@ export let grinWalletPath = path.join(binariesPath, grinWalletBinaries)
 export let grinPath = path.join(binariesPath, grinBinaries)
 
 if(platform=='win'){
-  grinWalletPath = '"' + path.resolve(grinWalletPath) + '"' 
-  grinPath = '"' + path.resolve(grinPath) + '"' 
+  grinWalletPath = '"' + path.resolve(grinWalletPath) + '"'
+  grinPath = '"' + path.resolve(grinPath) + '"'
 }
 
 export const chainType = 'main'
@@ -331,25 +331,25 @@ export function updateConfig(options){
 export const logLevel = 'debug'
 
 export const hedwigServer = 'https://v1.hedwig.im'
-export const hedwigClient =  
+export const hedwigClient =
   IS_PROD || APP.isPackaged
     ? path.resolve(path.join(process.resourcesPath, 'bin', 'hedwig', 'client.js'))
     : path.resolve(path.join(root, 'hedwig', 'client.js'))
 
 export const hedwigApp = 'DiagonAlley'
 
-export const grinRsWallet =  
+export const grinRsWallet =
   IS_PROD || APP.isPackaged
     ? path.resolve(path.join(process.resourcesPath, 'bin', 'grinRs', 'wallet.js'))
     : path.resolve(path.join(root, 'grinRs', 'wallet.js'))
 
-export const nodeExecutable =  
+export const nodeExecutable =
     IS_PROD || APP.isPackaged
       ? path.resolve(path.join(process.resourcesPath, 'bin', 'grinRs', 'node.exe'))
       : path.resolve(path.join(root, 'grinRs', 'node.exe'))
 
 
-function getLocale(){
+export function getLocale(){
   let locale = getConfig()['locale']
   if(locale)return locale
   locale = APP.getLocale().toLowerCase()

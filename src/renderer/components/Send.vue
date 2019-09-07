@@ -9,7 +9,7 @@
 				<div class="field">
 					<label class="label">{{ $t("msg.httpSend.address") }}(HTTP/HTTPS)</label>
 					<div class="control">
-						<input class="input" type="text" v-model="address" placeholder="eg: https://donation.niffler.org:3415">
+						<input class="input" type="text" v-model="address" placeholder="eg: https://diagonalley.io/Harry_Potter">
 					</div>
 				</div>
 				<div class="field">
