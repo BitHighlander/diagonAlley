@@ -12,6 +12,7 @@
       <Setup :showModal="openSetup"></Setup>
       <RestoreSeed :showModal="openRestoreSeed"></RestoreSeed>
       <Configuration :showModal="openConfiguration"></Configuration>
+      <Terminal :showModal="openTerminal"></Terminal>
       <Register :showModal="openRegister"></Register>
     </div>
 
@@ -20,6 +21,7 @@
       <div class="tabs">
         <ul>
           <li v-bind:class="{ 'is-active': tabsel == 'wallet' }" @click="tabsel = 'wallet'"><a>wallet</a></li>
+          <li v-bind:class="{ 'is-active': tabsel == 'terminal' }" @click="tabsel = 'terminal'"><a>terminal</a></li>
           <li v-bind:class="{ 'is-active': tabsel == 'transactions' }" @click="tabsel = 'Transactions'"><a>Transactions</a></li>
           <li v-bind:class="{ 'is-active': tabsel == 'chat' }" @click="tabsel = 'chat'"><a>The Leaky Cauldron</a></li>
           <!--        <li v-bind:class="{ 'is-active': tabsel == 'price' }" @click="tabsel = 'price'"><a>price</a></li>-->
@@ -157,7 +159,6 @@
         <CheckPublic :showModal="openCheckPublic"></CheckPublic>
         <CheckPrivate :showModal="openCheckPrivate"></CheckPrivate>
         <DisplaySeed :showModal="openDisplaySeed"></DisplaySeed>
-
       </div>
     </div>
 
@@ -195,6 +196,7 @@
   import DisplaySeed from '@/components/DisplaySeed'
   import RestoreSeed from '@/components/RestoreSeed'
   import Configuration from '@/components/Configuration'
+  import Terminal from '@/components/Terminal'
 
   //modules
   import fs from 'fs'
@@ -224,6 +226,7 @@
     name: 'DiagonAlley',
     mixins: [mixin],
     components: {
+      Terminal,
       Configuration,
       RestoreSeed,
       DisplaySeed,
@@ -272,9 +275,10 @@
         sending: false,
         sent: false,
         tabsel: "wallet",
+        openTerminal: false,
         openConfiguration: false,
         openDisplaySeed: false,
-        openRestoreSeed: false,
+        openRestoreSeed: true,
         openWelcome: false,
         openCheckPublic: false,
         openSetup: false,
@@ -372,6 +376,9 @@
         if(window =='windowDisplaySeed'){
           this.openDisplaySeed = false
         }
+        if(window =='windowTerminal'){
+          this.openTerminal = false
+        }
         if(window =='windowConfiguration'){
           this.openConfiguration = false
         }
@@ -423,6 +430,9 @@
       })
 
       messageBus.$on('open', (window)=>{
+        if(window =='windowTerminal'){
+          this.openTerminal = true
+        }
         if(window =='windowConfiguration'){
           this.openConfiguration = true
         }

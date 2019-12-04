@@ -1,1 +1,0 @@
-SHA256(/home/vsts/work/1/a/grin-v2.0.0-linux-amd64.tar.gz)= 8aed2b673b865afb02b244aff079df875f39c1a912c6d20886300493421bda40

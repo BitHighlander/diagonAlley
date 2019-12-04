@@ -25,12 +25,7 @@ const bitcoin = require('bitcoinjs-lib') // v3.x.x
 //const networks = require('bitcoinjs-lib').networks
 const bitcoinMessage = require('bitcoinjs-message')
 
-let URL_BASE
-if(process.env.NODE_ENV === "development"){
-    URL_BASE = process.env.VUE_APP_SERVICE_HOSTNAME || "https://diagonalley.io"
-} else {
-    URL_BASE = "https://diagonAlley.io"
-}
+let URL_BASE = process.env.VUE_APP_SERVICE_HOSTNAME || "https://diagonAlley.io"
 
 
 let generateUsername = async function() {
