@@ -63,7 +63,7 @@ class WalletService {
             })
         }
     }
-    
+
     static setPassword(password){
         password_ = password
     }
@@ -90,13 +90,13 @@ class WalletService {
         const url = isForeign?jsonRPCForeignUrl:jsonRPCUrl
         return client.post(url, body, headers)
     }
-    
+
     static getNodeHeight(){
         if(client){
             return WalletService.jsonRPC('node_height', [], false)
         }
     }
-    
+
     static getSummaryInfo(minimum_confirmations){
         return WalletService.jsonRPC('retrieve_summary_info', [true, minimum_confirmations], false)
     }
@@ -132,11 +132,11 @@ class WalletService {
     static postTransaction(tx, isFluff){
         return WalletService.jsonRPC('post_tx',  [tx, isFluff])
     }
- 
+
     static startOwnerApi(password, grinNodeToConnect){
         //WalletService.stopProcess('ownerAPI')
         enableForeignApi()
-        
+
         if(platform === 'linux'){
             ownerAPI = execFile(grinWalletPath, ['-r', grinNodeToConnect, 'owner_api'])
         }else{
@@ -236,11 +236,11 @@ class WalletService {
             WalletService.startOwnerApi(password, grinNodeToConnect)
         }, 500)
     }
-    
+
     static startListen(password=password_){
         WalletService.stopProcess('listen')
         if(platform==='linux'){
-            listenProcess =  execFile(grinWalletPath, ['-e', 'listen']) 
+            listenProcess =  execFile(grinWalletPath, ['-e', 'listen'])
         }else{
             const cmd = platform==='win'? `${grinWalletPath} -e --pass ${addQuotations(password)} listen`:
                                         `${grinWalletPath} -e listen`
@@ -271,8 +271,8 @@ class WalletService {
                 WalletService.stopProcess(ps)
             }
         }
-        
-        if(gnodeOption.type == 'remoteAllTime' || 
+
+        if(gnodeOption.type == 'remoteAllTime' ||
            (!gnodeOption.background && dbService.getLocalGnodeStatus()=='running')){
             log.debug('Try to stop local gnode.')
             GnodeService.stopGnode()
@@ -288,7 +288,7 @@ class WalletService {
         //                              `${grinWalletPath} -r ${grinNode} init`
         const cmd = platform==='win'? `${grinWalletPath} --pass ${addQuotations(password)} init`:
                                       `${grinWalletPath} init`
-        log.debug(`function new: platform: ${platform}; grin bin: ${grinWalletPath}`); 
+        log.debug(`function new: platform: ${platform}; grin bin: ${grinWalletPath}`);
         let createProcess = exec(cmd)
         createProcess.stdout.on('data', (data) => {
             let output = data.toString()
@@ -304,10 +304,10 @@ class WalletService {
             }
             if(output.includes("Please back-up these words in a non-digital format.")){
                 var wordSeed = data.toString();
-                
+
                 wordSeed = wordSeed.replace("Your recovery phrase is:","");
                 wordSeed = wordSeed.replace("Please back-up these words in a non-digital format.","");
-                
+
                 wordSeed = wordSeed.replace(/(\r\n|\n|\r)/gm, "");
                 wordSeed = wordSeed.replace("wallet.seed","wallet.seed ==   ");
                 var wordSeedWithLog = wordSeed;
@@ -376,13 +376,13 @@ class WalletService {
             log.info('Recover message: ' + ret)
             messageBus.$emit('walletRecoverReturn', ret)
         });
-          
+
         rcProcess.on('error', (err) => {
             log.info("checkpoint recover! 3a")
             log.error(`Recover stderr: ${err}`);
             messageBus.$emit('walletRecoverReturnError', err)
           });
-          
+
         rcProcess.on('exit', (code, sginal) => {
             log.info(`Recover exit: ${code}`);
             messageBus.$emit('walletRecoverReturnExit',code)
@@ -392,7 +392,7 @@ class WalletService {
     static recoverOnWindows(seeds, password){
         let args = [grinRsWallet, '--node_api_http_addr', grinNode2,
             '--node_api_secret_path', path.resolve(apiSecretPath),
-            '--wallet_dir', path.resolve(walletPath), 
+            '--wallet_dir', path.resolve(walletPath),
             '--seeds', seeds, '--password', password]
         let rcProcess = spawn(nodeExecutable, args)
         rcProcess.stdout.on('data', function(data){
@@ -420,7 +420,7 @@ class WalletService {
         if(platform==='win'){
             grin = grinWalletPath.slice(1,-1)
         }
-        checkProcess = spawn(grin, ['-r', grinNode2, '-p', password_, 'check', '-d']);
+        checkProcess = spawn(grin, ['-r', grinNode2, '-p', password_, 'scan', '-d']);
         let ck = checkProcess
         processes['check'] = checkProcess
         localStorage.setItem('checkProcessPID', checkProcess.pid)
@@ -448,7 +448,7 @@ class WalletService {
         let rs = restoreProcess
         processes['restore'] = restoreProcess
         localStorage.setItem('restoreProcessPID', restoreProcess.pid)
-        
+
         log.debug('grin wallet restore process running with pid: ' + restoreProcess.pid);
 
         rs.stdout.on('data', function(data){
@@ -494,7 +494,7 @@ class WalletService {
     //        }
     //    })
     //}
-    
+
     static stopProcess(processName){
         let pidName = `${processName}ProcessPID`
         const pid = localStorage.getItem(pidName)
@@ -504,7 +504,7 @@ class WalletService {
         if(platform==='win'&&pid){
             return exec(`taskkill /pid ${pid} /f /t`)
         }
-        
+
         if(processes[processName]){
             processes[processName].kill('SIGKILL')
             log.debug(`kill ${processName}`)

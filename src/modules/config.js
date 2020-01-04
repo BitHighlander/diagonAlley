@@ -88,14 +88,14 @@ export const chainType = 'main'
 export const grinNode = "http://grin2-node.niffler.org:3413"
 export const grinNode2 = "http://grin2-node2.niffler.org:3413"
 export const grinLocalNode= "http://127.0.0.1:3413"
-export const grinDIR = path.join(APP.getPath('home'), '.diagonalley')
+export const grinDIR = path.join(APP.getPath('home'), '.grin')
 
 //TODO move all to diagon
-export const seedDir = path.join(APP.getPath('home'), '.diagonalley', chainType, 'wallet_data')
+export const seedDir = path.join(APP.getPath('home'), '.grin', chainType, 'wallet_data')
 
 export const seedPath = path.join(APP.getPath('home'), '.grin', chainType, 'wallet_data/wallet.seed')
 export const seedPathCore = path.join(APP.getPath('home'), '.grin', chainType, 'wallet_data/wallet.seed')
-export const seedPathDiagon = path.join(APP.getPath('home'), '.diagonalley', chainType, 'wallet_data/wallet.seed')
+export const seedPathDiagon = path.join(APP.getPath('home'), '.grin', chainType, 'wallet_data/wallet.seed')
 export const seedPathNiffler = path.join(APP.getPath('home'), '.grin', chainType, 'wallet_data/wallet.seed')
 
 export const walletTOMLPath = path.join(APP.getPath('home'), '.grin', chainType, 'grin-wallet.toml')
@@ -107,11 +107,11 @@ export const chainDataPath = path.join(APP.getPath('home'), '.grin', chainType, 
 
 //configs config
 export const nifflerConfig = path.join(APP.getPath('home'), '.niffler','config.json')
-export const diagonConfig = path.join(APP.getPath('home'), '.diagonalley','diagonAlley.json')
+export const diagonConfig = path.join(APP.getPath('home'), '.grin','diagonAlley.json')
 
 //wallet settings
 
-export const diagonPath = path.join(APP.getPath('home'), '.diagonalley')
+export const diagonPath = path.join(APP.getPath('home'), '.grin')
 export const logDir = path.join(diagonPath, 'log')
 export const tempTxDir = path.join(diagonPath, 'temp_tx')
 export const configPath = path.join(diagonPath, 'diagonAlley.json')
